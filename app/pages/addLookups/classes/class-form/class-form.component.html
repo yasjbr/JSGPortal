@@ -1,0 +1,116 @@
+<app-content-header  title="{{'Add/Edit Class'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+
+
+
+            <!--Card 1-->
+            <div class="p-2">
+                <mat-card>
+                    <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                        <mat-card-header fxLayoutAlign="start">
+                            <mat-card-subtitle>
+                                <h2 style="text-decoration:underline">{{'Class Information'|i18n}}</h2>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'School'|i18n}} </mat-label>
+                                <mat-select matInput formControlName="schoolId" placeholder="{{'School'|i18n}}" (selectionChange)="onSchoolChange($event.value)" [(ngModel)]="schoolId">
+                                    <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Section'|i18n}} </mat-label>
+                                <mat-select matInput formControlName="sectionId" placeholder=" {{'Section'|i18n}}">
+                                    <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                                        {{op.id}} | {{op.sectionName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                            <!-- <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Class Name'|i18n}}</mat-label>
+                                <input matInput formControlName="name" type="text" placeholder="{{'Class Name'|i18n}}">
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'Required'|i18n}}
+                                </mat-error>
+                            </mat-form-field> -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'Class'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="name" placeholder="{{'Class'|i18n}}">
+                                    <mat-option *ngFor="let op of classList" [value]="op.name">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                        </div>
+                    </mat-card-content>
+
+                    <!--Card 1 Part2-->
+                    <mat-card-content>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Class Capacity'|i18n}}</mat-label>
+                                <input matInput formControlName="capacity" type="number" placeholder=" {{'Class Capacity'|i18n}} " maxlength="3" minlength="1">
+
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'Maximum'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Age'|i18n}}</mat-label>
+                                <input matInput formControlName="age" type="number" placeholder=" {{'Age'|i18n}} " maxlength="2" minlength="1" max="20">
+                                <mat-hint>{{'Age allowed'|i18n}}</mat-hint>
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'M'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Gender'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="classGender" placeholder=" {{'Gender'|i18n}}">
+                                    <mat-option *ngFor="let op of classGenderList" [value]="op.id">
+                                        {{op.id}} | {{op.desc}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint>{{'This grade for boys / girls / all'|i18n}}</mat-hint>
+
+                            </mat-form-field>
+                        </div>
+                    </mat-card-content>
+
+                </mat-card>
+            </div>
+
+            <!--Card 3-->
+
+            <mat-card>
+                <mat-card-actions>
+                    <a [routerLink]="returnUrl" mat-button>
+            {{'Back'|i18n}}
+          </a>
+                    <button mat-raised-button color="primary" type="submit">
+            {{'Save'|i18n}}
+          </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </div>
+</div>

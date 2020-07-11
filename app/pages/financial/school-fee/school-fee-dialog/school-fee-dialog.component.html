@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>
+    {{ SchoolDesc }}
+</h2>
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+    <mat-dialog-content>
+        <div fxLayout="column" class="p-2">
+            <div class="p-2">
+                <div class="p-2">
+                    <mat-card>
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'School'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="schoolId" placeholder="{{'School'|i18n}}">
+                                    <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'Year'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="yearId" placeholder="{{'Year'|i18n}}">
+                                    <mat-option *ngFor="let op of yearList" [value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                    <mat-card>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'clause'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="finItemId" placeholder="{{'clause'|i18n}}">
+                                    <mat-option *ngFor="let op of finItemList" [value]="op.id">
+                                        {{op.id}} | {{op.desc}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex color="accent" appearance="outline">
+                                <input matInput formControlName="value" type="text" placeholder="  {{Value|i18n}} ">
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button [type]="closeDialog" mat-raised-button tabindex="-1" color="warn" (click)="closeDialog()">
+         {{'Back'|i18n}}
+      </button>
+        <button [type]="submit" mat-raised-button color="primary" [disabled]="form.invalid">
+         <!-- (click)="submitSchoolFee()" -->
+         <!-- > -->
+         {{'Save'|i18n}}
+      </button>
+    </mat-dialog-actions>
+
+</form>

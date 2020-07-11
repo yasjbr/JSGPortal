@@ -1,0 +1,28 @@
+<app-content-header title="{{'Fin Report'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<mat-divider>
+</mat-divider>
+
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxFlex="20%" fxLayoutGap="50px">
+    </div>
+</div>
+
+
+<div fxLayout="column" class="p-2">
+    <div>
+        <div class="p-2">
+            <mat-form-field fxFlex="25%" class="mat-select" appearance="outline">
+                <mat-label>
+                    {{'Financial item'|i18n}}
+                </mat-label>
+                <mat-select placeholder="{{' Financial item'|i18n}}" (selectionChange)="onFinItemChange()">
+                    <mat-option *ngFor="let opt of finItemDataSource" [value]="opt.id">
+                        {{opt.id}}--- {{opt.arDesc}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>

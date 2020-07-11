@@ -1,0 +1,102 @@
+<app-content-header [icon]="'directions_bus'" title="{{'School Class'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+
+
+<!-- ccc -->
+
+
+<!-- ccc -->
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="space-between center" class="px-2 user-toolbar" style="font-size: unset;">
+    <mat-form-field fxFlex="50%" class="mat-select" appearance="outline">
+            <mat-label>{{'School'|i18n}}</mat-label>
+            <mat-select placeholder="{{'School'|i18n}}" [value]="schoolId" (selectionChange)="onSchoolChanges($event.value)">
+                <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                    {{op.id}} | {{op.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- <mat-form-field fxFlex="50%" class="mat-select" appearance="outline">
+            <mat-label>{{'School'|i18n}}</mat-label>
+            <mat-select placeholder="{{'School'|i18n}}" [value]="sectionId" >
+                <mat-option *ngFor="let op of sectionsList" [value]="op.id">
+                    {{op.id}} | {{op.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+
+
+        <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+            <mat-label>{{'Section'|i18n}}</mat-label>
+            <mat-select matInput #Section formControlName="sectionId" placeholder="{{'Section'|i18n}}" (selectionChange)="onSchoolListChange($event.value)">
+                <mat-option *ngFor="let op of sectionsList" [value]="op.id">
+                    {{op.id}}|{{op.sectionName}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+
+
+
+        <button mat-raised-button [disabled]="!schoolId" color="warn" [routerLink]="['../add']">
+      <mat-icon>add_circle_outline</mat-icon> {{'New class'|i18n}}
+    </button>
+
+</mat-toolbar>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+                <mat-header-cell *matHeaderCellDef>
+                    {{ col.header |i18n }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+
+                    {{ item[col.field] }}
+
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    {{'Actions'|i18n}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+
+                    <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/classes/edit/' + element.id  ]">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            edit
+                        </mat-icon>
+                    </a>
+
+                    <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}" (click)="openDeleteDialog(element)">
+              <mat-icon aria-hidden="true" aria-label="Delete">
+                delete
+              </mat-icon>
+            </button>
+
+                    <button mat-icon-button matTooltip="{{'Class fees'|i18n}}" (click)="openPriceDialog(element.id, element.name)">
+              <mat-icon aria-hidden="true" aria-label="رسوم الصف">
+                monetization_on
+              </mat-icon>
+            </button>
+
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+    </div>
+</div>

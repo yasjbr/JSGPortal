@@ -1,0 +1,85 @@
+<!-- change form -->
+<app-content-header title="  {{'ByNationality'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+       
+            <div fxLayout="column" class="p-2">
+                <div class="p-2">
+                    <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+                        <mat-label>{{'School'|i18n}}</mat-label>
+                        <mat-select type="number" matInput #_schoolId placeholder="{{'School'|i18n}}"
+                              (selectionChange)="sectionListBySchool();filter()">
+                            <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                                {{op.id}} | {{op.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline" fxFlex="100%" layout-align="center">
+                        <mat-label>{{'Section'|i18n}}</mat-label>
+                        <mat-select matInput #_sectionId placeholder="{{'Section'|i18n}}" 
+                            (selectionChange)="getClassListBySection();filter()" required>
+                            <mat-option [value]=0>الجميع</mat-option>
+                            <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                                {{op.id}} | {{op.sectionName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+                        <mat-label>{{'Class'|i18n}}</mat-label>
+                        <mat-select matInput placeholder="{{'Class'|i18n}}" #_classId  (selectionChange)="getClassDivision();filter()" required>
+                            <mat-option *ngFor="let op of ClassList" [value]="op.id">
+                                {{op.id}} | {{op.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+                        <mat-label>{{'ClassDivision'|i18n}}</mat-label>
+                        <mat-select matInput placeholder="{{'ClassDivision'|i18n}}" #_classDivisionId>
+                            <mat-option *ngIf="divisionList==null">لايوجد شعب مطروحه لهذا الصف</mat-option>
+                            <mat-option *ngFor="let op of divisionList" [value]="op.divisionId">
+                                {{op.divisionId}} | {{op.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        <mat-table #table  [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container *ngFor="let col of cols, let i = index" [matColumnDef]="col.field">
+                <!-- {{i}} -->
+                <mat-header-cell *matHeaderCellDef style="background-color: #c5c8ce;">
+                    {{ col.header |i18n }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    {{ item[col.field] }}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef style="background-color: #c5c8ce;">
+                    {{'Reports'|i18n}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button mat-icon-button color="info" matTooltip="{{'StudCardReport'|i18n}}"
+                        [routerLink]="['/reports/cardRep/' + element.id  ]">
+                        <mat-icon aria-hidden="false" aria-label="info">
+                            info
+                        </mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[100, 300, 600,900,1200,1500,2000,3000]">
+        </mat-paginator>
+
+    </div>
+</div>

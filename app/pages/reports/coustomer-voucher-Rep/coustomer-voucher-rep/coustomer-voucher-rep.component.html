@@ -1,0 +1,198 @@
+<app-content-header  title="{{'تقرير الفواتير للزبون
+'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+        <div style="width:50%; margin:auto">
+            <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+                <mat-label>{{'Select guardian'|i18n}}</mat-label>
+                <mat-select matInput placeholder="{{'Select guardian'|i18n}}" (selectionChange)="getYearsList(0)"
+                    (selectionChange)="getParentList($event.value)" (selectionChange)="GetCustmVoucherbyparentname()">
+                    <mat-option *ngFor="let op of parentList" [value]="op.id">
+                        {{op.id}} | {{op.fatherName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <div class="spinner-container" *ngIf="loading">
+                <mat-spinner></mat-spinner>
+            </div>
+            <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+                <mat-label>{{'Registration year'|i18n}}</mat-label>
+                <mat-select matInput placeholder="{ { 'Registration year'|i18n}}"
+                    (selectionChange)="getYearsList($event.value)" (selectionChange)="GetCustmVoucherbyparentname()">
+                    <!-- <mat-option value="0">الجميع </mat-option> -->
+                    <mat-option *ngFor="let op of LKpYear" [value]="op.id">
+                        {{op.id}} | {{op.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+</div>
+
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+
+<div class="print-container" #page>
+    <div class="page-header">
+        <div class="report-page">
+            <div class="form41-header">
+                <div>
+                    <h3>
+                        مـجـمــــوعة مـدارس الـجـامعـــــة
+                    </h3>
+                    <h6>
+                        <!-- {{schoolName}} -->
+                    </h6>
+                </div>
+                <div>
+                    <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                </div>
+                <div class="text-end">
+                    <h3>
+                        ALJAMI'A SCHOOLES GROUP
+                    </h3>
+                    <h6>
+                        <!-- {{schoolLName}} -->
+                    </h6>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="page-footer">
+        <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+        <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+    </div>
+    <table class="page">
+        <thead>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position header-->
+                    <div class="page-header-space"></div>
+                </td>
+            </tr>
+        </thead>
+        <tbody style="min-height: 70%;">
+
+            <tr>
+                <td>
+                    <div fxLayout="column" class="p-1">
+                        <div style="font-weight: bolder; font-size: 24px; margin: 10px auto 20px;">
+                            {{'فاتورة الزبون'|i18n}}
+                        </div>
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        </div>
+                    </div>
+                    
+                    <table class="subTable" align="center">
+
+
+
+                        <tr>
+
+                            <th style="background-color: white;">
+                                رقم الزبون
+                            </th>
+
+                            <th style="background-color: white;  " class="data-align">
+                                {{parentId}}
+                            </th>
+
+                            <th style="background-color: white;">
+                                اسم الزبون
+                            </th>
+
+                            <th colspan="4" style="background-color: white;" class="data-align">
+                                {{parentName}}
+
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <th style="width: 10%">
+                                رقم الفاتورة
+                            </th>
+                            <th style="width: 25%">
+                                {{'تاريخ الفاتورة'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'مبلغ الفاتورة'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'طريقة الدفع'|i18n}}
+                            </th>
+                            <th style="width: 13%">
+                                {{'المدرسة'|i18n}}
+                            </th>
+
+                            <th style="width: 20%">
+                                {{'العام الدراسي'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'ملاحظات'|i18n}}
+                            </th>
+
+                        </tr>
+                        <tr *ngFor="let x of coustmservice; let i=index">
+                            <td class="data-align">
+                                {{x.voucherId}}
+                            </td>
+
+                            <td class="data-align">
+                                {{x.voucherDate | date: "dd/MM/yyyy"}}
+                            </td>
+                            <td class="data-align">
+                                {{x.amount}}
+                            </td>
+                            <td class="data-align">
+                                {{x.paymentMethod}}
+                            </td>
+                            <td class="data-align">
+                                {{x.schoolName}}
+                            </td>
+                            <td class="data-align">
+                                {{x.yearName}}
+                            </td>
+                            <td class="data-align">
+                                {{x.note}}
+                            </td>
+                        </tr>
+                    </table>
+                    <table align="center">
+                        <tr style="width: 100%; text-align: center;">
+                            {{'Toatal amount'|i18n}} {{Total}}
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot style="min-height: 10%;">
+            <tr>
+                <td>
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+</div>

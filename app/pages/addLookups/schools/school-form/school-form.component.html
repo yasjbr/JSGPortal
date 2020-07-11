@@ -1,0 +1,107 @@
+<app-content-header [icon]="" title="{{'Schools'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="false" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <form [formGroup]="schoolForm" (ngSubmit)="submit()" novalidate="novalidate">
+            <mat-card>
+                <mat-card-header fxLayoutAlign="center">
+                    <!-- <mat-card-subtitle>
+                        <h2>{{'Schools'|i18n}}</h2>
+                    </mat-card-subtitle> -->
+                </mat-card-header>
+
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <input matInput formControlName="name" type="text" placeholder="{{'Name'|i18n}}">
+                            <mat-error *ngIf="validator.hasErrors(name)">
+                                {{'Required'|i18n}}
+                            </mat-error>
+                        </mat-form-field>
+                        <!-- <mat-form-field fxFlex>
+                <input matInput formControlName="lname"  type="text" placeholder="الاسم بالانجليزية">
+              </mat-form-field> -->
+                    </div>
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        <mat-form-field fxFlex>
+                            <mat-select formControlName="cityId" placeholder="{{'Country'|i18n}}">
+
+                                <mat-option *ngFor="let op of cityList" [value]="op.id">
+                                    {{op.id}} | {{ op.name }}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="address" type="text" placeholder="{{'Address'|i18n}}">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="tel" type="text" placeholder="{{'Land phone'|i18n}}">
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="mobile" type="text" placeholder="{{'Phone No'|i18n}}">
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="fax" type="text" placeholder="{{'Fax'|i18n}}">
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="webPage" type="text" placeholder="{{'E-page'|i18n}}">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="faceBook" type="text" placeholder="{{'Facebook'|i18n}}">
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="youTube" type="text" placeholder="{{'YouTube'|i18n}}">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="twitter" type="text" placeholder="{{'Twitter'|i18n}}">
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="description" type="text" placeholder="{{'Description'|i18n}}">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex>
+                            <input matInput formControlName="poBox" type="text" placeholder="{{'mail box'|i18n}}">
+                        </mat-form-field>
+
+                    </div>
+
+
+
+
+                </mat-card-content>
+                <mat-card-content>
+                    <div>
+                        <img id="myimage" [src]='image' style="width:200px;height:200px;" />
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <a [routerLink]="returnUrl" mat-button>
+              {{'Back'|i18n}}
+            </a>
+                    <button mat-raised-button color="primary" type="submit" *ngIf="show">
+              {{'Save'|i18n}}
+            </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<app-content-header title="{{'Finance items'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+    <a mat-raised-button color="warn" [routerLink]="['../add']">
+        <mat-icon>add_circle_outline</mat-icon> {{'Add'|i18n}}
+    </a>
+
+</mat-toolbar>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <div fxLayout fxLayoutAlign="left">
+            <mat-form-field fxFlex="40%">
+                <input matInput #filter type="text" (keyup)="doFilter($event.target.value)" placeholder="{{'Search'|i18n}}">
+                <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; applyFilter('');"> 
+                 <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" matSort matSortStart="desc">
+            <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ col.header | i18n }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+
+                    {{ item[col.field] }}
+
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    {{'Actions'|i18n}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+
+                    <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/financial/finItem/edit/' + element.id  ]">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            edit
+                        </mat-icon>
+                    </a>
+
+                    <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}" (click)="openDeleteDialog(element)">
+                    <mat-icon aria-hidden="true" aria-label="Delete">
+                    delete
+                    </mat-icon>
+                </button>
+
+                    <button mat-icon-button color="info" matTooltip="{{'Details'|i18n}}" [routerLink]="['/financial/finItem/view/' + element.id  ]">
+                    <mat-icon aria-hidden="false" aria-label="info">
+                    info
+                    </mat-icon>
+                 </button>
+
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+        <!-- <mat-paginator  #paginator [pageSize]="this.filter.pageSize" (page)="getNext($event)" showFirstLastButtons> -->
+
+        <!-- </mat-paginator> -->
+    </div>
+</div>

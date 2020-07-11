@@ -1,0 +1,16 @@
+<div [dir]="dir">
+    <h1 mat-dialog-title>
+        {{'Are you sure you want to delete'|i18n}}
+        <span>
+      :
+    </span> {{ name }} ?
+    </h1>
+    <div mat-dialog-actions>
+        <button mat-raised-button [mat-dialog-close]="false">
+      {{'No'|i18n}}
+    </button>
+        <button mat-raised-button [mat-dialog-close]="true" color="warn" cdkFocusInitial>
+      {{'Yes'|i18n}}
+    </button>
+    </div>
+</div>

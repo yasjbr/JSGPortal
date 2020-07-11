@@ -1,0 +1,135 @@
+<app-content-header title="{{'Student registration'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+
+<form [formGroup]="formGroup">
+    <div fxLayout="column" class="p-2">
+        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+            <mat-form-field appearance="outline">
+                <mat-label>{{'School'|i18n}}</mat-label>
+                <mat-select matInput placeholder="{{'School'|i18n}}" (selectionChange)="onSchoolChanges($event.value)">
+                    <mat-option [value]='0'>{{'All'|i18n}}</mat-option>
+                    <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                        {{op.id}} | {{op.name}}
+                    </mat-option>
+                </mat-select>
+
+            </mat-form-field> 
+            <mat-form-field appearance="outline">
+                <mat-label>{{'Section'|i18n}}</mat-label>
+                <mat-select matInput #sectionId formControlName="sectionId" placeholder="{{ 'Section' | i18n }}" (selectionChange)="getClassList($event.value);search()">
+                    <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                        {{op.id}} | {{op.sectionName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>{{'Class'|i18n}}</mat-label>
+                <mat-select matInput #classId formControlName="classId" placeholder="{{ 'Class' | i18n }}" (selectionChange)="search()">
+                    <mat-option *ngFor="let op of classList" [value]="op.id">
+                        {{op.id}} | {{op.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>{{'Select parent'|i18n}}</mat-label>
+                <mat-select matInput #parentId formControlName="parentId" placeholder="{{ 'Select parent' | i18n }}" (selectionChange)="onParentChanged($event.value)">
+                    <app-mat-select-search [list]="parentList" placeholderLabel="{{ 'Search' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="filterParents = $event">
+                        <!-- (filterChanged)="filterParents = $event" -->
+                    </app-mat-select-search>
+                    <mat-option *ngFor="let op of filterParents" [value]="op.id">
+                        {{op.id}} | {{op.fatherName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+                <button mat-raised-button color="warn" (click)="routToAddParent()">
+          <mat-icon>add_circle_outline</mat-icon> {{'Add Guardian'|i18n}}
+        </button>
+            </mat-toolbar>
+
+            <!-- <button mat-raised-button style="width: 120px;height: 40px"  color="warn" (click)="routToAddParent()">
+      بحث
+   </button>  -->
+
+
+        </div>
+
+    </div>
+</form>
+
+
+<mat-divider></mat-divider>
+
+<div fxLayout="column" class="p-2">
+
+
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="30px">
+
+
+
+    </div>
+</div>
+<mat-divider></mat-divider>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+
+    <a mat-raised-button color="warn" [routerLink]="['../add']">
+
+        <mat-icon>add_circle_outline</mat-icon>
+        {{'Add a new student'|i18n}}
+    </a>
+</mat-toolbar>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" align="center">
+            <ng-container *ngFor="let col of cols, let i = index" [matColumnDef]="col.field">
+                <!-- {{i}} -->
+                <mat-header-cell *matHeaderCellDef>
+                    {{ col.header }}
+                </mat-header-cell>
+
+
+                <mat-cell *matCellDef="let item">
+
+                    {{ item[col.field] }}
+
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    الحركات
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/students/edit/' + element.studId  ]">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            edit
+                        </mat-icon>
+                    </a>
+                    <a mat-icon-button matTooltip="{{'delete'|i18n}}" (onclick)="delete(element.studId)">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            delete
+                        </mat-icon>
+                    </a>
+
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns">
+
+            </mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+    </div>
+</div>

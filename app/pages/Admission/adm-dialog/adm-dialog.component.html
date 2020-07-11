@@ -1,0 +1,169 @@
+<h2 mat-dialog-title>
+    {{'Guardian'|i18n}} {{fatherName}}
+</h2>
+
+
+<form [formGroup]="formGroup" (ngSubmit)="getStudentNameList()" novalidate="novalidate">
+
+    <mat-dialog-content> 
+
+        <div fxLayout="column" class="p-2">
+            <div class="p-2">
+ 
+                <div class="p-2">
+                    <mat-card>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+                            <mat-form-field fxFlex color="accent" appearance="outline">
+                                <mat-label>{{'First name'|i18n}} </mat-label>
+                                <input matInput formControlName="firstName" type="text" placeholder="{{'First name'|i18n}} " required>
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    **
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Gender'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="genderId" placeholder="{{'Gender'|i18n}}" required>
+                                    <mat-option *ngFor="let op of genderList" [value]="op.id">
+                                        {{op.value}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    *
+                                </mat-error>
+                            </mat-form-field>
+                            <td>
+
+                                <mat-form-field fxFlex appearance="outline" class="paddding">
+                                    <mat-label>(dd/mm/yyyy) {{'Bairthdate'|i18n}}</mat-label>
+                                    <input matInput [matDatepicker]="picker" placeholder=" {{'Bairthdate'|i18n}}" maxlength="10" formControlName="birthDate" (dateChange)="calcStudAge()" required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-hint [hidden]="studAge<=0">{{'Age of student'|i18n}} {{studAge}}</mat-hint>
+                                    <mat-error *ngIf="validator.hasErrors(name)">
+                                        *
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </td>
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <!--Part 2-->
+
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Section'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="sectionId" placeholder="{{'Section'|i18n}}" required [(ngModel)]="sectionValue">
+                                    <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                                        {{op.id}} | {{op.sectionName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'Required'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Class'|i18n}}</mat-label>
+                           
+                                <mat-select [disabled]="true" matInput  [(ngModel)]="classValue" formControlName="classId" (selectionChange)="onClassChange()" placeholder="{{'Class'|i18n}}" required>
+                                    <mat-option *ngFor="let op of classList" [value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'Required'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Division'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="classSeqId" placeholder="{{'Division'|i18n}}">
+                                    <mat-option *ngFor="let op of classSeqList" [value]="op.id">
+                                        {{op.value}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                </div>
+                <!--Card 3-->
+
+                <div class="p-2">
+                    <mat-card>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Tour Place'|i18n}} </mat-label>
+                                <mat-select matInput formControlName="tourId" [(ngModel)]="tourValue" (selectionChange)=" resetTourType(); onTourChange()" placeholder="{{'Tour Place'|i18n}}">
+                                    <mat-option *ngFor="let op of tourList" [value]="op.id">
+                                        {{op.tourName}} | {{op.tourFullPrice}} | {{op.tourHalfPrice}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Tour Type'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="tourTypeId" [(ngModel)]="tourTypeValue" (selectionChange)="onTourChange()" placeholder=" {{'Morning'|i18n}}">
+                                    <mat-option *ngFor="let op of tourTypeList" [value]="op.id">
+                                        {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Tour price'|i18n}} </mat-label>
+                                <h3>
+                                    <input readonly matInput formControlName="tourPrice" [(ngModel)]="tourPrice" type="text" placeholder="{{'Tour price'|i18n}} ">
+                                </h3>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Class fees'|i18n}} </mat-label>
+                                <h3>
+                                    <input matInput readonly formControlName="classPrice" [(ngModel)]="classPrice" type="text" placeholder=" {{'Class fees'|i18n}} ">
+                                </h3>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Total'|i18n}} </mat-label>
+                                <h2>
+                                    <input readonly matInput formControlName="totalPrice" [(ngModel)]="totalPrice" type="text" placeholder=" {{'Total'|i18n}}  ">
+                                </h2>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                </div>
+
+
+
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+
+        <button mat-raised-button tabindex="-1" color="warn" (click)="closeDialog()">
+            {{'Back'|i18n}}
+        </button>
+        <button [type]="submit" mat-raised-button color="primary" >
+            {{'Save'|i18n}}
+        </button>
+    </mat-dialog-actions>
+
+    <mat-error *ngIf="existFullName">
+        الاسم مكرر ,تأكد من البيانات المدخلة
+    </mat-error>
+</form>

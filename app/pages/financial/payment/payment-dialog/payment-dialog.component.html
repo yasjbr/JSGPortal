@@ -1,0 +1,222 @@
+<!-- <p mat-dialog-title>{{title}}</p> -->
+<h1 mat-dialog-title>
+    <!-- <p style="background-color:#283593;height:40px;color: white; 
+      font-size: 24px;vertical-align:text-bottom; font-weight:bold">
+         {{title}} 
+      
+      </p> -->
+    <div id="demotext"> {{title}}
+<strong> للطلبة المثبتين فقط... </strong>
+        </div>
+</h1>
+
+<form [formGroup]="PaymentformGroup" (ngSubmit)="submit()" novalidate="novalidate" aut>
+
+    <mat-dialog-content>
+
+        <div class="p-2">
+            <mat-card>
+
+                <h3 style="text-align: start">
+                    {{'Guardian'|i18n}}: {{this.service.sParentName}}
+                </h3>
+
+            </mat-card>
+        </div>
+
+        <div class="p-2">
+            <mat-card>
+                <div fxLayout fxLayout.xs="column" fxLayoutGap="30px">
+
+                    <mat-form-field fxFlex class="mat-select">
+                        <mat-label> {{'Student'|i18n}} </mat-label>
+                        <mat-select  matInput formControlName="studentId" placeholder="{{'Student'|i18n}}" required
+                            (selectionChange)="onStudChange()">
+                            <mat-option #options *ngFor="let op of childrenList; let i=index" [value]="op.id">
+                                {{op.id}} | {{ op.firstName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex>
+                        <mat-label> {{'Section'|i18n}} </mat-label>
+                        <input tabindex="-1" matInput formControlName="sectionId" readonly type="text"
+                            placeholder="{{'Section'|i18n}}">
+                    </mat-form-field>
+                </div>
+                <div fxLayout fxLayout.xs="column" fxLayoutGap="30px">
+                    <mat-form-field fxFlex class="paddding">
+                        <mat-label> {{'Class'|i18n}} </mat-label>
+                        <input tabindex="-1"  matInput formControlName="sectionId2" readonly type="text"
+                            placeholder="{{'Class'|i18n}}">
+                    </mat-form-field>
+                    <mat-form-field fxFlex class="paddding">
+                        <mat-label> {{'Division'|i18n}} </mat-label>
+                        <input tabindex="-1"  matInput formControlName="sectionId3" readonly type="text"
+                            placeholder="{{'Division'|i18n}}">
+                    </mat-form-field>
+                </div>
+
+
+                <div fxLayout fxLayout.xs="column" fxLayoutGap="30px">
+                    <mat-form-field fxFlex class="mat-select" class="paddding">
+                        <mat-label>{{'Receipt type'|i18n}}</mat-label>
+                        <mat-select matInput formControlName="finItemId" placeholder="  {{'Receipt type'|i18n}}  "
+                            required (selectionChange)="setNote($event.value)">
+                            <mat-option *ngFor="let op of finItemList; let i = index" [value]="op.id">
+                                {{op.id}} | {{ op.desc }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                                    
+                    <mat-form-field *ngIf="reportId === '2'" fxFlex class="mat-select" class="paddding">
+                            <mat-label>نوع النشاط</mat-label>
+                            <mat-select  matInput formControlName="finSubItemId" placeholder="  نوع النشاط  "
+                                 (selectionChange)="setNote($event.value)">
+                                <mat-option *ngFor="let op of finItemSubList; let i = index" [value]="op.id">
+                                    {{op.id}} | {{ op.desc }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    
+                    <mat-form-field fxFlex class="paddding">
+                        <mat-label> {{'Date'|i18n}}</mat-label>
+                        <input  tabindex="-1"  matInput  formControlName="voucherDate" readonly>
+                        <mat-datepicker-toggle tabindex="-1" matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field fxFlex="100%">
+                        <mat-label> {{'Statement'|i18n}} </mat-label>
+                        <input matInput  tabindex="-1"  #note formControlName="note" type="text"
+                            placeholder="  {{'Statement'|i18n}}    ">
+                    </mat-form-field>
+                </div>
+            </mat-card>
+        </div>
+    </mat-dialog-content>
+
+
+    <div>
+        <ng-container>
+
+            <div>
+
+                <table class="minimalistBlack">
+                    <tr >
+
+
+                        <th> طريقة القبض</th>
+                        <th>المبلغ </th>
+                        <th>رقم الشيك/الحوالة/الفيزا</th>
+                        <th>تاريخ الشيك/ الحوالة</th>
+                        <th>البنك المسحوب/المحول عليه</th>
+                        <th>{{'The name of the drawer'|i18n}}</th>
+                        <th> </th>
+                        
+
+                    </tr>
+ 
+                    <tr  formArrayName="PaymentDetail" *ngFor="let item of getChequeDetails.controls; let dtlForm =index">
+                        <ng-container [formGroupName]="dtlForm">
+
+
+
+                            <td>
+                              
+
+                                <select  formControlName="paymentMethodId" >
+                                    <option  *ngFor="let op of PaymentMethodList"[value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </option>
+                                </select>
+
+                            </td>
+                            <td> <input matInput #xcredit2 placeholder="المبلغ" style=" width: 100%;"
+                                    formControlName="credit2" required > </td>
+
+                            <td>
+                                <input matInput #xchequeNo placeholder="رقم الشيك/الحوالة/الفيزا"
+                                    formControlName="chequeNo">
+                            </td>
+                            <td>
+                                <input #xchequeDate matInput formControlName="chequeDate"
+                                    placeholder="تاريخ الشيك/ الحوالة">
+                            </td>
+
+                            <td>
+                                <select matInput formControlName="bankId" placeholder="البنك المسحوب/المحول عليه">
+                                    <option *ngFor="let op of bankList" [value]="op.id">
+                                        {{op.name}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td> <input matInput #xchequeWoner placeholder="{{'The name of the drawer'|i18n}} "
+                                    formControlName="chequeWoner"> </td>
+
+
+
+                            <td>
+
+
+                                <a href="javascript:void(0);" (click)="deleteCheque()">حذف </a>
+
+                            </td>
+
+                        </ng-container>
+
+                    </tr>
+                    <tfoot>
+                        <tr>
+                            <td style="text-align: right; width: 15%;" colspan=1>
+                                <!-- <button   (click)="addCheque()">شيك جديد
+                                
+                              </button> -->
+
+                                <button  tabindex="-1"  mat-icon-button color="warn" matTooltip="{{'New cheque'|i18n}}"
+                                    (click)="addCheque()">
+                                    <mat-icon aria-hidden="true" aria-label="Add">
+                                        add_box
+                                    </mat-icon>
+                                    {{'New cheque'|i18n}}
+                                </button> 
+
+
+                            </td>
+                            <td style="text-align: center; width:20%" colspan=1 class="nowrap">
+                                   <input  #sumCredit2 matInput formControlName="credit" type="text">
+                            </td>
+                            <td style="text-align: right" colspan=10>
+                                    
+                                <strong *ngIf="!this.addNewCheque" style="color: red">
+                                    يجب إدخال جميع الحقول المطلوبة
+                                </strong>
+                               
+                            </td>
+
+                        </tr>
+
+                    </tfoot>
+                </table>
+            </div>
+        </ng-container>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-dialog-actions>
+        <button mat-raised-button tabindex="-1" color="white" (click)="closeDialog()">
+            {{'Back'|i18n}}
+        </button>
+        <!-- <button [type]="submit" mat-raised-button color="primary" (click)="submitPayment()">
+               تخزين 
+            </button>  -->
+        <button [hidden]="sumCredit2==0" [type]="submit" mat-raised-button color="warn" (click)="addPaymentAndPrint()">
+            {{'Save and Print'|i18n}}
+        </button>
+
+ 
+
+    </mat-dialog-actions>
+</form>

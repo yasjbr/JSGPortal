@@ -1,0 +1,82 @@
+<app-content-header title="{{'Add/Edit Section'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+        <mat-panel-title>
+            {{'Personal data'|i18n}}
+        </mat-panel-title>
+        <mat-panel-description>
+            {{'Type your name and age'|i18n}}
+        </mat-panel-description>
+    </div>
+    <div class="p-2">
+
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+
+            <mat-card>
+                <mat-card-header fxLayoutAlign="center">
+                    <mat-card-subtitle>
+                        <h2></h2>
+                    </mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Name'|i18n}}</mat-label>
+                            <input matInput formControlName="sectionName" type="text" placeholder="{{'Name'|i18n}}">
+                            <mat-error *ngIf="validator.hasErrors(name)">
+                                {{'Required'|i18n}}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Headmaster'|i18n}}</mat-label>
+                            <mat-select matInput formControlName="managerId" placeholder="{{'Headmaster'|i18n}}">
+                                <mat-option *ngFor="let op of EmployeeList" [value]="op.id">
+                                    {{op.id}} | {{op.empName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Email'|i18n}}</mat-label>
+                            <input matInput formControlName="email" type="text" placeholder="{{'Email'|i18n}}">
+                        </mat-form-field>
+                    </div>
+                    <!-- <mat-divider></mat-divider>-->
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'National No'|i18n}}</mat-label>
+                            <input matInput formControlName="nationalId" type="text" placeholder="{{'National No'|i18n}}">
+                        </mat-form-field>
+
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'School'|i18n}}</mat-label>
+                            <mat-select matInput formControlName="schoolId" placeholder="{{'School'|i18n}}">
+                                <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                                    {{op.id}} | {{op.name}}
+                                </mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <a [routerLink]="returnUrl" mat-button>
+            {{'Back'|i18n}}
+          </a>
+         <button mat-raised-button color="primary" type="submit">
+            {{'Save'|i18n}}
+          </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </div>
+</div>

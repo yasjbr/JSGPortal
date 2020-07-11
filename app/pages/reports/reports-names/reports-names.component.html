@@ -1,0 +1,45 @@
+<app-content-header title="{{'Reports'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div class="p-2" style="width: 100%; align-self:center; align-content: center;align-items: center;">
+    <mat-card>
+        <div style="display: flex;">
+            <div>
+                <strong style="font-size: 16px; height: 40px;">
+         
+          </strong>
+            </div>
+            <div style="width: 90%; font-size: 16px;">
+                <strong>
+      <jqxDropDownList
+      #jqxProgramList
+      [theme]="'bootstrap'" 
+      [width]="280"
+      [height]="40" 
+      [source]="ProgramList"
+      [displayMember]="'name'"
+      [valueMember]="'id'"
+      [placeHolder]="'إختر البرنامج '"
+      [rtl]="true"
+      [autoDropDownHeight]="true"
+      [selectedIndex]="0"
+      (onSelect)="onReportListChange()"
+      style="width: 100%; align-self:center; align-content: center;align-items: center;font-size: 16px;"
+    >
+    </jqxDropDownList>
+  </strong>
+            </div>
+        </div>
+    </mat-card>
+</div>
+
+<div class="p-2">
+    <mat-card>
+        <mat-card-content>
+            <div align="center">
+                <jqxGrid #jqxgridReportList [width]="'90%'" [theme]="'light'" [columnsresize]="true" [source]="Adapter" [pageable]="false" [autoheight]="true" [sortable]="true" [columns]="Columns" [rtl]="true" [showstatusbar]="true" [showaggregates]="true" [statusbarheight]="55">
+                </jqxGrid>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

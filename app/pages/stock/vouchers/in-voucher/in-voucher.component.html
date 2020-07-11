@@ -1,0 +1,59 @@
+<app-content-header title="{{'InVoucher'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+    <div style=" display: flex;">
+      <div style="width: 10%;">
+        <strong>
+          إختر المورد:
+        </strong>
+      </div>
+      <div style="width: 80%;">
+        <jqxComboBox #jqxComboBoxSupplier style="font-size: 14;" [theme]="'bootstrap'" [rtl]="true" [width]="300"
+          [height]="30" [source]="supplierList" [searchMode]="'contains'" [autoComplete]="true" [placeHolder]="'بحث'"
+          [displayMember]="'supplierName'" [valueMember]="'id'" (onSelect)="getInVoucherList()">
+        </jqxComboBox>
+      </div>
+      <mat-divider></mat-divider>
+
+      <mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+        <button mat-raised-button color="warn" (click)="addNewItem()" style="margin:0 5px;">
+          <mat-icon>add_circle_outline</mat-icon> {{ 'ادخال فاتورة جديده' | i18n}}
+        </button>
+        
+        
+        <button mat-raised-button color="primary" (click)="addNewSupplier()">
+          <mat-icon>add_circle_outline</mat-icon> {{ 'اضافة مورد جديده' | i18n}}
+        </button>
+      </mat-toolbar>
+
+
+
+    </div>
+    <mat-card>
+      <mat-card-content>
+        <div align="center">
+          <jqxGrid #jqxgridSupplierList [width]="'100%'" [theme]="'light'" [columnsresize]="true" [source]="Adapter"
+            [pageable]="false" [autoheight]="true" [sortable]="true" [columns]="Columns" [rtl]="true"
+            [showstatusbar]="true" [showaggregates]="true" [statusbarheight]="30">
+          </jqxGrid>
+          <!-- <td style="text-align: center" colspan="1">
+          <strong>
+            المجموع:
+          </strong>
+        </td> -->
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- <mat-card>
+      <mat-card-content>
+        <div align="center">
+          <jqxGrid #jqxgridSupplierList [width]="'100%'" [theme]="'light'" [columnsresize]="true" [source]="Adapter"
+            [pageable]="false" [autoheight]="true" [sortable]="true" [columns]="Columns" [rtl]="true"
+            [showstatusbar]="true" [showaggregates]="true" [statusbarheight]="30">
+          </jqxGrid>
+        </div>
+      </mat-card-content>
+    </mat-card> -->

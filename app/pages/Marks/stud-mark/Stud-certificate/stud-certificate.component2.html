@@ -1,0 +1,283 @@
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(pagemaster)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+
+<div #pagemaster class="print-container">
+    <table id="master" *ngIf="studMarks">
+
+        <tr *ngFor="let studMark of studMarks; let i=index">
+            <div class="print-container" #page>
+
+                <div class="page-header">
+                    <div class="report-page">
+                        <div class="form41-header">
+                            <div>
+                                <h4>
+                                    <strong>
+                                    مـجـمــــوعة مـدارس الـجـامعـــــة
+                                </strong>
+                                </h4>
+                                <h6>
+                                    <!-- {{schoolName}} -->
+                                </h6>
+                            </div>
+
+
+                            <div>
+                                <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                            </div>
+
+                            <div class="text-end">
+                                <h4>
+                                    <strong>
+                                    ALJAMI'A SCHOOLES GROUP
+                                </strong>
+                                </h4>
+                                <h6>
+                                    <!-- {{schoolLName}} -->
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <table id="cert">
+
+                    <thead>
+                        <tr>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody style="min-height: 80%;">
+
+
+                        <tr *ngFor="let x of studentInfoDataSource; let i=index">
+                            <td colspan="2">
+
+
+                                <table>
+                                    <tr>
+                                        <td>
+
+
+                                            <h5>
+                                                <p class="dottedUnderline"> الاسم: {{ x.studName }} </p>
+                                            </h5>
+
+
+                                        </td>
+                                        <td>
+                                            <h6>
+                                                الشعبة:
+                                                <span>      
+                                        {{ x.classSeqName }}
+                                    </span>
+                                            </h6>
+
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <h6>
+                                                <p class="dottedUnderline"> الجنسية: </p>
+                                            </h6>
+
+                                        </td>
+                                        <td>
+                                            <h6>
+                                                <p class="dottedUnderline"> المدرسه: {{ x.schoolName }} </p>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <h6>
+                                                <p class="dottedUnderline"> مكان الولاده: </p>
+                                            </h6>
+
+                                        </td>
+                                        <td>
+                                            <h6>
+                                                <p class="dottedUnderline"> المدينه - الثريه - المحيم : </p>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <h6>
+                                                <p class="dottedUnderline"> تاريخ الميلاد : {{ x.birthDate }} </p>
+                                            </h6>
+                                        </td>
+                                        <td>
+                                            <h6>
+                                                <p class="dottedUnderline"> المديرية : </p>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+
+                                </table>
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+
+
+
+
+                <table mat-table [dataSource]="studCourseMarksList" class="mat-elevation-z8" class="marksTable">
+
+                    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+
+
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="courseName">
+                        <th mat-header-cell *matHeaderCellDef> {{'courseName'|i18n}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.courseName}} </td>
+                    </ng-container>
+
+
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="maxMark">
+                        <th mat-header-cell *matHeaderCellDef> {{'maxMark'|i18n}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.maxMark}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="minMark">
+                        <th mat-header-cell *matHeaderCellDef> {{'minMark'|i18n}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.minMark}} </td>
+                    </ng-container>
+
+
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="mark">
+                        <th mat-header-cell *matHeaderCellDef> {{'mark'|i18n}}</th>
+                        <td mat-cell *matCellDef="let element"> {{element.mark}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="note">
+                        <th mat-header-cell *matHeaderCellDef> {{'note'|i18n}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+                    </ng-container>
+
+                    <!-- Header row first group -->
+                    <ng-container matColumnDef="header-row-first-group">
+                        <th mat-header-cell *matHeaderCellDef [style.text-align]="center" [attr.colspan]="2">
+                            First group
+                        </th>
+                    </ng-container>
+
+                    <!-- Header row second group -->
+                    <ng-container matColumnDef="header-row-second-group">
+                        <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> Second group </th>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['header-row-first-group', 'header-row-second-group']"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+
+
+
+                <table id="notestab">
+                    <!-- <tr *ngFor="let x of studMarks; let i=index"> -->
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            {{'formTeacherNote'|i18n}}
+                                            <span>      
+                                {{  studMark.formTeacherNote }}
+                            </span>
+                                        </h6>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            {{'cleanliness'|i18n}}
+                                            <span>      
+                                {{  studMark.cleanliness }}
+                            </span>
+                                        </h6>
+                                    </td>
+                                </tr>
+
+
+
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            {{'rulesRespect'|i18n}}
+                                            <span>      
+                                {{  studMark.rulesRespect }}
+                            </span>
+                                        </h6>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            {{'attendanceDays'|i18n}}
+                                            <span>      
+                                {{  studMark.attendanceDays }}
+                            </span>
+                                        </h6>
+                                    </td>
+                                </tr>
+
+
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            {{'principalNote'|i18n}}
+                                            <span>      
+                                {{  studMark.principalNote }}
+                            </span>
+                                        </h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </tr>
+
+
+    </table>
+
+</div>

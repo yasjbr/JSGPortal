@@ -1,0 +1,83 @@
+<app-content-header  title="{{'BorrowABookByEmployee'|i18n}} ">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+  <div fxLayout fxLayout.xs="column" fxFlex="20%" fxLayoutGap="50px">
+  </div>
+</div>
+
+<div fxLayout="column" class="p-2">
+  <div>
+    <div class="p-2">
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+        <table class="subTable" align="center" >
+
+
+        
+
+
+            <mat-form-field fxFlex="50%" class="mat-select" appearance="outline">
+              <mat-label>
+                {{'Employee name'|i18n}}
+              </mat-label>
+              <mat-select #parentName formControlName="EmployeeId" placeholder="{{'Employee name'|i18n}}"
+                (selectionChange)="getBookList($event.value)">
+                <mat-option *ngFor="let opt of EmployeeList; let i=index" [value]="opt.id">
+                  {{i+1}}- {{opt.empName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          <tr class="border_bottom" align="center" formArrayName="employeeDeatil"
+            *ngFor="let Form of FormArr.controls; let i = index;">
+            <ng-container [formGroupName]="i">
+
+
+
+
+              <mat-form-field fxFlex="100%" class="mat-select" appearance="outline">
+                <mat-label>
+                  {{'BookList'|i18n}}
+                </mat-label>
+                <mat-select #Book formControlName="BookId" placeholder="{{'BookList'|i18n}}" (selectionChange)="getValid()"
+                  required>
+                  <mat-option *ngFor="let opt of BookList; let i=index" [value]="opt.id">
+                    {{i+1}}- {{opt.itemName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-container>
+
+            <td align="center">
+              <a mat-icon-button color="warn" *ngIf=" FormArr.controls.length > 1" matTooltip="حذف"
+                (click)="removeForm(i)">
+                <mat-icon aria-hidden="true" aria-label="Delete">
+                  delete
+                </mat-icon>
+              </a>
+            </td>
+
+           
+          </tr>
+          <mat-error *ngIf="!err" style="width: 100%;">
+            يرجى اختيار الكتاب الاول قبل الانتقال الى الاخر
+          </mat-error>
+
+          
+        </table>
+        <mat-dialog-actions>
+          <a [type]="submit" mat-raised-button color="primary" (click)="submit2()">
+            {{'Save'|i18n}}
+          </a>
+          <a mat-raised-button color="Tertiary" (click)="addForm()">
+            {{'Another Product'|i18n}}
+          </a>
+
+        
+        </mat-dialog-actions>
+      </form>
+    </div>
+  </div>
+</div>

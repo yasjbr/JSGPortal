@@ -1,0 +1,161 @@
+<app-content-header [icon]="'store_mall_directory'" title="{{'DailSale Statement'|i18n}}" [hideBreadcrumb]="false"
+    [class]="'pb-1'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+        
+        <mat-divider></mat-divider>
+                  
+
+        <mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="space-between center" class="px-2 user-toolbar" style="font-size: unset;">
+            <mat-form-field fxFlex="50%" appearance="outline">
+                <mat-label> {{'Date'|i18n}}: </mat-label>
+                <input matInput [matDatepicker]="picker" (dateChange)="GetCustmVoucherbyyears($event.value)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <button mat-raised-button color="accent" (click)="print(page)">
+                <mat-icon>print</mat-icon> {{'Print'|i18n}}
+            </button>
+        </mat-toolbar>
+        </div>
+    </div>
+      
+        <div class="print-container" #page>
+            <div class="page-header">
+                <div class="report-page">
+                    <div class="form41-header">
+                        <div>
+                            <h3>
+                                مـجـمــــوعة مـدارس الـجـامعـــــة
+                            </h3>
+                            <h6>
+                                <!-- {{schoolName}} -->
+                            </h6>
+                        </div>
+                        <div>
+                            <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                        </div>
+                        <div class="text-end">
+                            <h3>
+                                ALJAMI'A SCHOOLES GROUP
+                            </h3>
+                            <h6>
+                                <!-- {{schoolLName}} -->
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-footer">
+                <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+                <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+            </div>
+        
+            <table class="page">
+                <thead>
+                    <tr>
+
+                        <td>
+                            <div class="page-header-space"></div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody style="min-height: 70%;">
+        
+                    <tr>
+
+                        <td>
+                            <div fxLayout="column" class="p-1">
+                                <div style="font-weight: bolder; font-size: 20px; margin: 0 auto;">
+                                    {{'كشف البيع اليومي'|i18n}}
+                                </div>
+                                <div *ngIf="err" style="color: rgb(150, 17, 17); font-weight: bolder; text-align: center;">لايوجد مبيعات في هذا اليوم</div>
+
+                                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                                </div>
+                            </div>
+
+                            <table class="subTable" align="center" *ngFor="let x of StudentFeeFilter; let i=index">
+                                <tr align="center">
+                                    <td colspan="3" style="font-weight: bold;">{{'منظم الفاتورة'|i18n}}:</td>
+                                    <td colspan="2" style="font-weight: bolder;">{{x.userName}}</td>
+                                </tr>
+
+
+                                <tr>
+                                    <th style="width: 10%">
+                                        #
+                                    </th>
+                                    <th style="width: 25%">
+                                        {{'voucherId'|i18n}}
+                                    </th>
+                                    <th style="width: 25%">
+                                        {{'Parent name'|i18n}}
+                                        <!--اسم المشتري-->
+                                    </th>
+                                    <th style="width: 20%">
+                                        <!-- {{'عدد الكتب'|i18n}} -->
+                                        {{'numberBooks'|i18n}}
+                                    </th>
+                                    <th style="width: 20%">
+                                        {{'amount Invoiced'|i18n}}
+                                    </th>
+        
+                                </tr>
+                                <tr *ngFor="let y of x.dataList; let i=index">
+                                    <td class="data-align">
+                                        {{i+1}}
+                                    </td>
+        
+        
+                                    <td class="data-align">
+                                        {{y.voucherId}}
+                                    </td>
+        
+                                    <td class="data-align">
+                                        {{y.parentName}}
+                                    </td>
+        
+                                    <td class="data-align">
+                                        {{y.qty}}
+                                    </td>
+        
+                                    <td class="data-align">
+                                        {{y.amount}}
+                                    </td>
+        
+        
+                                </tr>
+        
+                                <tr class="border_bottom" align="center">
+                                    <td colspan="4" style="font-weight: bolder;">{{'مبلغ الصندوق المتوفر لدى'|i18n}} {{x.userName}}</td>
+                                    <!-- <td colspan="1"></td> -->
+                                    
+                                    <td colspan="1" style="font-weight: bolder;">{{x.totalAmount}}</td>
+                                </tr>
+        
+                            </table>
+                            <table>
+                                <tr align="center">
+                                    <td colspan="5" *ngIf="!err" style="font-weight: bold;">{{'المبلغ المتوفر في الصندوق  ليوم '|i18n}} {{date | date:'dd/MM/yyyy'}} : &nbsp;&nbsp;&nbsp; {{Total2}}</td>
+                                    <!-- <td colspan="1" style="font-weight: bolder;"></td> -->
+                                    <!-- <td colspan="3" style="font-weight: bolder; text-align: right;"></td> -->
+                                </tr>
+                            </table>
+        
+                        </td>
+                    </tr>
+
+                </tbody>
+                <tfoot style="min-height: 10%;">
+                    <tr>
+                        <td>
+                            <div class="page-footer-space"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>

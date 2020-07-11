@@ -1,0 +1,92 @@
+<app-content-header  title="{{'Information'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <!--Card 1-->
+        <div class="p-2">
+            <mat-card>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                        <h3> {{ 'Parent No' | i18n }}: </h3>
+                        <h3 fxFlex appearance="outline">{{parents[0]?.id}}</h3>
+                    </div>
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+                        <h3> {{ 'Name' | i18n }}:</h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.fatherName}}
+                        </h3>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <!--Card 2-->
+        <div class="p-2">
+            <mat-card>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+                        <h3> {{ 'National No' | i18n }}: </h3>
+                        <h3 fxFlex appearance="outline">{{parents[0]?.idNum}}</h3>
+                        <h3> {{ 'Mother name' | i18n}}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.motherName}}
+                        </h3>
+
+                        <h3> {{ 'Religion' | i18n }}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.religionName}}
+                        </h3>
+                        <h3> {{ 'Nationality' | i18n }}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.nationalityName}}
+                        </h3>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <!--Card 3-->
+        <div class="p-2">
+            <mat-card>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+                        <mat-card-title>
+                            <h3> {{ 'Address' | i18n }}: </h3>
+                        </mat-card-title>
+
+                    </div>
+
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+                        <h3> {{ 'City' | i18n }}: </h3>
+                        <h3 fxFlex appearance="outline">{{parents[0]?.cityName}}</h3>
+
+                        <h3> {{ 'Major General' | i18n }}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.locality1}}
+                        </h3>
+
+                        <h3> {{ 'Grouping' | i18n }}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.locality2}}
+                        </h3>
+
+                        <h3> {{ 'Neighborhood' | i18n }}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.address}}
+                        </h3>
+                        <h3> {{ 'Street' | i18n }}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.street}}
+                        </h3>
+                        <h3> {{ 'Building No' | i18n }}: </h3>
+                        <h3 fxFlex appearance="Placeholder">
+                            {{parents[0]?.buildingNo}}
+                        </h3>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

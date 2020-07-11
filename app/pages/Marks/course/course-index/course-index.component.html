@@ -1,0 +1,83 @@
+<app-content-header title="{{'Course'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-start center" class="px-2 user-toolbar">
+    <a mat-raised-button color="warn" (click)="openAddNewCourseDialog()">
+        <mat-icon>add_box</mat-icon>
+        {{'Add'|i18n}}
+    </a>
+</mat-toolbar>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <!-- <div class="spinner-container">
+            <mat-spinner></mat-spinner>
+        </div> -->
+
+
+        <div fxLayout fxLayoutAlign="left">
+
+            <mat-form-field fxFlex="25%">
+                <input matInput type="text" placeholder="{{'Search'|i18n}}" (keyup)="dataFilter($event.target.value)">
+                <button mat-icon-button matSuffix aria-label="clear"> 
+                    <mat-icon> backspace</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+
+
+
+
+        
+
+        <mat-table #table [dataSource]="datasource" class="mat-elevation-z8" matSort matsortStart="desc">
+            <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{col.header | i18n}}
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let item">
+                    {{item[col.field]}}
+                </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    {{'Actions' | i18n}}
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let element">
+
+                    <a mat-icon-button matTooltip="{{'Edit'}}" (click)="openUpdateDialog(element.id)">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            edit {{element}}
+                        </mat-icon>
+                    </a>
+
+
+                    <button mat-icon-button color="warn" matTooltip="{{'Delete'}}" (click)="openDeleteCourseDialog(element)">
+                        <mat-icon aria-hidden="true" aria-label="Delete">
+                            delete    
+                        </mat-icon>    
+                    </button>
+
+
+                    <!-- <button mat-icon-button color="info" matTooltip="{{'Details'}}">
+                        <mat-icon aria-label="info" aria-hidden="true">
+                            info
+                        </mat-icon>
+                    </button> -->
+
+                </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"> </mat-row>
+        </mat-table>
+
+    </div>
+
+</div>

@@ -1,0 +1,107 @@
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+      <div class="p-2">
+        <mat-card>
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+              
+              <!-- <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'Section'|i18n}}</mat-label>
+                <mat-select matInput formControlName="sectionId" placeholder="{{'Section'|i18n}}" (selectionChange)="getClassList($event.value)">
+                    <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                        {{op.id}} | {{op.sectionName}}
+                    </mat-option>
+                </mat-select>
+              </mat-form-field> -->
+              <div class="spinner-container" *ngIf="loading">
+                <mat-spinner></mat-spinner>
+              </div>
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                  <mat-label>{{'Class'|i18n}}</mat-label>
+                  <mat-select matInput formControlName="classId" placeholder="{{'Class'|i18n}}">
+                      <mat-option *ngFor="let op of ClassList" [value]="op.id">
+                          {{op.id}} | {{op.name}}
+                      </mat-option>
+                  </mat-select>
+                </mat-form-field>
+ 
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                    <mat-label>{{'Group'|i18n}}</mat-label>
+                    <mat-select matInput formControlName="grpId" placeholder="{{'Group'|i18n}}">
+                        <mat-option *ngFor="let op of ItemList" [value]="op.id">
+                            {{op.id}} | {{op.name}}
+                        </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+            </div>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+             
+
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                    <mat-label>{{'Item name'|i18n}}</mat-label>
+                    <input matInput formControlName="itemName" type="text" placeholder="{{'Item name'|i18n}}">
+                    <mat-error *ngIf="validator.hasErrors(errName)">
+                      {{'This field is required'|i18n}}
+                  </mat-error>
+                  </mat-form-field>
+
+            </div>
+           
+            
+
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+               
+
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                    <mat-label>التصنيف</mat-label>
+                    <mat-select matInput formControlName="itemTypeId" placeholder="التصنيف">
+                        <mat-option *ngFor="let op of TypeList" [value]="op.id">
+                            {{op.id}} | {{op.name}}
+                        </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+  
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                  <mat-label>الحالة</mat-label>
+                  <mat-select matInput formControlName="itemStatusId" placeholder="الحالة">
+                      <mat-option *ngFor="let op of statusList" [value]="op.id">
+                          {{op.id}} | {{op.name}}
+                      </mat-option>
+                  </mat-select>
+                </mat-form-field>
+  
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                  <mat-label>الفصل</mat-label>
+                  <mat-select matInput formControlName="termId" placeholder="الفصل">
+                      <mat-option *ngFor="let op of termList" [value]="op.id">
+                          {{op.id}} | {{op.name}}
+                      </mat-option>
+                  </mat-select>
+                </mat-form-field>
+  
+  
+              </div>
+
+
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <mat-dialog-actions>
+        <button mat-raised-button tabindex="-1" color="white" (click)="closeDialog()">
+          {{'Back'|i18n}}
+        </button>
+        <button [type]="submit" mat-raised-button color="primary" (click)="submit2()">
+          {{'Save'|i18n}}
+        </button>
+      </mat-dialog-actions>
+
+    </form>
+  </div>
+</div>

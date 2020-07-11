@@ -1,0 +1,256 @@
+<app-content-header title="{{'New students registration'|i18n}} | {{currentYear}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+
+</app-content-header> 
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="space-between center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <mat-form-field appearance="outline">
+        <mat-label>{{'School'|i18n}}</mat-label>
+        <mat-select matInput placeholder="{{'School'|i18n}}" (selectionChange)="onSchoolChanges($event.value)">
+            <mat-option [value]='0'>{{'All'|i18n}}</mat-option>
+            <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                {{op.id}} | {{op.name}}
+            </mat-option>
+        </mat-select>
+
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50%" class="mat-select" appearance="outline">
+        <mat-label style="color: black; "> {{ 'Select parent' | i18n }}</mat-label>
+        <mat-select placeholder="{{ 'Parent' | i18n }}" [(value)]="selected" (selectionChange)="onParentChanged($event.value)">
+            <app-mat-select-search [list]="parentList" placeholderLabel="{{ 'Search' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="filterParents = $event">
+            </app-mat-select-search>
+            <mat-option *ngFor="let op of filterParents" [value]="op.id">
+                {{op.id}} | {{ op.fatherName }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addNewParent()">
+                    <mat-icon>add_circle_outline</mat-icon> {{ 'Add parent' | i18n}}
+                </button>
+</mat-toolbar>
+
+<mat-card>
+    <mat-card-content>
+        <div>
+        <div fxLayout="column" class="p-1"  class="mar-Lr" >
+            <div fxLayout.xs="column" fxLayoutGap="20px" >
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Total amount due'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="parentTotalPrice" type="text" placeholder=" {{ 'Total amount due' | i18n }}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Total deductions'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="parentTotalDescount" type="text" placeholder="   {{ 'Total deductions' | i18n }} ">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Total amount to be paid'|i18n}}</mat-label>
+                    <input matInput readonly [(ngModel)]="parentNetTotalAmt" type="text" placeholder="{{'Total amount to be paid' | i18n}}">
+                    <div *ngIf="isret">
+
+
+                        <input matInput readonly [(ngModel)]="todelete.parentNetTotalAmt" type="text" placeholder="{{'Total amount to be paid' | i18n}}">
+                    </div>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- <mat-divider></mat-divider> -->
+        <!-- <div fxLayout="column" class="p-1">
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Father name'| i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="fatherFirstName" type="text" placeholder="{{'Father name'| i18n}}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Grandfather name'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="fatherSecondName" type="text" placeholder="{{'Grandfather name'|i18n}}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Family name'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="fatherFamilyName" type="text" placeholder="{{'Family name'|i18n}}">
+                </mat-form-field>
+
+            </div>
+        </div> -->
+
+        <div fxLayout="column" class="p-1" class="mar-Lr" >
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Religion'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="fatherReligionName" type="text" placeholder=" {{'Religion'|i18n}}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Nationality'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="fatherNationalityName" type="text" placeholder=" {{'Nationality'|i18n}}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'City'| i18n}}</mat-label>
+                    <input matInput readonly [(ngModel)]="fatherCityName" type="text" placeholder=" {{'city'| i18n}}">
+                </mat-form-field>
+
+            </div>
+        </div>
+
+
+
+
+
+        <div fxLayout="column" class="p-1" class="mar-Lr" >
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Land phone'| i18n}}</mat-label>
+                    <input matInput readonly [(ngModel)]="fatherTel" type="text" placeholder=" {{'Land phone'| i18n}}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Father mobile'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="fatherMobile" type="text" placeholder=" {{'Father mobile'|i18n}}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label>{{'Mother mobile'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="motherMobile" type="text" placeholder=" {{'Mother mobile'|i18n}}">
+                </mat-form-field>
+            </div>
+        </div>
+
+
+
+        <div fxLayout="column" class="p-1"class="mar-Lr" >
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'الرقم الوطني'| i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="idNumS" type="text" placeholder="{{ 'idNumS' | i18n }}">
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Address'|i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="Address" type="text" placeholder=" {{'Address'|i18n}}">
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex appearance="standard">
+                    <mat-label> {{'Messages receiver mobile' | i18n}} </mat-label>
+                    <input matInput readonly [(ngModel)]="smsMobile" type="text" placeholder=" {{'Messages receiver mobile'|i18n}}">
+                </mat-form-field>
+
+            </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<mat-divider></mat-divider>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+    <button mat-raised-button color="warn" [disabled]="!showSaveButton" (click)="addNewStudent()">
+            <mat-icon>add_circle_outline</mat-icon> {{'Add a new student' |i18n}}
+        </button>
+</mat-toolbar>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+
+
+                <mat-header-cell *matHeaderCellDef>
+                    <ng-container [ngSwitch]="col.type">
+                        <p *ngSwitchCase="'hidden'">
+
+                        </p>
+
+                        <p *ngSwitchDefault>
+                            {{ col.header |i18n }}
+                        </p>
+
+                    </ng-container>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    <ng-container [ngSwitch]="col.type">
+                        <p *ngSwitchCase="'date'">
+                            {{ item[col.field] | date: 'dd/MM/yyyy' }}
+                        </p>
+                        <p *ngSwitchCase="'hidden'">
+
+                        </p>
+                        <p *ngSwitchCase="'percent'">
+                            {{ item[col.field] }} %
+                        </p>
+                        <p *ngSwitchDefault>
+                            {{ item[col.field] }}
+                        </p>
+                    </ng-container>
+                </mat-cell>
+
+                <mat-footer-cell *matFooterCellDef>
+                    <ng-container [ngSwitch]="col.type">
+
+                        <p *ngSwitchDefault>
+                            {{ col.header }}
+                        </p>
+
+
+                    </ng-container>
+
+
+                </mat-footer-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    {{'Actions'|i18n}}
+                </mat-header-cell>
+
+
+                <mat-cell *matCellDef="let element">
+                    <a [hidden]="currentYearId != element.yearId" mat-icon-button matTooltip="{{'Edit'|i18n}}" (click)="updateStud(element.id,element.totalPrice,currentYearId, element.yearId)" style="    width: 13px;
+                        margin-right: 7px; ">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            edit
+                        </mat-icon>
+                    </a>
+                    <!-- 
+                    <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}"
+                        (click)="openDeleteDialog(element)" style="width: 15px;
+                        margin-right: 22px;">
+                        <mat-icon aria-hidden="true" aria-label="Delete">
+                            delete
+                        </mat-icon>
+                    </button> -->
+
+                </mat-cell>
+
+            </ng-container>
+
+            <mat-footer-cell *matFooterCellDef>
+                <ng-container>
+
+                    <td mat-footer-cell *matFooterCellDef> bbbbbbb </td>
+
+                </ng-container>
+
+
+            </mat-footer-cell>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+                <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+
+            </mat-row>
+        </mat-table>
+    </div>
+    <div class="p-2" *ngIf="showForm">
+        <app-adm-form (event)="onSave($event)"></app-adm-form>
+    </div>
+</div>

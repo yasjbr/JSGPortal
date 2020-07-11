@@ -1,0 +1,110 @@
+<h2 mat-dialog-title>{{'StudCourseExam'|i18n}}</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- <form [formGroup]="searchFormGroup"> -->
+    <!-- <mat-dialog-content> -->
+    <div fxLayout="column" class="p-2">
+        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+            <mat-card>
+                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'Year'|i18n}}</mat-label>
+                        <mat-select matInput #yearId formControlName="yearId" placeholder="{{'Year'|i18n}}" (selectionChange)="onSearch()">
+                            <mat-option *ngFor="let op of yearsList" [value]="op.id">
+                                {{op.id}}|{{op.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label> {{'Class'|i18n}}</mat-label>
+                        <mat-select matInput #classId formControlName="classId" placeholder="{{'Class'|i18n}}" (selectionChange)="onSearch()">
+                            <mat-option *ngFor="let op of classList" [value]="op.id">
+                                {{op.id}}|{{op.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-card>
+
+        </div>
+    </div>
+
+    <!-- </form> -->
+
+
+
+
+
+
+    <!-- <form [formGroup]="form" (ngSubmit)="submit()"> -->
+    <div fxLayout="column" class="p-2">
+        <div fxLayout="column" class="p-2">
+            <mat-card>
+                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'Course'|i18n}}</mat-label>
+                        <mat-select matInput #yearlyCourseId formControlName="yearlyCourseId" placeholder="{{'Course'|i18n}}">
+                            <mat-option *ngFor="let op of yearlyCourseList" [value]="op.id">
+                                {{op.id}}|{{op.courseName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'Term'|i18n}}</mat-label>
+                        <mat-select matInput formControlName="termId" #termId placeholder="{{'Term'|i18n}}" (selectionChange)="onSearch()">
+                            <mat-option *ngFor="let op of termsList" [value]="op.id">
+                                {{op.id}}|{{op.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'Exam'|i18n}}</mat-label>
+                        <mat-select matInput #examId formControlName="examId" placeholder="{{'Exam'|i18n}}">
+                            <mat-option *ngFor="let op of examsList" [value]="op.examId">
+                                {{op.id}}|{{op.examName}} | {{op.courseName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+            </mat-card>
+
+
+            <mat-card>
+                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'Student'|i18n}}</mat-label>
+                        <mat-select matInput #studentId formControlName="studentId" placeholder="{{'Student'|i18n}}">
+                            <mat-option *ngFor="let op of studentsList" [value]="op.studId">
+                                {{op.studId}} |{{op.studFullName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex>
+                        <input matInput formControlName="mark" placeholder="{{'mark'|i18n}}">
+                    </mat-form-field>
+                </div>
+            </mat-card>
+
+            <mat-card>
+
+
+            </mat-card>
+
+
+        </div>
+    </div>
+    <!-- </mat-dialog-content> -->
+
+
+
+    <button [type]="closeDialog" mat-raised-button tabindex="-1" color="warn" (click)="closeDialog()"> {{'Back'|i18n}}</button>
+    <button [type]="submit" mat-raised-button color="primary" [disabled]="form.invalid">{{'Save'|i18n}}</button>
+
+
+</form>

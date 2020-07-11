@@ -1,0 +1,200 @@
+<div fxLayout="column" class="p-2" >
+    <div class="p-2">
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+            <div class="p-0">
+                <!-- <mat-card> -->
+                    <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                        <div fxLayout fxLayout.s="column" fxLayoutGap="5px" style="margin-bottom: -10px;">
+
+                            <mat-form-field fxFlex appearance="outline" >
+                                <mat-label>{{'First name'|i18n}}</mat-label>
+                                <input matInput formControlName="firstName" type="text" placeholder="{{'First name'|i18n}}">
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'This field is required'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                                <mat-label>{{'Second name'|i18n}}</mat-label>
+                                <input matInput formControlName="secondName" type="text" placeholder="{{'Second name'|i18n}}">
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'This field is required'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                                <mat-label>{{'Family name'|i18n}} </mat-label>
+                                <input matInput formControlName="familyName" type="text" placeholder="{{'Family name'|i18n}}">
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'This field is required'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="margin-bottom: -46px;">
+
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Religion'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="religionId" placeholder="{{'Religion'|i18n}}">
+                                    <mat-option *ngFor="let op of religionsList" [value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="validator.hasErrors(name)">
+                                    {{'This field is required'|i18n}}
+                                </mat-error>
+                            </mat-form-field>
+                   
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'Natinality'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="nationalityId" placeholder="{{'Natinality'|i18n}}">
+                                    <mat-option *ngFor="let op of nationalList" [value]="op.id">
+                                        {{op.value}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Work of the guardian'|i18n}} </mat-label>
+                                <input matInput formControlName="parentWork" type="text" placeholder="  {{'work of the guardian'|i18n}}">
+                            </mat-form-field>
+                        </div>
+                    </mat-card-content>
+
+                <!-- </mat-card> -->
+            </div>
+
+            <div class="p-2">
+                <!-- <mat-card> -->
+                    <mat-card-content>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px"  style="    margin-bottom: -52px;">
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label>{{'City'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="cityId" placeholder="{{'City'|i18n}}">
+                                    <mat-option *ngFor="let op of citiesList" [value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                          <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Address'|i18n}} </mat-label>
+                                <input matInput formControlName="street" type="text" placeholder="  {{'Address'|i18n}}">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Building number'|i18n}} </mat-label>
+                                <input matInput formControlName="buildingNo" type="text" placeholder="  {{'Building number'|i18n}}">
+                            </mat-form-field>
+                            <!-- <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Major General'|i18n}}</mat-label>
+                                <input matInput formControlName="locality1" type="text" placeholder="   {{'Major General'|i18n}}">
+                            </mat-form-field> -->
+
+                            <!-- <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Grouping'|i18n}}</mat-label>
+                                <input matInput formControlName="locality2" type="text" placeholder="  {{'Grouping'|i18n}}">
+                            </mat-form-field> -->
+
+                        </div>
+                         <!-- <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                          <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Neighborhood'|i18n}} </mat-label>
+                                <input matInput formControlName="address" type="text" placeholder="  {{'Neighborhood'|i18n}}">
+                            </mat-form-field> 
+
+                          
+                        </div> -->
+
+                    </mat-card-content>
+                <!-- </mat-card> -->
+            </div>
+
+
+
+
+            <!-- Card No6-->
+            <div class="p-2">
+                <!-- <mat-card> -->
+                    <mat-card-content>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="margin-bottom: -8px;">
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Land phone'|i18n}} </mat-label>
+                                <input matInput #tel formControlName="tel" type="text" maxlength="15" placeholder="{{'Land phone'|i18n}}">
+                                <mat-hint align="end">{{tel.value.length}} / 15</mat-hint>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Father mobile'|i18n}} </mat-label>
+                                <input matInput #fatherMobile formControlName="fatherMobile" type="text" maxlength="10" minlength="10" placeholder="   {{'Father mobile'|i18n}} ">
+                                <mat-hint align="end">{{fatherMobile.value.length}} / 10</mat-hint>
+
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'Mother mobile'|i18n}}</mat-label>
+                                <input matInput #motherMobile formControlName="motherMobile" type="text" maxlength="10" minlength="10" placeholder="    {{'Mother mobile'|i18n}}">
+                                <mat-hint align="end">{{motherMobile.value.length}} / 10</mat-hint>
+                            </mat-form-field>
+
+
+
+
+
+                        </div>
+
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="    margin-bottom: -16px;">
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'الرقم الوطني'|i18n}} </mat-label>
+                                <input matInput formControlName="idNum" type="text" placeholder="  {{'الرقم الوطني'|i18n}}">
+                            </mat-form-field>
+
+                          
+
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{'The guardian is responsible for the Message'|i18n}}</mat-label>
+                                <mat-select matInput formControlName="smsParent" placeholder="{{'The guardian is responsible for the Message'|i18n}}">
+                                    <mat-option *ngFor="let op of relationList " [value]="op.id">
+                                        {{op.id}} | {{op.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field fxFlex appearance="outline">
+                                <mat-label> {{' خلوي مستقبل الرسائل '|i18n}} </mat-label>
+                                <input matInput formControlName="smsMobile" type="text" placeholder="  {{'مستقبل الرسائل'|i18n}}">
+                            </mat-form-field>
+                        </div>
+
+
+
+
+
+
+                    </mat-card-content>
+                <!-- </mat-card> -->
+            </div>
+
+
+            <mat-dialog-actions>
+                <button mat-raised-button tabindex="-1" color="white" (click)="closeDialog()">
+              {{'Back'|i18n}}
+            </button>
+                <button   [type]="submit" mat-raised-button color="primary" (click)="getParentNameList()">
+                    {{'Save'|i18n}}
+            </button>
+
+                <mat-error *ngIf="existFullName">
+                    الاسم مكرر ,تأكد من البيانات المدخلة
+                </mat-error>
+
+
+
+            </mat-dialog-actions>
+
+        </form>
+    </div>
+</div>

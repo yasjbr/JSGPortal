@@ -1,0 +1,121 @@
+<app-content-header
+  title="{{ 'Add/Edit User' | i18n }}"
+  [hideBreadcrumb]="false"
+  [hasBgImage]="true"
+  [class]="'pb-4'"
+>
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+      <!--Card 1-->
+      <div class="p-2">
+        <mat-card>
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <mat-card-header fxLayoutAlign="start">
+              <mat-card-subtitle>
+                <h2 style="text-decoration: underline;">
+                  {{ "main user information" | i18n }}
+                </h2>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="60px">
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label> {{ "User name" | i18n }}</mat-label>
+                <input
+                  matInput
+                  formControlName="username"
+                  type="text"
+                  placeholder="{{ 'User name' | i18n }}"
+                />
+
+                <mat-error *ngIf="validator.hasErrors(name)">
+                  <!-- <mat-error *ngIf="f.username.errors.required"> -->
+                  {{ "Required" | i18n }}
+                </mat-error>
+
+                <!-- <mat-error *ngIf="f.username.errors.cannotContainSpace">
+                                    اسم المستخدم بدون فراغ
+                                </mat-error> -->
+
+                <!-- <div *ngIf="f.username.touched && f.username.invalid" class="alert alert-danger">
+                                    <div *ngIf="f.username.errors.cannotContainSpace">
+                                        اسم المستخدم بدون فراغ
+                                    </div>
+                                </div> -->
+
+                <!-- <mat-error *ngIf="f.username.errors.cannotContainSpace">
+                                    <strong>اسم المستخدم بدون فراغ</strong>
+                                </mat-error> -->
+              </mat-form-field>
+
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>{{ "Password" | i18n }}</mat-label>
+                <input
+                  matInput
+                  formControlName="password"
+                  type="password"
+                  placeholder="{{ 'Password' | i18n }} "
+                />
+                <mat-error *ngIf="validator.hasErrors(name)">
+                  {{ "Required" | i18n }}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>{{ "Email" | i18n }}</mat-label>
+                <input
+                  matInput
+                  formControlName="email"
+                  type="text"
+                  placeholder="{{ 'Email' | i18n }}"
+                />
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+
+          <!--Card 1 Part2-->
+        </mat-card>
+
+        <mat-card>
+          <mat-card-content fxLayout="row" fxLayoutAlign="center">
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+              <div>
+                <mat-label>{{ "isSuperAdmin" | i18n }}</mat-label>
+                <mat-checkbox
+                  formControlName="isSuperAdmin"
+                  class="pb-3"
+                  [checked]="form.get('isSuperAdmin').value == 'true'"
+                >
+                </mat-checkbox>
+              </div>
+
+              <div>
+                <mat-label>{{ "isActive" | i18n }}</mat-label>
+                <mat-checkbox
+                  formControlName="isActive"
+                  class="pb-3"
+                  [checked]="form.get('isActive').value == 'true'"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!--Card 3-->
+
+      <mat-card>
+        <mat-card-actions>
+          <a [routerLink]="returnUrl" mat-button>
+            {{ "Back" | i18n }}
+          </a>
+          <button mat-raised-button color="primary" type="submit">
+            {{ "Save" | i18n }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+</div>

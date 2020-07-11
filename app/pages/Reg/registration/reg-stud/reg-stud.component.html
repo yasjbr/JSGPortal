@@ -1,0 +1,275 @@
+<app-content-header title="{{'Student confirmation'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<mat-card>
+    <mat-card-content>
+        <div fxLayout="column" class="p-1">
+            <div fxLayout.xs="column" fxLayoutGap="20px">
+
+                <app-get-parent></app-get-parent>
+            </div>
+        </div>
+
+        <div fxLayout="column" class="p-1">
+            <div fxLayout.xs="column" fxLayoutGap="20px" style="margin-top: -23PX;
+            margin-bottom: -22px;">
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'School'|i18n}}</mat-label>
+                    <mat-select  [(ngModel)]="ssschool" matInput placeholder="{{'School'|i18n}}" (selectionChange)="onSchoolChanges($event.value)">
+                        <mat-option [value]='0'>{{'All'|i18n}}</mat-option>
+                        <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                            {{op.id}} | {{op.name}}
+                        </mat-option>
+                    </mat-select>
+  
+                </mat-form-field>
+
+                <mat-form-field fxFlex="50%" class="mat-select" appearance="outline">
+                    <mat-label>{{'Select guardian'|i18n}}</mat-label>
+                    <mat-select placeholder=" {{'Select guardian'|i18n}}" [(value)]="selected" (selectionChange)="onParentChanged($event.value)">
+                        <app-mat-select-search [list]="parentList" placeholderLabel="{{ 'Search' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="filterParents = $event">
+                        </app-mat-select-search>
+                        <mat-option *ngFor="let op of filterParents" [value]="op.id">
+                            {{op.id}} | {{ op.fatherName }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+
+
+
+
+
+<mat-divider></mat-divider>
+
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+<mat-divider></mat-divider>
+
+<!-- 
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+ 
+    <div class="spinner-container" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+
+
+        <mat-header-cell  *matHeaderCellDef>
+          <ng-container  [ngSwitch]="col.type">
+            <p *ngSwitchCase="'hidden'">
+
+            </p> 
+            <p  *ngSwitchDefault>
+              {{ col.header }}
+            </p>
+
+          </ng-container>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <ng-container [ngSwitch]="col.type">
+            <p *ngSwitchCase="'date'">
+              {{ item[col.field]  | date: 'dd/MM/yyyy' }}
+            </p>
+            <p *ngSwitchCase="'new'">
+                
+            </p>
+            
+            <p *ngSwitchDefault>
+              {{ item[col.field] }}
+            </p>
+          </ng-container>
+        </mat-cell>
+
+      </ng-container>
+      
+
+      <ng-container matColumnDef="actions">  
+        <mat-header-cell *matHeaderCellDef>
+          تثبيت/ ترفيع الطالب/ حجز مقعد
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+              <button mat-raised-button color="basic" matTooltip="تثبيت التسجيل" (click)="confirmStudReg(element.id,element.yearId, element.newClassId)">
+                  <mat-icon aria-hidden="true" color="warn" >
+                      check_circle_outline
+                  </mat-icon>
+                </button>
+           </mat-cell>
+           <mat-cell *matCellDef="let element">
+              <button mat-raised-button color="basic" matTooltip="تثبيت التسجيل" [disabled]="!confirmStudReg(element.id,element.yearId, element.newClassId)"  (click)="confirmStudReg(element.id,element.yearId, element.newClassId)">
+                  <mat-icon aria-hidden="true" color="warn" >
+                      check_circle_outline
+                  </mat-icon>
+                </button>
+           </mat-cell>
+
+      </ng-container>
+ 
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  </div>
+  
+</div> -->
+
+<mat-divider></mat-divider>
+
+
+<mat-card>
+    <mat-card-content>
+
+        <div class="example-container mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+
+
+
+
+
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> # </th>
+                    <td mat-cell *matCellDef="let transaction;let index = index"> {{transaction.studentId}} </td>
+                    <td mat-footer-cell *matFooterCellDef> {{'Total'|i18n}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Student name'|i18n}} </th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.firstName}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="className">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Previous class'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.className}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="nextSection">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'New Section'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction;let index = index">
+
+
+                        <mat-select matInput placeholder="{{'Section'|i18n}}" (selectionChange)="getClassBySection($event.value,index)">
+                            <mat-option *ngFor="let op of transaction.section" [value]="op.id">
+                                {{op.sectionName}}
+                            </mat-option>
+                        </mat-select>
+
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="newClass">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'New class'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction;let index =index">
+
+                        <mat-select matInput placeholder="{{'New class'|i18n}}" (selectionChange)="getClassFee($event.value,index)">
+                            <mat-option *ngFor="let op of transaction.newClass1" [value]="op.id">
+                                {{op.name}}
+                            </mat-option>
+                        </mat-select>
+
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="Division">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'classSeqName'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction ; let index=index">
+
+                        <mat-select matInput [(ngModel)]="modeselect" placeholder="{{'Division'|i18n}}" (selectionChange)="onClassSeqChange($event.value,index)">
+                            <mat-option *ngFor="let op of transaction.newClassSeq" [value]="op.id">
+                                {{op.classSeqName}}
+                            </mat-option>
+                        </mat-select>
+
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nextClassPrice">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'New class fees'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.nextClassPrice}} </td>
+                    <td mat-footer-cell *matFooterCellDef> {{getTotalClassPrice()}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tourName">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Bus area'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.tourName}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tourTypeName">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Bus subscription type'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.tourTypeName}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tourPrice">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Bus fees'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.tourPrice}} </td>
+                    <td mat-footer-cell *matFooterCellDef>{{getTotalTourPrice()}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="brotherDescountName">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Discount type'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.brotherDescountName}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="brotherDescountType">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Discount percentage'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.brotherDescountType}} % </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="descountValue">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Discount amount'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.descountValue}}</td>
+                    <td mat-footer-cell *matFooterCellDef>{{getDescountValue()}} </td>
+                </ng-container>
+                <ng-container matColumnDef="approvedId">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px"> {{'Reserved seat'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction"> {{transaction.approvedId>=1?'نعم':'لا'}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef style="font-size:12px">
+                        ({{'Confirmation/Upgrading student/Reserved seat'|i18n}})
+                    </th>
+                    <td mat-cell *matCellDef="let transaction;let index=index">{{transaction.actions}}
+                        <button mat-raised-button color="basic" [disabled]="transaction.approvedId>=1?true:false" matTooltip="تثبيت التسجيل" (click)="confirmStudReg(transaction.studentId, transaction,index)" style="margin-right: 58px;">
+              <mat-icon aria-hidden="true" [color]="transaction.studExist>1?'disabled':'warn'">
+                check_circle_outline
+              </mat-icon>
+            </button>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef> {{getTotalPrice()}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">-- {{row}} --</tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+            </table>
+        </div>
+
+    </mat-card-content>
+</mat-card>

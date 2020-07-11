@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>{{'StudMark'|i18n}}</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <div fxLayout="column" class="p-2">
+        <!-- <div fxLayout fxLayout.xs="column" fxLayoutGap="50px"> -->
+        <mat-card>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                <mat-form-field fxFlex>
+                    <mat-label>{{'formTeacherNote'|i18n}}</mat-label>
+                    <input matInput formControlName="formTeacherNote" placeholder="{{'formTeacherNote'|i18n}}">
+                </mat-form-field>
+
+                <mat-form-field fxFlex>
+                    <mat-label>{{'principalNote'|i18n}}</mat-label>
+                    <input matInput formControlName="principalNote" placeholder="{{'principalNote'|i18n}}">
+                </mat-form-field>
+
+            </div>
+        </mat-card>
+
+
+
+        <mat-card>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                <mat-form-field fxFlex>
+                    <mat-label>{{'cleanliness'|i18n}}</mat-label>
+                    <input matInput formControlName="cleanliness" placeholder="{{'cleanliness'|i18n}}">
+                </mat-form-field>
+
+                <mat-form-field fxFlex>
+                    <mat-label>{{'rulesRespect'|i18n}}</mat-label>
+                    <input matInput formControlName="rulesRespect" placeholder="{{'rulesRespect'|i18n}}">
+                </mat-form-field>
+
+            </div>
+        </mat-card>
+
+
+        <!-- </div> -->
+    </div>
+
+    <button [type]="closeDialog" mat-raised-button tabindex="-1" color="warn" (click)="closeDialog()"> {{'Back'|i18n}}</button>
+    <button [type]="submit" mat-raised-button color="primary" [disabled]="form.invalid">{{'Save'|i18n}}</button>
+
+
+</form>

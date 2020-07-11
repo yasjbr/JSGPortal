@@ -1,0 +1,36 @@
+<app-content-header  title="{{'Study Year'|i18n}}" 
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-1">
+    <div fxLayout.xs="column" fxLayoutGap="20px" style="margin-top: -23PX;
+    margin-bottom: -8%; place-content:center ;margin-top: 4%;">
+        
+        <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+            <mat-label>السنة الدراسية</mat-label>
+            <mat-select matInput placeholder="السنة الدراسية" (selectionChange)="ChangeYearByActive($event.value)">
+                <mat-option *ngFor="let op of yearsList" [value]="op.id">
+                    {{op.id}} | {{op.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+    </div>
+
+
+
+
+<!-- ///////////////// -->
+<div style="text-align:center;margin: 9% 0% 0% 0%;">
+    <img [src]='image' alt="user-image" width='150px' height='150px'>
+    <h2 class="mt-2">{{schoolName}}</h2>
+    <h2 class="mt-2">{{currentYear}}</h2>
+</div>
+
+    
+      
+      <!-- <button  mat-stroked-button (click)="openSnackBar('ameer')" aria-label="Show an example snack-bar">
+        Pizza party
+      </button> -->
+      

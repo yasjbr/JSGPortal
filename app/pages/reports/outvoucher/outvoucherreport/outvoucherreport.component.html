@@ -1,0 +1,218 @@
+<app-content-header  title="{{'Bill of sale'|i18n}}" [hideBreadcrumb]="false"
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+<mat-divider></mat-divider>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+
+<form [formGroup]="form" (ngSubmit)="getOutVoucherBookList()">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="width: 63%; margin: 10px auto;">
+        <mat-form-field fxFlex appearance="outline" class="input-full-width">
+            <mat-label>{{'Please enter the voucher number'|i18n}}</mat-label>
+            <input matInput formControlName="voucherid" type="text" placeholder="{{'Bill number'|i18n}}"
+                (keyup.enter)="changeUrl(); " autocomplete="off" required>
+            <mat-error *ngIf="errName.errors?.required">
+                {{'This field is required'|i18n}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>
+<!--First page-->
+<div class="print-container" #page>
+    <div class="page-header">
+        <div class="report-page">
+            <div class="form41-header">
+                <div>
+                    <h3>
+                        مـجـمــــوعة مـدارس الـجـامعـــــة
+                    </h3>
+                    <h6>
+                        <!-- {{schoolName}} -->
+                    </h6>
+                </div>
+                <div>
+                    <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                </div>
+                <div class="text-end">
+                    <h3>
+                        ALJAMI'A SCHOOLES GROUP
+                    </h3>
+                    <h6>
+                        <!-- {{schoolLName}} -->
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+        <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+    </div>
+
+
+    <table class="page" *ngFor="let d of duplication">
+        <thead>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position header-->
+                    <div class="page-header-space"></div>
+                </td>
+            </tr>
+        </thead>
+        <tbody style="min-height: 70%;">
+
+            <tr>
+                <td>
+
+
+                    <div fxLayout="column" class="p-1">
+                        <div style="font-weight: bolder; font-size: 20px; margin: 0 auto;">
+                            {{'Bill of sale'|i18n}}
+                        </div>
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        </div>
+                    </div>
+
+                    <div class="form41-gpa-info" style="grid-template-columns:70% 30%;  grid-gap: 10px;">
+
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="font-weight: bold;">
+                            {{'Bill Date'|i18n}} : &nbsp; &nbsp; &nbsp;{{voucherDate | date:'dd/MM/yyyy'}}
+                        </div>
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="font-weight: bold;">
+                            {{'Bill number'|i18n}} : &nbsp; &nbsp; &nbsp; {{masterId}}
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="font-weight: bold;">
+                            {{'Parent name'|i18n}} : &nbsp; &nbsp; &nbsp; {{parentName}}
+
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="font-weight: bold;">
+                            {{'Payment method'|i18n}} : &nbsp; &nbsp; &nbsp; {{paymentMethodN}}
+                        </div>
+                    </div>
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                    </div>
+                    <div fxLayout="column" class="p-2">
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        </div>
+                    </div>
+
+                    <div style="font-weight: bolder; font-size: 20px; float: left; margin: 0 10px ;">{{'Copy'|i18n}} :
+                        {{d}}
+                    </div>
+
+
+                    <table align="center" *ngFor="let t of dataListT">
+                        <tr class="border_bottom" align="center">
+                            <td colspan="1" style="font-weight: bold;">{{'الصف'|i18n}}</td>
+                            <td colspan="5" style="font-weight: bold;">{{t.className}}</td>
+                            <td colspan="1"></td>
+                        </tr>
+                        <tr class="border_bottom">
+                            <th style="width: 10%">
+                                {{'#'|i18n}}
+                            </th>
+                            <th style="width: 10%">
+                                {{'Item No'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'Item name'|i18n}}
+                            </th>
+
+
+                            <th style="width: 10%">
+                                {{'number'|i18n}}
+                            </th>
+                            <th style="width: 10%">
+                                {{'Price'|i18n}}
+                            </th>
+
+                            <th style="width: 15%">
+                                {{'Amount'|i18n}}
+                            </th>
+                            <th style="width: 25%">
+                                {{'Notes'|i18n}}
+                            </th>
+
+                        </tr>
+
+                        <tr class="border_bottom" *ngFor="let x of t.dataList; let i=index" align="center">
+
+                            <td>
+                                {{i+1}}
+                            </td>
+
+                            <td>
+                                {{x.itemId}}
+                            </td>
+                            <td>
+                                {{x.itemName}}
+                            </td>
+
+
+                            <td>
+                                {{x.qty}}
+                            </td>
+                            <td>
+                                {{x.price}}
+                            </td>
+
+                            <td>{{x.qty * x.price}}</td>
+                            <td>
+                                {{x.note}}
+                            </td>
+
+                        </tr>
+                        <tr class="border_bottom" align="center">
+                            <td colspan="3" style="font-weight: bold;">{{'عدد الكتب'|i18n}}</td>
+                            <td colspan="1" style="font-weight: bold;">{{t.totalQty}}</td>
+                            <td colspan="1" style="font-weight: bold;">{{'المبلغ'|i18n}}</td>
+                            <td colspan="1" style="font-weight: bold;">{{t.totalPrice}}</td>
+                            <td></td>
+                        </tr>
+
+
+                    </table>
+                    <table>
+                        <tr class="border_bottom" align="center">
+                            <td style="font-weight: bold;width: 40% ">{{'عدد كتب الفاتورة'|i18n}}</td>
+                            <td style="font-weight: bold;width: 10% ">{{Qty}}</td>
+                            <td style="font-weight: bold;width: 10% ">{{'مبلغ الفاتورة'|i18n}}</td>
+                            <td style="font-weight: bold;width: 15% ">{{Total}}</td>
+                            <td style="width: 25%"></td>
+
+                        </tr>
+                    </table>
+                    <table>
+                        <tr class="border_bottom" align="center">
+                            <td style="font-weight: bold;width: 60% ">{{'المبلغ المطلوب بالكلمات'|i18n}}</td>
+                            <td style="font-weight: bold;width: 40% ">{{DataString}}</td>
+                        </tr>
+                    </table>
+                    <!-- <div class="form41-gpa-info footer-details " style="grid-template-columns:70% 30%;  grid-gap: 10px;"> -->
+                    <!-- class="footer-name" -->
+                    <!-- class="footer-date" -->
+
+                </td>
+            </tr>
+        </tbody>
+        <tfoot style="min-height: 10%;">
+            <tr>
+                <td>
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -1,0 +1,67 @@
+<app-content-header title="{{'corsesTeacher'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="space-between center" class="py-3 user-toolbar">
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>{{'Filter'|i18n}}</mat-label>
+    <input matInput (keyup)="applyFilter($event)" value={{displayby}} placeholder="Ex.{{'Name'|i18n}}">
+  </mat-form-field>
+
+
+  <button mat-raised-button color="warn" [routerLink]="['../add']">
+    <mat-icon>add_circle_outline</mat-icon> {{ 'Add' | i18n }}
+  </button>
+
+</mat-toolbar>
+
+<div class="mat-elevation-z8">
+
+  <div class="spinner-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <!-- tablee -->
+  <!-- # column -->
+  <table mat-table id="table" [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centre"> #</th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ i + 1 }}
+      </td>
+    </ng-container>
+    <!-- secon coulmn -->
+    <ng-container matColumnDef="Teacher">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centre"> {{'Teacher'|i18n}} </th>
+      <td mat-cell *matCellDef="let row"> {{row.teacher}} </td>
+    </ng-container>
+
+    <!-- thir coulmn -->
+    <ng-container matColumnDef="ClassDivisions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centre"> {{'ClassDivisions'|i18n}} </th>
+      <td mat-cell *matCellDef="let row"> {{row.divisionName}} </td>
+    </ng-container>
+
+    <!-- fore Column -->
+    <ng-container matColumnDef="Corse">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centre"> {{'YearlyCorse'|i18n}} </th>
+      <td mat-cell *matCellDef="let row"> {{row.courseName}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Action'|i18n}} </th>
+      <td mat-cell *matCellDef="let row; let i = index">
+
+        <button mat-button color="primary" title="{{'Cancel'|i18n}}" [routerLink]="['../edit/' + row.id]">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; ">
+    </tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[6, squre, half, length] "></mat-paginator>
+</div>

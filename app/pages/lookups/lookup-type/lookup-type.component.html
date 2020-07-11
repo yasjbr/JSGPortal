@@ -1,0 +1,38 @@
+<app-content-header [icon]="" title="{{'Lookups types'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="false" [class]="'pb-4'">
+</app-content-header>
+<!--
+<div>
+    <mat-form-field class="mx-2">
+        <mat-select   (selectionChange)="onLookupTypedChanged($event.value)"  placeholder="Lookups " 
+        [(ngModel)]="lookupType" name="food">
+        <mat-option  [value]="0">
+            --جميع القيم--
+        </mat-option>
+            <mat-option *ngFor="let op of List" [value]="op.id">
+                {{ op.name }} 
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+-->
+<div>
+    <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+            <mat-header-cell *matHeaderCellDef>
+                {{col.header |i18n}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let item">
+                <ng-container>
+
+                    {{ item[col.field] }}
+
+                </ng-container>
+
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+    </mat-table>
+
+</div>

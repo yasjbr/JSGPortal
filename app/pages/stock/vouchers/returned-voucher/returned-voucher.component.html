@@ -1,0 +1,122 @@
+<app-content-header title="{{'returnedVoucher'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-start center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <mat-form-field appearance="outline" fxFlex="40%" >
+        <mat-label>{{'Select guardian'|i18n}}</mat-label>
+        <mat-select matInput placeholder="{{'Select guardian'|i18n}}"
+            (selectionChange)="GetCustmVoucherbyparentname($event.value)">
+            <mat-option *ngFor="let op of parentList" [value]="op.id">
+                {{op.id}} | {{op.fatherName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="40%" >
+        <mat-label>{{'Registration year'|i18n}}</mat-label>
+        <mat-select matInput placeholder="{ { 'Registration year'|i18n}}"
+              (selectionChange)="GetCustmVoucherbyparentname()">
+            <!-- <mat-option value="0">الجميع </mat-option> -->
+            <mat-option *ngFor="let op of LKpYear" [value]="op.id">
+                {{op.id}} | {{op.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+        <button mat-raised-button color="accent" (click)="print(page)">
+            <mat-icon>print</mat-icon> {{'Print'|i18n}}
+        </button>
+    </mat-toolbar>
+</mat-toolbar>
+
+<div class="print-container" #page>
+    <div fxLayout="column" class="p-2">
+        <div class="p-2">
+
+            <!-- 
+          <div fxLayout="column" class="p-2">
+            <div class="p-2">
+                <div style="width:50%; margin:auto">
+                   
+        
+        
+                    <div class="spinner-container" *ngIf="loading">
+                        <mat-spinner></mat-spinner>
+                    </div>
+                   
+                </div>
+        
+            </div>
+        </div> -->
+
+
+
+        </div>
+        <table class="subTable" align="center">
+            <tr style="background-color: #c2c5c5;     height: 49px;
+  ">
+                <th style="width: 5%">
+                    {{'#'|i18n}}
+                </th>
+                <th style="width: 15%">
+                    {{'رقم فاتورة البيع'|i18n}}
+                </th>
+                <th style="width: 15%">
+                    {{'تاريخ الفاتورة'|i18n}}
+                </th>
+                <th style="width: 15%">
+                    {{'طريقة البيع'|i18n}}
+                </th>
+
+                <th style="width: 10%">
+                    {{'الحالة'|i18n}}
+                </th>
+                <!-- <th style="width: 15%">
+                {{'تاريخ الارجاع'|i18n}}
+            </th> -->
+                <th style="width: 5%">
+                    {{'ارجاع فاتورة'|i18n}}
+                </th>
+            </tr>
+            <tr *ngFor="let x of coustmservice; let i=index">
+                <td align="center">
+                    {{i+1}}
+                </td>
+                <td align="center">
+                    {{x.voucherId}}
+                </td>
+
+                <td align="center">
+                    {{x.voucherDate | date:"dd/MM/yyyy"}}
+                </td>
+                <td align="center">
+                    {{x.paymentMethod}}
+                </td>
+
+                <td align="center">
+                    <p *ngIf="x.voucherStatusId==3341"> {{'فاتورة مرتجعة'|i18n}}</p>
+                    <p *ngIf="x.voucherStatusId!=3341"> {{'فاتورة مستلمة'|i18n}}</p>
+
+                </td>
+
+                <!-- <td align="center">
+                {{x.receivedDate | date: ' yyyy / dd / MM  '}}
+            </td> -->
+
+                <td align="center">
+                    <a *ngIf="x.voucherStatusId !=3341" mat-icon-button matTooltip="{{'فاتورة مرتجعة'|i18n}}"
+                        (click)="returnedVoucher(x)">
+
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            exit_to_app
+                        </mat-icon>
+                    </a>
+                    <!-- <button mat-raised-button color="warn" *ngIf="x.statusId!=1142"  (click)="openDialog(x.id)">{{'Withdrawal'|i18n}}</button> -->
+                </td>
+            </tr>
+
+        </table>
+        <mat-error align="center" *ngIf="exist"> لايوجد طلاب .</mat-error>
+
+    </div>
+</div>

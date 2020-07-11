@@ -1,0 +1,188 @@
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+  <button mat-raised-button color="accent" (click)="print(page)">
+      <mat-icon>print</mat-icon> {{'Print'|i18n}}
+  </button>
+</mat-toolbar>
+<div class="print-container">
+  <div class="report-page" #page>
+    <div class="form41-header">
+      <div>
+        <h4>
+          <strong>
+            مـجـمــــوعة مـدارس الـجـامعـــــة
+          </strong>
+        </h4>
+        <h6>
+          <!-- {{schoolName}} -->
+        </h6>
+      </div>
+
+
+      <div>
+        <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+      </div>
+
+      <div class="text-end">
+        <h4>
+          <strong>
+            ALJAMI'A SCHOOLES GROUP
+          </strong>
+        </h4>
+        <h6>
+          <!-- {{schoolLName}} -->
+        </h6>
+      </div>
+
+      <div style="font-weight: bolder; font-size: 20px;">
+        {{repName}}
+      </div>
+
+
+    </div>
+
+
+    <div >
+      <div class="form41-gpa-info">
+        <div>
+          <label class="header-label">
+            <strong>
+              القسم:
+            </strong>
+          </label>
+          <div>
+            {{sectionName}}
+          </div>
+        </div>
+        <div>
+          <label class="header-label">
+            <strong>
+              الصف:
+            </strong>
+          </label>
+          <div>
+            {{className}}
+          </div>
+        </div>
+      </div>
+
+
+      <table class="subTable" align="center" >
+        <tr>
+
+          <th>
+            #
+          </th>
+
+          <th >
+            إسم الطالب
+          </th>
+          <th>
+            الشعبة
+          </th>
+          <th>
+            رصيد سابق
+          </th>
+          <th>
+            القسط قبل الخصم
+          </th>
+          <th>
+            الخصم
+          </th>
+          <th>
+            القسط المدرسي
+          </th>
+
+          <th>
+            قسط الباص
+          </th>
+          <th>
+            المبلغ المطلوب
+          </th>
+          <th>
+            المدفوع
+          </th>
+          <th>
+            المتبقي
+          </th>
+        </tr>
+        <tr *ngFor="let x of dataSource; let i=index">
+          <td>
+            {{i+1}}
+          </td>
+
+          <td>
+            {{ x.studName }}
+          </td>
+          <td>
+            {{x.classSeqName}}
+          </td>
+          <td>
+            {{ x.s10 }}
+          </td>
+          <td>
+            {{ x.classPrice }}
+          </td>
+          <td>
+            {{ x.studentBrotherValue }}%
+          </td>
+          <td> 
+            {{ x.s7 - x.s6 }}
+          </td>
+
+          <td>
+            {{ x.s8}}
+
+          </td>
+          <td>
+            {{ x.sumDepit }}
+          </td>
+          <td>
+            {{ x.sumCredit }}
+          </td>
+          <td>
+            {{ x.amtRemainder }}
+          </td>
+        </tr>
+        <tr style="font-weight: bolder">
+          <td colspan="3">
+            المجمــــــوع:
+          </td>
+
+          <td>
+            {{totalOldBalance}}
+          </td>
+          <td>
+          
+          </td>
+          <td>
+
+          </td>
+          <td>
+            {{totalS7}}
+          </td>
+          <td>
+            {{totalS8}}
+          </td>
+          <td>
+            {{totalSumDepit}}
+          </td>
+          <td>
+            {{totalSumCredit}}
+
+          </td>
+          <td>
+
+            {{totalAmtRemainder}}
+
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="form41-gpa-info">
+
+    </div>
+  </div>
+</div>

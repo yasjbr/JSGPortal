@@ -1,0 +1,230 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<mat-card-content>
+  <form [formGroup]="formGroup" (ngSubmit)="submit()" novalidate="novalidate" aut>
+    <div class="p-2">
+      <mat-card>
+
+        <div style="font-size: 19px;  
+      
+     ">
+     <!-- text-shadow: 1px 1px 13px #303f9f82; -->
+          <strong> سند إدخال (فاتورة)...</strong>
+        </div>
+
+      </mat-card>
+    </div>
+    <div class="p-2">
+      <mat-card>
+
+        <div style="text-align: center; ">
+
+
+
+          <table width="100%">
+            <tr>
+              <td align="left">
+                المورد:
+              </td>
+
+              <td align="right">
+                <jqxInput #jqxSourceId formControlName="sourceId" [theme]="'bootstrap'" [rtl]="true" [width]="'50px'"
+                  [height]="30" [disabled]="true" style="font-size: 16px; font-weight: bold;color: black;">
+                </jqxInput>
+
+                <jqxInput #jqxSupplierName [theme]="'bootstrap'" [rtl]="true" [width]="'250px'" [height]="30"
+                  [disabled]="true" style="font-size: 16px; font-weight: bold;color: black; margin-right: 7px;">
+                </jqxInput>
+              </td>
+
+              <td align="left">
+                {{'ManulaVoucherId'|i18n}}
+              </td>
+              <td align="right">
+                <jqxInput #jqxManulaVoucherId formControlName="ManualVoucherId" [theme]="'bootstrap'" [rtl]="true"
+                  [width]="'250px'" [height]="30" [disabled]="false" 
+                  style="font-size: 16px; font-weight: bold;color: black; margin-right: 7px;">
+                </jqxInput>
+              </td>
+              <td align="left">
+                تاريخ السند:
+              </td>
+              <td align="right">
+                <jqxDateTimeInput #jqxVoucherDate formControlName="voucherDate" [theme]="'bootstrap'" [rtl]="true"
+                  [width]="'250px'" [height]="30" [showCalendarButton]="true" [formatString]="'dd/MM/yyyy'"
+                  style="font-size: 18px; font-weight: bold;color: black; ">
+                </jqxDateTimeInput>
+              </td>
+            </tr>
+            <tr>
+              -
+            </tr>
+            <tr>
+              <td align="left">
+                {{'ManualVoucherAmt'|i18n}}
+              </td>
+              <td align="right">
+                <jqxInput #jqxManualVoucherAmt formControlName="ManualVoucherAmt" [theme]="'bootstrap'" [rtl]="true"
+                  [width]="'250px'" [height]="30" [disabled]="false" (ngModelChange)="sumValues()"
+                  style="font-size: 16px; font-weight: bold;color: black; margin-right: 7px;">
+                </jqxInput>
+              </td>
+
+              <td align="left">
+                طريقة الدفع:
+              </td>
+
+              <td width="15%">
+                <jqxDropDownList #jqxPaymentMethodId formControlName="paymentMethodId" [rtl]="true"
+                  [theme]="'bootstrap'" [autoDropDownHeight]="true" [height]="30" [width]="'100%'"
+                  [source]="PaymentMethodList" [displayMember]="'name'" [valueMember]="'id'" [selectedIndex]="0">
+                </jqxDropDownList>
+              </td>
+            </tr>
+           
+
+            <tr>
+              <td >
+                -
+              </td>
+              <td align="center" *ngIf="accept" style="color: brown;">
+
+                    {{'يرجى ادخال القيمة الفعلية لمجموع الفاتورة'|i18n}}
+              </td>
+            </tr>
+            <tr>
+            <td align="left">
+              البيــــان:
+            </td>
+            <td align="right" colspan="10">
+              <jqxInput #jqxNote formControlName="note" [theme]="'bootstrap'" [rtl]="true" [width]="'100%'"
+                [height]="30" style="font-size: 16px; font-weight: bold;color: black;">
+              </jqxInput>
+            </td>
+            </tr>
+          </table>
+        </div>
+      </mat-card>
+    </div>
+    <div class="p-2">
+      <mat-card>
+        <div style="float: right; margin-top: 15px; bottom: 0px;position: relative; width: 100%;">
+          <div id="Varieties">
+            <table width="100%" class="minimalistBlack" dir="rtl">
+              <tr>
+                <!-- <th>رقم الصنف</th> -->
+                <th width="25%">الصنف</th>
+                <th>الكمية</th>
+                <th>سعر التكلفة</th>
+                <th>المجموع</th>
+                <th></th>
+              </tr>
+
+              <tr formArrayName="StrVoucherDtl" *ngFor="
+                  let item of getItemDetails.controls;
+                  let dtlForm = index
+                ">
+                <ng-container [formGroupName]="dtlForm">
+                  <td>
+                    <jqxDropDownList #jqxItemId formControlName="itemId" [theme]="'bootstrap'" [width]="280"
+                      [height]="30" [source]="ItemList" [displayMember]="'itemNames'" [valueMember]="'id'"
+                      itemHeight="30" [filterable]="true" [incrementalSearch]="true" [searchMode]="'containsignorecase'"
+                      [filterPlaceHolder]="'بحـــث'" [placeHolder]="'إختر الكتاب/ الملابس'" [rtl]="true"
+                      [renderer]="renderer">
+                    </jqxDropDownList>
+                  </td>
+
+                  <td>
+                    <jqxInput #jqxQty formControlName="qty" [theme]="'bootstrap'" [rtl]="true" [width]="'100%'"
+                      (ngModelChange)="calc($event,dtlForm)">
+                    </jqxInput>
+                  </td>
+                  <td>
+                    <jqxInput #jqxCostPrice formControlName="costPrice" [theme]="'bootstrap'" [rtl]="true"
+                      [width]="'100%'" (ngModelChange)="calc($event,dtlForm)" (keyup)="addItem()">
+                    </jqxInput>
+
+                  </td>
+                  <!-- (ngModelChange)="addItem()" -->
+                  <td>
+                    <jqxInput #jqxPayPrice formControlName="payPrice" [theme]="'bootstrap'" [rtl]="true"
+                      [width]="'100%'" [disabled]="true">
+
+                    </jqxInput>
+                  </td>
+                </ng-container>
+                <td>
+                  <a class="btn btn-danger" (click)="deleteItem(dtlForm)">
+                    <!-- <button class="btn"></button> -->
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </td>
+
+              </tr>
+              <tfoot>
+                <tr>
+                  <td align="center">
+                    {{'Total'|i18n}}
+                  </td>
+
+                  <td>
+
+                  </td>
+                  <td>
+
+                  </td>
+
+                  <td>
+                    {{totalP}}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+            <br>
+
+
+            <!-- <div style="text-align: right; width: 15%;" colspan="1">
+                    <jqxButton [width]="'100%'" (click)="addItem()">
+                      سطر جديد
+                    </jqxButton>
+                  </div> -->
+            <!-- <td
+                    style="text-align: center; width:20%"
+                    colspan="1"
+                    class="nowrap"
+                  ></td> -->
+            <div style="text-align: right" colspan="10">
+              <strong *ngIf="!this.addNewItem" style="color: red">
+                يجب إدخال جميع الحقول المطلوبةاو حذف الحقول الغير مطلوبة
+              </strong>
+            </div>
+
+
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </form>
+  <div class="p-2">
+    <mat-card>
+      <div>
+        <div style="float: right;bottom: 0px;">
+          <jqxButton [template]="'primary'" [theme]="'material'" #submitButton
+            style="display: inline-block; margin-right: 10px;bottom: 0px;" [width]="95" [disabled]="accept"
+            (onClick)="saveVoucher()">
+            <span style="font-weight: bold;">
+              تخزين و طباعة
+            </span>
+          </jqxButton>
+          <jqxButton [template]="'default'" [theme]="'material'" #cancelButton class="cancel"
+            style="display: inline-block;bottom: 0px; margin-right: 10px;" [width]="80" (onClick)="closeDialog()">
+            الغاء
+          </jqxButton>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+</mat-card-content>

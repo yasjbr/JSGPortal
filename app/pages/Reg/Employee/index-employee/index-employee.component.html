@@ -1,0 +1,95 @@
+<app-content-header [icon]="'store_mall_directory'" title="{{'المعلمين
+'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+  <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+  </div>
+</div>
+<mat-divider></mat-divider>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+  <mat-form-field appearance="outline">
+    <mat-label>{{'School'|i18n}}</mat-label>
+    <mat-select matInput placeholder="{{'School'|i18n}}" (selectionChange)="onSchoolChanges($event.value)">
+        <mat-option [value]='0'>{{'All'|i18n}}</mat-option>
+        <mat-option *ngFor="let op of schoolList" [value]="op.id">
+            {{op.id}} | {{op.name}}
+        </mat-option>
+    </mat-select>
+
+</mat-form-field>
+
+  <button mat-raised-button color="warn" (click)="addNewemployee()">
+    <mat-icon>add_circle_outline</mat-icon> {{ 'add Teacher' | i18n}}
+  </button>
+</mat-toolbar>
+<br>  
+<table class="table subTable" align="center">
+  <tr class="hedar-table">
+    <th style="width: 5%">
+      {{'#'|i18n}}
+    </th>
+
+    <th style="width: 10%">
+      {{'employeeName'|i18n}}
+    </th>
+    <th style="width: 10%">
+      {{'المدرسة'|i18n}}
+    </th>
+    <th style="width: 10%">
+      {{'specification'|i18n}}
+    </th>
+    <th style="width: 10%">
+      {{'Job'|i18n}}
+    </th>
+
+    <th style="width: 15%">
+      {{'الحالة'|i18n}}
+    </th>
+    <th style="width: 15%">
+      {{'Actions'|i18n}}
+    </th>
+
+
+  </tr>
+
+  <tr *ngFor="let x of employee; let i=index">
+    <td align="center">
+      {{i+1}}
+    </td>
+    <td align="center">
+      {{x.empName}}
+    </td>
+    <td align="center">
+      {{x.school.name}}
+    </td>
+    <td align="center">
+      {{x.spec.name}}
+    </td>
+    <td align="center"> 
+      {{x.job.name}}
+    </td>
+    <td align="center"> 
+      <span >
+        <span *ngIf="x.isActive"> فعال</span>
+        <span *ngIf="!x.isActive"> غير فعال</span>
+    </span>
+    
+    </td>
+
+
+    <td align="center">
+      <a mat-icon-button matTooltip="{{'Edit'|i18n}}" (click)="employeeUpdate(x.id)">
+        <mat-icon aria-hidden="true" aria-label="Files">
+          edit
+        </mat-icon>
+      </a>
+
+      <!-- <a mat-icon-button matTooltip="{{'SupplierAccouneRvealed'|i18n}}" (click)="AccountSupplier(x.id)">
+        <mat-icon aria-hidden="true" aria-label="Files">
+          low_priority
+        </mat-icon>
+      </a> -->
+    </td>
+
+  </tr>
+</table>

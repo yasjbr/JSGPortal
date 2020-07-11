@@ -1,0 +1,30 @@
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <form [formGroup]="form" (ngSubmit)="submit1()" novalidate="novalidate">
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                <mat-card>
+                    <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                        <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                            <mat-label>{{' المسمى الوظيفي'|i18n}}</mat-label>
+                            <input matInput formControlName="name" placeholder="{{'Job title'|i18n}}">
+                        </mat-form-field>
+                    </mat-card-content>
+                </mat-card>
+
+
+            </div>
+           
+
+
+            <mat-dialog-actions>
+                <button mat-raised-button tabindex="-1" color="white" (click)="closeDialog()">
+                    {{'Back'|i18n}}
+                </button>
+                <button [type]="submit" mat-raised-button color="primary" >
+                    {{'Save'|i18n}}
+                </button>
+            </mat-dialog-actions>
+        </form>
+    </div>
+</div>

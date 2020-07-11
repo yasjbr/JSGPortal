@@ -1,0 +1,463 @@
+<div>
+    <button mat-icon-button color="primary" style="margin: auto 15px;" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</div>
+
+
+<div class="print-container" #page>
+    <div class="page-header">
+        <div class="report-page">
+            <div class="form41-header">
+                <div>
+                    <h4>
+                        <strong>
+                            مـجـمــــوعة مـدارس الـجـامعـــــة
+                        </strong>
+                    </h4>
+                    <h6>
+                        {{schoolName}}
+                    </h6>
+                </div>
+
+
+                <div>
+                    <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                </div>
+
+                <div class="text-end">
+                    <h4>
+                        <strong>
+                            ALJAMI'A SCHOOLES GROUP
+                        </strong>
+                    </h4>
+                    <h6>
+                        {{schoolLName}}
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="page-footer">
+        <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+        <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+    </div>
+
+    <table class="page">
+        <thead>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position header-->
+                    <div class="page-header-space"></div>
+                </td>
+            </tr>
+        </thead>
+
+
+
+        <tbody style="min-height: 70%;">
+
+            <tr>
+                <td>
+
+                    <div class="form41-gpa-info">
+
+                        <div>
+                            <label class="header-label">
+                                <strong>
+                                    {{'Class'|i18n}}
+                                </strong>
+                            </label>
+                            <div>
+                                {{ selectedStudData.className }}
+                            </div>
+                        </div>
+                        <div>
+                            <label class="header-label">
+                                <strong>
+                                    {{'Division'|i18n}}
+                                </strong>
+                            </label>
+                            <div class="info-span">
+                                {{ selectedStudData.classSeqName }}
+                            </div>
+                        </div>
+                        <div>
+                            <label class="header-label">
+                                <strong>
+                                    {{'Date'|i18n}}
+                                </strong>
+                            </label>
+                            <div class="info-span">
+                                {{ selectedStudData.approvedDate | date: ' dd / MM / yyyy' }} .م
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div>
+                        <div>
+                            <table class="fullTable">
+
+
+                                <tr>
+                                    <td style="width: 100%;border:none;">
+                                        <div class="form41-gpa-info">
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Study Year'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.yearName}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Student no'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.studId}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Birthdate'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.birthDate | date: ' dd / MM / yyyy' }} .م
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Nationality'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.nationalityName }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100%;border:none;">
+                                        <div class="form41-gpa-info">
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Student name'|i18n}}
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.studName}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Religion'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.religionName}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'National No'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.idNum}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Student Status'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.studStatusName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100%;border:none;">
+                                        <div class="form41-gpa-info">
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Land phone'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.tel}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Father mobile'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.fatherMobile}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Mother mobile'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.motherMobile}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Main mobile'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.smsParentName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100%;border:none;">
+                                        <div class="form41-gpa-info">
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Bus Number'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.busNo}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Tour Type'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.tourTypeIdName}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="header-label">
+                                                    {{'Bus Note'|i18n}}:
+                                                </label>
+                                                <div class="info-span">
+                                                    {{ selectedStudData.busNote}}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="form41-gpa-info">
+                        <div>
+                            <label class="header-label">
+                                <strong>
+                                    {{'Tuition information'|i18n}}:
+                                </strong>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <table class="fullTable">
+
+
+                            <tr>
+                                <td style="width: 100%;border:none;">
+
+                                    <div class="form41-gpa-info">
+                                        <div>
+                                            <label class="header-label">
+                                                {{'Register fees'|i18n}}:
+                                            </label>
+                                            <div class="info-span">
+                                                {{ selectedStudData.regFees}}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="header-label">
+                                                {{'Bus fees'|i18n}}:
+                                            </label>
+                                            <div class="info-span">
+                                                {{ selectedStudData.tourPrice}}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="header-label">
+                                                {{'Study fees'|i18n}}:
+                                            </label>
+                                            <div class="info-span">
+                                                {{ selectedStudData.classPrice}}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="header-label">
+                                                {{'previous balance'|i18n}}
+                                            </label>
+                                            <div class="info-span">
+                                                0
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="form41-gpa-info">
+                        <div>
+                            <label class="header-label">
+                                <strong>
+                                    {{'Discounts information if found'|i18n}}
+                                </strong>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="fullTable">
+
+                            <tr>
+                                <td style="width: 100%;border:none;">
+
+                                    <div class="form41-gpa-info">
+                                        <div>
+                                            <label class="header-label">
+                                                {{'Discount type'|i18n}}
+                                            </label>
+                                            <div class="info-span">
+                                                {{ selectedStudData.studentBrotherDescountType}}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="header-label">
+                                                {{'Discount percentage'|i18n}}
+                                            </label>
+                                            <div class="info-span">
+                                                %{{ selectedStudData.studentBrotherValue}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="padding-top: 20px">
+                        <table class="summaryTable">
+                            <tr>
+                                <td colspan="2" style="border:none; text-align: right">
+                                    <div style="padding-right: 10px;font-size: 16px">
+                                        <strong>
+                                            {{'Total Installments'|i18n}}
+                                        </strong> {{'TotalD'|i18n}}:
+
+                                        <strong>
+                                            {{ selectedStudData.totalValue }}
+                                        </strong>
+                                    </div>
+                            </tr>
+                        </table>
+                    </div>
+
+
+
+                    <div class="form41-gpa-info">
+                        <div>
+                            <label class="header-label">
+                                <strong>
+                                    {{'Details of amounts received from guardian'|i18n}}
+                                </strong>
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                    <table class="subTable" align="center">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                {{'Bill number'|i18n}}
+                            </th>
+                            <th>
+                                {{'Bill Date'|i18n}}
+                            </th>
+                            <th>
+                                {{'Amount'|i18n}}
+                            </th>
+                            <th>
+                                {{'Payment method'|i18n}}
+                            </th>
+                            <th>
+                                {{'Statement'|i18n}}
+                            </th>
+                        </tr>
+                        <tr *ngFor="let x of PaymentList; let i=index">
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                {{x.finItemVoucherSequence}}
+                            </td>
+                            <td>
+                                {{x.voucherDate|date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{x.credit}}
+                            </td>
+                            <td>
+                                {{x.finItemName}}
+                            </td>
+                            <td>
+                                {{x.note}}
+                            </td>
+
+                        </tr>
+                    </table>
+
+                    <div style="padding-top: 20px">
+                        <table class="summaryTable">
+                            <tr>
+                                <td colspan="2" style=" text-align: right">
+                                    {{'Total payments'|i18n}}
+                                    <strong>
+                                        {{FinStudCardByStudList? FinStudCardByStudList.sumCredit:0 }}
+                                    </strong>
+                                </td>
+                                <td colspan="2" style=" text-align: right">
+                                    {{'Remaining amount'|i18n}}
+                                    <strong>
+                                        {{ FinStudCardByStudList? FinStudCardByStudList.amtRemainder:0 }}
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+
+                </td>
+            </tr>
+        </tbody>
+        <tfoot style="min-height: 10%;">
+            <tr>
+                <td>
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+
+
+
+
+</div>

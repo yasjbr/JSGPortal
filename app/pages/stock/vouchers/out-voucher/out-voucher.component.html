@@ -1,0 +1,292 @@
+<app-content-header title="{{'OutVoucher'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+<div class="p-2">
+  <!-- <div style="font-size: 14px;">
+    <strong> سند بيع كتب...</strong>
+  </div> -->
+</div>
+
+<form [formGroup]="formGroup" (ngSubmit)="submit()" novalidate="novalidate">
+
+  <div class="p-2">
+  </div>
+
+
+
+
+  <table width="100%">
+    <tr>
+      <td align="left" width="10%" class="bold">
+        ولي الامر:
+      </td>
+      <td width="15%">
+        <jqxDropDownList required #jqxParentList formControlName="sourceId" [theme]="'bootstrap'" [width]="'80%'"
+          [height]="35" [source]="parentList" [displayMember]="'fatherName'" [valueMember]="'id'" [filterable]="true"
+          [incrementalSearch]="true" [searchMode]="'containsignorecase'" [filterPlaceHolder]="'بحـــث'"
+          [placeHolder]="'إختر ولي الامر '" [rtl]="true" (onSelect)="getRegStudentList($event)">
+        </jqxDropDownList>
+        <div *ngIf="submitted &&  parentErr " style="color: red">
+          يجب اختيار ولي الامر
+        </div>
+      </td>
+
+      <td align="left" width="10%" class="bold">
+        الطالب:
+      </td>
+      <td width="15%">
+        <jqxDropDownList #jqxStudList [theme]="'bootstrap'" [width]="'80%'" [height]="35" [source]="regStudentList"
+          [displayMember]="'firstName'" [valueMember]="'classId'" [placeHolder]="'إختر الطالب '" [rtl]="true"
+          [autoDropDownHeight]="true" [selectedIndex]="0" [checkboxes]="true">
+        </jqxDropDownList>
+      </td>
+
+      <td align="left" width="10%" class="bold">
+        طريقة الدفع:
+      </td>
+      <td width="15%">
+        <jqxDropDownList #jqxPaymentMethodId formControlName="paymentMethodId" [rtl]="true" [theme]="'bootstrap'"
+          [autoDropDownHeight]="true" [height]="35" [width]="'70%'" [source]="PaymentMethodList"
+          [displayMember]="'name'" [valueMember]="'id'" [selectedIndex]="0">
+        </jqxDropDownList>
+      </td>
+    </tr>
+    <tr>
+
+
+
+      <td align="left" width="10%" class="bold">
+        تصنيف الكتاب:
+      </td>
+      <td width="15%">
+        <jqxDropDownList #jqxItemTypeList [theme]="'bootstrap'" [width]="'80%'" [height]="30" [source]="grpList"
+          [displayMember]="'name'" [valueMember]="'id'" [placeHolder]="'إختر التصنيف '" [rtl]="true"
+          [autoDropDownHeight]="true" [selectedIndex]="0" [checkboxes]="true">
+        </jqxDropDownList>
+
+      </td>
+
+
+
+
+      <td align="left" width="10%" class="bold">
+        الفصل الدراسي:
+      </td>
+      <td width="15%">
+        <jqxDropDownList #jqxTermsList [theme]="'bootstrap'" [width]="'80%'" [height]="35" [source]="termsList"
+          [displayMember]="'name'" [valueMember]="'id'" [placeHolder]="'إختر الفصل الدراسي '" [rtl]="true"
+          [autoDropDownHeight]="true" [selectedIndex]="0" [checkboxes]="true">
+        </jqxDropDownList>
+      </td>
+      <td class="bold" align="left" width="10%">
+        تاريخ السند:
+      </td>
+      <td width="15%">
+        <jqxDateTimeInput #jqxVoucherDate formControlName="voucherDate" [theme]="'bootstrap'" [rtl]="true"
+          [width]="'70%'" [height]="30" [showCalendarButton]="true" [formatString]="'dd/MM/yyyy'"
+          style="font-size: 18px; font-weight: bold;color: black; ">
+        </jqxDateTimeInput>
+      </td>
+
+
+    </tr>
+
+
+  </table>
+  <div class="p-2">
+  </div>
+  <table>
+    <tr align="center">
+      <td>
+        <jqxButton [template]="'primary'" [theme]="'material'" [width]="'15%'" #jqxPayButton
+          style="display: inline-block; margin-left: 20px;bottom: 0px;" (onClick)="showBooksList()">
+          <span style="font-weight: bold;">
+            شراء
+          </span>
+        </jqxButton>
+      </td>
+    </tr>
+  </table>
+
+
+
+
+  <div class="p-2">
+  </div>
+  <div style="float: right; margin-top: 15px; bottom: 0px;position: relative; width: 100%;">
+    <div>
+      <table width="100%" class="minimalistBlack" dir="rtl">
+        <div id="Varieties">
+          <tr id="one" style="background-color: #4854ab;">
+            <th>الصنف</th>
+            <th>إسم الكتاب</th>
+            <th>تصنيف الكتاب</th>
+            <th>الصف</th>
+            <th>الكمية المتوفرة</th>
+
+            <th>الكمية</th>
+            <th>سعر البيع</th>
+            <th> المبلغ</th>
+            <th>حذف</th>
+          </tr>
+
+          <tr id="one" formArrayName="StrVoucherDtl" *ngFor="
+                  let item of getItemDetails.controls;
+                  let dtlForm = index
+                " style="width: 30px;">
+
+            <ng-container [formGroupName]="dtlForm">
+
+              <td>
+                <ng-select #jqxItemList formControlName="itemId" [items]="xBookList" [clearable]="false"
+                  [searchable]="true" bindLabel="xName" bindValue="itemId" placeholder="إختر الكتاب"
+                  (change)="getItembyItemId($event,dtlForm)">
+                </ng-select>
+
+
+              <td width="20%">
+                <input matInput readonly formControlName="itemName" name="itemName" type="text" placeholder=" الكتاب" />
+              </td>
+              <td>
+                <input matInput readonly formControlName="itemTypeName" type="text" placeholder="تصنيف الكتاب" />
+              </td>
+              <td>
+                <input matInput readonly formControlName="className" type="text" placeholder=" الصف" />
+              </td>
+              <td>
+                <input matInput readonly formControlName="remQty" type="text" placeholder=" الكمية المتوفرة" />
+              </td>
+
+              <td>
+                <input matInput formControlName="qty" name="qty" type="text" placeholder="الكمية"
+                  (change)="onQtyhange(dtlForm)" />
+              </td>
+
+              <td>
+                <input matInput formControlName="payPrice" name="payPrice" type="text" placeholder="سعر البيع"
+                  (change)="onQtyhange(dtlForm)" />
+              </td>
+              <td>
+                <input readonly matInput formControlName="price" name="price" type="text" placeholder="المبلغ " />
+              </td>
+              <td>
+                <a class="btn btn-danger" (click)="deleteItem(dtlForm)">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </td>
+            </ng-container>
+          </tr>
+          <tfoot>
+            <tr id="one" #submitButton style="background-color: #d2cece;">
+              <td style="text-align: right; width: 15%;" colspan="1">
+                <jqxButton [width]="'50%'" (click)="addItem()">
+                  سطر جديد
+                </jqxButton>
+              </td>
+
+              <td style="text-align: right" colspan="2">
+                <strong *ngIf="submitted && !addNewItem && !sourceId?.errors?.required" style="color: red">
+                  يجب إدخال جميع الحقول المطلوبة
+                </strong>
+              </td>
+              <td style="text-align: center" colspan="1">
+                <strong>
+                  المجموع:
+                </strong>
+              </td>
+
+              <td style="text-align: center" colspan="1">
+                <strong>
+
+                </strong>
+              </td>
+              <td style="text-align: center" colspan="1">
+                <strong>
+
+                </strong>
+              </td>
+              <td style="text-align: center" colspan="1">
+                <strong>
+                  <input matInput formControlName="totalPay" type="text" />
+                </strong>
+              </td>
+              <td style="text-align: center" colspan="1">
+                <strong>
+                  <input matInput formControlName="totalPrice" type="text" />
+                </strong>
+              </td>
+              <td style="text-align: right" colspan="10">
+                <strong>
+
+                </strong>
+              </td>
+            </tr>
+
+
+
+            <tr id="one">
+              <td style="text-align: right; width: 15%;" colspan="6">
+
+
+
+              </td>
+              <td style="text-align: center" colspan="1">
+                <strong>
+                  المبلغ المستلم :-
+                </strong>
+              </td>
+              <td style="text-align: center" colspan="1">
+                <strong>
+                  <input matInput required formControlName="PayedAmt" type="number" placeholder="المبلغ المستلم"
+                    (change)="onAmtChange()" />
+                </strong>
+                <div *ngIf="submitted && formGroup.invalid || !priceErr" style="color: red">
+                  خطأ بالاسعار المدخله
+                </div>
+              </td>
+
+              <td style="text-align: right" colspan="2">
+                <strong>
+                  المبلغ المتبقي
+
+                  <input matInput readonly formControlName="RemainingAmt" type="text" placeholder="المبلغ المتبقي" />
+                </strong>
+              </td>
+            </tr>
+          </tfoot>
+        </div>
+
+
+      </table>
+    </div>
+
+
+  </div>
+  <div class="p-2">
+
+    <div>
+      <div style="float: right;bottom: 0px; margin: 9px -9px 5px 17px;">
+        <jqxButton [template]="'primary'" [theme]="'material'" #submitButton
+          style="display: inline-block; margin-right: 10px;bottom: 0px;" (onClick)="saveVoucher()"
+          [disabled]="!priceErr">
+          <span style="font-weight: bold;">
+            تخزين و طباعه
+          </span>
+        </jqxButton>
+        <jqxButton [template]="'default'" [theme]="'material'" #cancelButton class="cancel"
+          style="display: inline-block;bottom: 0px; margin-right: 8px;" [width]="80" (onClick)="cancelVaoucher()">
+          الغاء
+        </jqxButton>
+      </div>
+    </div>
+
+
+  </div>
+
+
+</form>

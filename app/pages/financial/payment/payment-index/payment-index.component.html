@@ -1,0 +1,610 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<mat-card>
+  <mat-card-content>
+    <div fxLayoutAlign="center">
+      <table>
+        <tr>
+          <td>
+            <h2>{{ currentYear }}</h2>
+          </td>
+          <td>
+            <h2>{{ schoolName }}</h2>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-divider></mat-divider>
+<mat-card>
+  <div>
+    <table>
+      <tr>
+        <td align="left">
+          <strong>
+            إختر ولي الامر:
+          </strong>
+        </td>
+        <td align="right">
+          <jqxComboBox
+            #jqxComboBoxParent
+            style="font-size: 14;"
+            [theme]="'bootstrap'"
+            [rtl]="true"
+            [width]="300"
+            height="30"
+            [source]="comboBoxSource"
+            [searchMode]="'contains'"
+            [autoComplete]="true"
+            [placeHolder]="'بحث'"
+            [showCloseButtons]="true"
+            [displayMember]="'fatherName'"
+            [valueMember]="'id'"
+            (onSelect)="onParentChanged($event)"
+            [selectedIndex]="parentIndex"
+          >
+          </jqxComboBox>
+        </td>
+        <td>
+          <mat-error *ngIf="valid">{{valid}}</mat-error>
+        </td>
+      </tr>
+    </table>
+  </div>
+</mat-card>
+<mat-divider></mat-divider>
+
+<mat-toolbar
+  color="basic"
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
+  class="px-2 user-toolbar"
+>
+  <div fxLayout="row">
+    <!-- <strong>
+        <a mat-raised-button color="accent" (click)="addNewPayment()">
+            <mat-icon>add_circle_outline</mat-icon> {{'Pay of school fees'|i18n}}
+        </a>
+        <a mat-raised-button color="primary" (click)="addNewPaymentForActivity()">
+                <mat-icon>add_circle_outline</mat-icon> تسديد أنشطة لا منهجية
+            </a>
+        </strong> -->
+
+    <table width="100%">
+      <tr>
+        <td>
+          <jqxButton
+            [template]="'primary'"
+            #showWindowButton
+            (onClick)="showWindowButtonClick(1)"
+            [width]="150"
+            [height]="40"
+          >
+            <span style="font-weight: bold;">
+              تسديد رسوم دراسية
+            </span>
+          </jqxButton>
+        </td>
+        <td>
+          <jqxButton
+            [template]="'danger'"
+            #showWindowButton2
+            (onClick)="showWindowButtonClick(2)"
+            [width]="150"
+            [height]="40"
+          >
+            <span style="font-weight: bold;">
+              تسديد أنشطة لا منهجية
+            </span>
+          </jqxButton>
+        </td>
+      </tr>
+    </table>
+  </div>
+</mat-toolbar>
+<mat-divider></mat-divider>
+
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+    <mat-card>
+      <mat-card-content>
+        <mat-label>
+          <h2 style="font-size: 14px;">
+            {{ "Details of financial items" | i18n }}
+          </h2>
+        </mat-label>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<mat-card>
+  <mat-card-content>
+    <div class="ameer">
+      <jqxGrid 
+        #jqxgridFinStudCard
+        [width]="'100%'"
+        [theme]="'light'"
+        [columnsresize]="true"
+        [source]="FinStudCardDataAdapter"
+        [pageable]="false"
+        [autoheight]="true"
+        [sortable]="true"
+        [columns]="FinStudCardColumns"
+        [rtl]="true"
+        [showstatusbar]="true"
+        [showaggregates]="true"
+        [statusbarheight]="30"
+
+      >
+      </jqxGrid>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content >
+    <div align="center" >
+      <jqxGrid
+        #jqxgridPaymentList
+        [width]="'100%'"
+        [theme]="'light'"
+        [columnsresize]="true"
+        [source]="PaymentListAdapter"
+        [pageable]="false"
+        [autoheight]="true"
+        [sortable]="true"
+        [columns]="PaymentListColumns"
+        [rtl]="true"
+        [showstatusbar]="true"
+        [showaggregates]="true"
+        [statusbarheight]="30"
+        
+      >
+      </jqxGrid>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <form
+      [formGroup]="PaymentformGroup"
+      (ngSubmit)="submit()"
+      novalidate="novalidate"
+    >
+      <jqxWindow
+        #myWindow
+        [theme]="'bootstrap'"
+        [isModal]="true"
+        [modalOpacity]="0.3"
+        [theme]="'bootstrap'"
+        [width]="800"
+        [resizable]="true"
+        [height]="600"
+        [rtl]="true"
+        [showCloseButton]="true"
+        [modalOpacity]="'0.01'"
+        [autoOpen]="false"
+        [cancelButton]="'.cancel'"
+        [okButton]="'.ok'"
+      >
+        <div style="font-size: 10px;">
+          <strong> سند قبض...</strong>
+        </div>
+
+        <div style="text-align: center; ">
+          <strong style="text-decoration: underline; ">
+            {{ title }}
+            للطلبة المثبتين
+          </strong>
+          <div style="background-color: rgb(245, 243, 243)">
+            <table dir="rtl" width="100%">
+              <!-- <tr>
+                              <td align="left">إسم ولي الامر:</td>
+                              <td  align="right">
+                                      <input #parentName formControlName="parentName"
+                                      readonly="true"
+                                      [width]="'300px'"
+                                      [height]="'35px'"
+      
+                                      style=" width: 250px;height: 25px; font-size: 16px; font-weight: bold;color: black; background-color:white" >
+      
+                              </td>
+                          </tr> -->
+              <tr>
+                <td
+                  style="padding-top: 10px;font-size: 12px; font-weight: bold;"
+                  align="left"
+                >
+                  إسم الطالب:
+                </td>
+                <td style="padding-top: 10px;font-size: 12px;" align="right">
+                  <jqxDropDownList
+                    #studentDropDownList
+                    formControlName="studentId"
+                    [rtl]="true"
+                    [theme]="'bootstrap'"
+                    [width]="'250px'"
+                    [height]="30"
+                    [source]="childrenList"
+                    [displayMember]="'studName'"
+                    [valueMember]="'id'"
+                    (onSelect)="onStudChange()"
+                    [dropDownHeight]="75"
+                    [autoDropDownHeight]="true"
+                    style="font-size: 10px;"
+                  >
+                  </jqxDropDownList>
+                </td>
+
+                <td
+                  style="padding-top: 10px;font-size: 12px; font-weight: bold;"
+                  align="left"
+                >
+                  القسم :
+                </td>
+                <td style="padding-top: 10px;" align="right">
+                  <jqxInput
+                    #sectionName
+                    [theme]="'bootstrap'"
+                    [rtl]="true"
+                    [width]="'250px'"
+                    [height]="30"
+                    [disabled]="true"
+                    style="font-size: 12px; font-weight: bold;color: black;"
+                  >
+                  </jqxInput>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="padding-top: 10px;font-size: 12px; font-weight: bold;"
+                  align="left"
+                >
+                  الصف :
+                </td>
+                <td style="padding-top: 10px;" align="right">
+                  <jqxInput
+                    #className
+                    [theme]="'bootstrap'"
+                    [rtl]="true"
+                    [width]="'250px'"
+                    [height]="30"
+                    [disabled]="true"
+                    style="font-size: 12px; font-weight: bold;color: black;"
+                  >
+                  </jqxInput>
+                </td>
+                <td
+                  style="padding-top: 10px;font-size: 12px; font-weight: bold;"
+                  align="left"
+                >
+                  الشعبة :
+                </td>
+                <td style="padding-top: 10px;" align="right">
+                  <jqxInput
+                    #classSeqName
+                    [theme]="'bootstrap'"
+                    [rtl]="true"
+                    [width]="'250px'"
+                    [height]="30"
+                    [disabled]="true"
+                    style=" font-weight: bold;color: black; "
+                  >
+                  </jqxInput>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="padding-top: 10px;font-size: 12px; font-weight: bold;"
+                  align="left"
+                >
+                  نوع الرسم :
+                </td>
+                <td style="padding-top: 12px;font-size: 16px;" align="right">
+                  <jqxDropDownList
+                    #jqxFinItemList
+                    formControlName="finItemId"
+                    [rtl]="true"
+                    [theme]="'bootstrap'"
+                    [width]="'250px'"
+                    [height]="30"
+                    [source]="finItemList"
+                    [displayMember]="'desc'"
+                    [valueMember]="'id'"
+                    [dropDownHeight]="75"
+                    (onSelect)="setNote()"
+                    [autoDropDownHeight]="true"
+                    style="font-size: 12px;"
+                  >
+                  </jqxDropDownList>
+                </td>
+
+                <td
+                  style="padding-top: 10px;font-size: 12px; font-weight: bold;"
+                  align="left"
+                >
+                  التاريخ :
+                </td>
+                <td style="padding-top: 10px;" align="right">
+                  <jqxDateTimeInput
+                    #jqxVoucherDate
+                    formControlName="VoucherDate"
+                    [theme]="'bootstrap'"
+                    [rtl]="true"
+                    [width]="'250px'"
+                    [height]="30"
+                    [disabled]="true"
+                    [showCalendarButton]="true"
+                    [formatString]="'dd/MM/yyyy'"
+                    style="font-size: 12px; font-weight: bold;color: black; "
+                  >
+                  </jqxDateTimeInput>
+                </td>
+              </tr>
+
+              <tr>
+                <td
+                  style="padding-top: 10px;font-size: 12px; font-weight: bold;"
+                  align="left"
+                >
+                  ملاحظات :
+                </td>
+                <td colspan="3" style="padding-top: 10px;" align="right">
+                  <jqxInput
+                    formControlName="note"
+                    #jqxNote
+                    [theme]="'bootstrap'"
+                    [rtl]="true"
+                    [width]="'90%'"
+                    [height]="30"
+                    style="font-size: 12px; font-weight: bold;color: black; text-align: center; "
+                  >
+                  </jqxInput>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div
+            style="float: right; margin-top: 15px; bottom: 0px;position: relative;"
+          >
+            <div id="Varieties">
+              <table class="minimalistBlack" dir="rtl">
+                <tr>
+                  <th>طريقة القبض</th>
+                  <th>المبلغ</th>
+                  <th>رقم الشيك/الحوالة/الفيزا</th>
+                  <th>تاريخ الشيك/ الحوالة</th>
+                  <th>البنك المسحوب/المحول عليه</th>
+                  <th>إسم الساحب</th>
+                  <th>حذف</th>
+                </tr>
+
+                <tr
+                  formArrayName="PaymentDetail"
+                  *ngFor="
+                    let item of getChequeDetails.controls;
+                    let dtlForm = index
+                  "
+                >
+                  <ng-container [formGroupName]="dtlForm">
+                    <td>
+                      <!-- <select  formControlName="paymentMethodId" >
+                                                  <option  *ngFor="let op of PaymentMethodList"[value]="op.id">
+                                                      {{op.id}} | {{op.name}}
+                                                  </option>
+                                              </select> -->
+                      <jqxDropDownList
+                        #jqxPaymentMethodId
+                        formControlName="paymentMethodId"
+                        [rtl]="true"
+                        [theme]="'bootstrap'"
+                        [autoDropDownHeight]="true"
+                        [width]="'100%'"
+                        [source]="PaymentMethodList"
+                        [displayMember]="'name'"
+                        [valueMember]="'id'"
+                        [selectedIndex]="0"
+                      >
+                      </jqxDropDownList>
+                    </td>
+                    <td>
+                      <!-- <input
+                          matInput
+                          #xcredit
+                          placeholder="المبلغ"
+                          style=" width: 100%;"
+                          formControlName="credit"
+                          required
+                          style="text-align:center"
+                        /> -->
+                      <jqxInput
+                        #jqxCredit
+                        formControlName="credit"
+                        [theme]="'bootstrap'"
+                        [rtl]="true"
+                        [width]="'100%'"
+                        style="text-align:center"
+                      >
+                      </jqxInput>
+                    </td>
+
+                    <td>
+                      <!-- <input
+                          matInput
+                          #xchequeNo
+                          placeholder="رقم الشيك/الحوالة/الفيزا"
+                          formControlName="chequeNo"
+                        /> -->
+                      <jqxInput
+                        #jqxChequeNo
+                        formControlName="chequeNo"
+                        [theme]="'bootstrap'"
+                        [rtl]="true"
+                        [width]="'100%'"
+                      >
+                      </jqxInput>
+                    </td>
+                    <td>
+                      <!-- <input
+                          #xchequeDate
+                          matInput
+                          formControlName="chequeDate"
+                          placeholder="تاريخ الشيك/ الحوالة"
+                        /> -->
+
+                      <jqxDateTimeInput
+                        #jqxChequeDate
+                        formControlName="chequeDate"
+                        [theme]="'bootstrap'"
+                        [rtl]="true"
+                        [width]="'100px'"
+                        [showCalendarButton]="true"
+                        [formatString]="'dd/MM/yyyy'"
+                      >
+                      </jqxDateTimeInput>
+                    </td>
+
+                    <td>
+                      <!-- <select
+                          matInput
+                          formControlName="bankId"
+                          placeholder="البنك المسحوب/المحول عليه"
+                        >
+                          <option *ngFor="let op of bankList" [value]="op.id">
+                            {{ op.name }}
+                          </option>
+                        </select> -->
+                      <jqxDropDownList
+                        #jqxBankId
+                        formControlName="bankId"
+                        [rtl]="true"
+                        [theme]="'bootstrap'"
+                        [autoDropDownHeight]="true"
+                        [width]="'100%'"
+                        [source]="bankList"
+                        [displayMember]="'name'"
+                        [valueMember]="'id'"
+                        [selectedIndex]="'0'"
+                      >
+                      </jqxDropDownList>
+                    </td>
+                    <td>
+                      <!-- <input
+                          matInput
+                          #xchequeWoner
+                          placeholder="إسم الساحب "
+                          formControlName="chequeWoner"
+                        /> -->
+                      <jqxInput
+                        #jqxChequeWoner
+                        formControlName="chequeWoner"
+                        [theme]="'bootstrap'"
+                        [rtl]="true"
+                        [width]="'100%'"
+                      >
+                      </jqxInput>
+                    </td>
+
+                    <td>
+                      <a href="javascript:void(0);" (click)="deleteCheque(dtlForm)">
+                      
+                        <button class="btn"><i class="fa fa-trash"></i><!--حذف--></button>
+                      </a>
+                    </td>
+                  </ng-container>
+                </tr>
+                <tfoot>
+                  <tr style="background-color: #a7a8a9c9;">
+                    <td style="text-align: right; width: 15%;" colspan="1">
+                      <!-- <button   (click)="addCheque()">شيك جديد
+      
+                                            </button> -->
+
+                      <!-- <button
+                          tabindex="-1"
+                          mat-icon-button
+                          color="warn"
+                          matTooltip="إضافة"
+                          (click)="addCheque()"
+                        >
+                          إضافة
+                        </button> -->
+
+                      <jqxButton [width]="'100%'" (click)="addCheque()">
+                        سطر جديد
+                      </jqxButton>
+                    </td>
+                    <td
+                      style="text-align: center; width:20%"
+                      colspan="1"
+                      class="nowrap"
+                    >
+                      <!-- <input
+                          #sumCredit
+                          matInput
+                          formControlName="credit"
+                          type="text"
+                        /> -->
+                      <jqxInput
+                        #jqxSumCredit
+                        formControlName="credit"
+                        [theme]="'bootstrap'"
+                        [rtl]="true"
+                        [width]="'100%'"
+                        [disabled]="true"
+                        style="font-size: 16px; font-weight: bold;color: black; text-align: center; "
+                      >
+                      </jqxInput>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>  
+                    <td></td>  
+                  </tr>
+                  
+                </tfoot>
+              </table>
+              <div style="text-align: right" colspan="10">
+                      <strong *ngIf="!this.addNewCheque" style="color: red ;font-size: 10px;" >
+                        يجب إدخال جميع الحقول المطلوبة
+                      </strong>
+                    </div>
+            </div>
+<br>
+            <div style="float: right;bottom: 0px;">
+              <jqxButton
+                [template]="'primary'"
+                [theme]="'material'"
+                #submitButton
+                style="display: inline-block; margin-right: 10px;bottom: 0px;"
+                (onClick)="submit()"
+              >
+              <span style="font-weight: bold;">
+                تخزين وطباعة
+                </span>
+              </jqxButton>
+
+              
+              <jqxButton
+                [template]="'default'"
+                [theme]="'material'"
+                #cancelButton
+                class="cancel"
+                style="display: inline-block;bottom: 0px; "
+                
+              >
+                الغاء
+              </jqxButton>
+            </div>
+          </div>
+        </div>
+      </jqxWindow>
+    </form>
+  </mat-card-content>
+</mat-card>

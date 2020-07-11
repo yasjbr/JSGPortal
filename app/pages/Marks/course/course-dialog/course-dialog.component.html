@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-dialog-content>
+        <div fxLayout="column" class="p-2">
+            <div class="p-2">
+                <mat-card>
+                    <div fxLayout>
+                        <mat-form-field>
+                            <mat-label>{{'Course'|i18n}}</mat-label>
+                            <input matInput formControlName="arDescription" type="text" placeholder="{{'arDescription'|i18n}}">
+                        </mat-form-field>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button mat-raised-button [type]="closeDialog" (click)="closeDialog()" color="warn">{{'Back'|i18n}}</button>
+        <button mat-raised-button [type]="submit" color="primary">{{'Save'|i18n}}</button>
+    </mat-dialog-actions>
+</form>

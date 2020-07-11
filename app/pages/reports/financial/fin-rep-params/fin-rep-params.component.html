@@ -1,0 +1,213 @@
+<app-content-header title="{{'كشف حساب مالي'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+<mat-divider></mat-divider>
+
+<table>
+    <tr>
+        <td>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label> إختر التقرير المالي </mat-label>
+                <mat-select placeholder=" إختر التقرير المالي" (selectionChange)="getReportId($event.value)">
+                    <mat-option [value]="1">
+                        كشف حساب مالي حسب البند المالي
+                    </mat-option>
+                    <mat-option [value]="4">
+                        كشف حساب مالي حسب نوع القبض
+                    </mat-option>
+                    <mat-option [value]="2">
+                        ملخص الاقساط المدرسية
+                    </mat-option>
+                    <mat-option [value]="3">
+                        ذمم الطلبة
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </td>
+    </tr>
+
+</table>
+
+
+<ng-container *ngIf="reportId == '1' || reportId=='4'">
+    <div>
+        <form [formGroup]="parametersForm" (ngSubmit)="submit()" novalidate="novalidate" autocomplete="off">
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+                <ng-container *ngIf="reportId == '1'">
+                    <mat-form-field fxFlex appearance="outline">
+                        <mat-label> {{'Financial item'|i18n}} </mat-label>
+                        <mat-select formControlName="finItemId" (selectionChange)="onFinItemChange($event.value)">
+                            <mat-option [value]="">-- جميع البنود --</mat-option>
+                            <mat-option *ngFor="let finItem of finItemDataSource" [value]="finItem.id">
+                                {{finItem.desc}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="reportId=='4'">
+                    <mat-form-field fxFlex appearance="outline">
+                        <mat-label> طريقة الدفع </mat-label>
+                        <mat-select formControlName="finItemId" (selectionChange)="onFinItemChange($event.value)">
+                            <mat-option [value]="">-- جميع طرق الدفع --</mat-option>
+                            <mat-option *ngFor="let payMethod of paymentMethodList" [value]="payMethod.id">
+                                {{payMethod.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </ng-container>
+
+
+
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label> {{'Guardian'|i18n}} </mat-label>
+
+                    <mat-select placeholder=" {{'Guardian'|i18n}}" [(value)]="selected" (selectionChange)="onParentChanged($event.value)">
+                        <app-mat-select-search [list]="parentList" placeholderLabel="{{ 'Search' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="filterParents = $event">
+                        </app-mat-select-search>
+                        <mat-option *ngFor="let op of filterParents" [value]="op.id">
+                            {{op.id}} | {{ op.fatherName }}
+                        </mat-option>
+                    </mat-select>
+
+                </mat-form-field>
+
+
+            </div>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="5px">
+
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label> {{'Date'|i18n}}: </mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="voucherDateFrom">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+
+                <!-- <mat-form-field fxFlex appearance="outline">
+                    <mat-label>{{'Date of connection - To'|i18n}}: </mat-label>
+                    <input matInput [matDatepicker]="pickerto" formControlName="voucherDateTo">
+                    <mat-datepicker-toggle matSuffix [for]="pickerto"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerto></mat-datepicker>
+                </mat-form-field> -->
+
+            </div>
+
+
+
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>{{'Access number from'|i18n}}: </mat-label>
+                    <input matInput formControlName="FinItemVoucherSequenceFrom">
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label> {{'Access number To'|i18n}}: </mat-label>
+                    <input matInput formControlName="FinItemVoucherSequenceTo">
+                </mat-form-field>
+
+            </div>
+        </form>
+
+
+
+
+        <app-fin-rep [parametersForm]="parametersForm.value">
+        </app-fin-rep>
+    </div>
+</ng-container>
+
+<!--  Report No 2 -->
+<ng-container *ngIf="reportId=='2'">
+    <div>
+        <form [formGroup]="parametersForm2" (ngSubmit)="submit()" novalidate="novalidate" autocomplete="off">
+
+            <mat-card>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+                        <mat-form-field fxFlex="20%">
+                            <mat-label> القسم </mat-label>
+                            <mat-select formControlName="sectionId" (selectionChange)="getClassList($event.value)" [(value)]="sectionId">
+
+                                <mat-option *ngFor="let items of sectionList" [value]="items.id">
+                                    {{items.sectionName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="20%">
+                            <mat-label> الصف </mat-label>
+                            <mat-select formControlName="classId" [(value)]="classId">
+
+                                <mat-option *ngFor="let items of classList" [value]="items.id">
+                                    {{items.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+        </form>
+
+        <app-remander-fees [parametersForm]="parametersForm2.value" #appRemanderFees>
+        </app-remander-fees>
+    </div>
+
+</ng-container>
+
+
+<!--  Report No 3 -->
+<ng-container *ngIf="reportId=='3'">
+    <div>
+        <form [formGroup]="parametersForm2" (ngSubmit)="submit()" novalidate="novalidate" autocomplete="off">
+
+            <mat-card>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label> القسم </mat-label>
+                            <mat-select formControlName="sectionId" (selectionChange)="getClassList($event.value)" [(value)]="sectionId">
+                                <mat-option [value]="">--- جميع الاقسام --</mat-option>
+                                <mat-option *ngFor="let items of sectionList" [value]="items.id">
+                                    {{items.sectionName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label> الصف </mat-label>
+                            <mat-select formControlName="classId" [(value)]="classId">
+                                <mat-option [value]="">--- جميع الصفوف ---</mat-option>
+                                <mat-option *ngFor="let items of classList" [value]="items.id">
+                                    {{items.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- <mat-form-field fxFlex appearance="outline">
+                                            <mat-label> الشعبة </mat-label>
+                                            <mat-select formControlName="classSeqId" [(value)]="classSeqId">
+                                                <mat-option [value]="">--- جميع الشعب ---</mat-option>
+                                                <mat-option *ngFor="let items of classSeqList" [value]="items.id">
+                                                    {{items.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field> -->
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+
+        <app-stud-balance [parametersForm]="parametersForm2.value" #appStudBalance>
+        </app-stud-balance>
+    </div>
+
+</ng-container>

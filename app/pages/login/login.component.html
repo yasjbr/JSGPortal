@@ -1,0 +1,37 @@
+
+<mat-sidenav-container class="h-100" style="background: rgba(0, 0, 0, .7); " >
+    <particles [params]="myParams" [style]="myStyle" [width]="width" [height]="height"></particles>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="h-100" style="background: rgba(255, 255, 255, .7);" >
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" fxFlex="90" fxFlex.gt-sm="30" fxFlex.sm="60"
+            class="mat-elevation-z6">
+            <app-content-header [icon]="'exit_to_app'" [hideBreadcrumb]="true" [hasBgImage]="true" [class]="'py-4'">
+            </app-content-header>
+            <div class="p-3">
+                <h2 style="color: accent; text-align: center" class="w-100">{{ 'System login' | i18n }}</h2>
+                <mat-form-field class="w-100" >
+                    <mat-icon matPrefix class="mat-icon-sm mb-2 mr-2 secondary-text-color">mail</mat-icon>
+                    <input matInput placeholder="{{ 'Username' | i18n}}" formControlName="userName">
+                    <!-- <mat-error *ngIf="userName.errors?.required">يجب إدخال إسم المستخدم</mat-error>
+                    <mat-error *ngIf="userName.hasError('invaliduserName')">Invalid userName address</mat-error> -->
+                    <mat-error *ngIf="validator.hasErrors(userName)">
+                        {{ validator.getErrorMessage(userName) }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <mat-icon matPrefix class="mat-icon-sm mb-2 mr-2 secondary-text-color">lock</mat-icon>
+                    <input matInput type="password" placeholder="{{ 'Password' | i18n}}" formControlName="password">
+                    <!-- <mat-error *ngIf="password.errors.required">يجب إدخال كلمة المرور</mat-error>
+                    <mat-error *ngIf="password.hasError('minlength')">طول كلمة المرور غير كافي (4) أحرف على الاقل</mat-error> -->
+                     <mat-error *ngIf="validator.hasErrors(password)">
+                        {{ validator.getErrorMessage(password) }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-error>{{msgLogin}}</mat-error>
+                <button mat-raised-button color="primary" class="mat-elevation-z6 w-100 mt-3" type="submit" [disabled]='loading'>
+                    <h2> {{ 'Login' | i18n}} </h2>
+                </button>
+            </div>
+        </form>
+    </div>
+</mat-sidenav-container>

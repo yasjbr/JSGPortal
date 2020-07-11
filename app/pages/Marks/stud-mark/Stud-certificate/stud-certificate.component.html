@@ -1,0 +1,284 @@
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+
+<div class="report-page" #page>
+    <div class="print-container" *ngFor="let studMark of studMarks; let i=index">
+
+        <div class="page-header">
+            <div class="report-page">
+                <div class="form41-header">
+                    <div>
+                        <h4>
+                            <strong>
+                            مـجـمــــوعة مـدارس الـجـامعـــــة
+                        </strong>
+                        </h4>
+
+                    </div>
+
+
+                    <div>
+                        <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                    </div>
+
+                    <div class="text-end">
+                        <h4>
+                            <strong>
+                            ALJAMI'A SCHOOLES GROUP
+                        </strong>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+            <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+        </div>
+
+        <table class="page">
+            <thead>
+                <tr>
+                    <td>
+                        <!--place holder for the fixed-position header-->
+                        <div class="page-header-space"></div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody style="min-height: 70%;">
+
+                <tr>
+                    <td>
+
+                        <table>
+                            <tr>
+
+                                <div class="form41-gpa-info-cert" *ngIf="studMark.studData">
+
+                                    <td>
+                                        <div>
+                                            <label class="header-label">
+                                            <strong>
+                                            الصف:
+                                            </strong>
+                                        </label>
+                                            <div class="info-span">
+                                                {{studMark.studData.className}}
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div>
+                                            <label>
+                                            <strong>
+                                                الشعبة:
+                                            </strong>
+                                        </label>
+                                            <div>
+                                                {{studMark.studData.classSeqName}}
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            <label class="header-label">
+                                            <strong>
+                                                {{'studentName'|i18n}}:
+                                            </strong>
+                                        </label>
+                                            <div>
+                                                {{studMark.studData.studName}}
+                                            </div>
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+
+                                        <div>
+                                            <label class="header-label">
+                                            <strong>
+                                          
+                                            </strong>
+                                        </label>
+                                            <div class="info-span">
+                                                {{studMark.termName}} {{studMark.studData.yearName}}
+
+
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </div>
+                            </tr>
+                        </table>
+
+
+
+                        <div class="form41-gpa-info" *ngIf="studMark.studData">
+
+
+
+
+                            <!--  <div *ngIf="parametersForm.voucherDateFrom">
+                            <label class="header-label">
+                                <strong>
+                                    }
+                                    {{'Date From'|i18n}}
+                                </strong>
+                            </label>
+                            <div class="info-span">
+                                {{ parametersForm.voucherDateFrom | date: ' dd / MM / yyyy' }}
+                            </div>
+                        </div>
+
+                        <div *ngIf="parametersForm.voucherDateTo">
+                            <label class="header-label">
+                                <strong>
+                                    {{'Date To'|i18n}}
+                                </strong>
+                            </label>
+                            <div class="info-span">
+                                {{ parametersForm.voucherDateTo | date: ' dd / MM / yyyy' }}
+                            </div>
+                        </div> -->
+
+
+                        </div>
+
+
+
+
+                        <div>
+                            <table class="subTable" align="center">
+                                <tr>
+
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        {{'courseName'|i18n}}
+                                    </th>
+                                    <th>
+                                        {{'mark'|i18n}}
+                                    </th>
+                                    <th>
+                                        {{'maxMark'|i18n}}
+                                    </th>
+                                    <th>
+                                        {{'minMark'|i18n}}
+                                    </th>
+
+                                    <!-- <th *ngFor="let exam of studMark.coursesMarks.coursesExams; let i=index">
+ 
+                                        {{exam.examName}}
+                                    </th> -->
+                                    <div style=" width: 15%;" *ngFor="let course of studMark.coursesMarks let i=index">
+                                        <th style=" width: 25%;" *ngFor="let exam of course.coursesExams let i=index">
+                                            {{exam.examName}}
+                                        </th>
+                                    </div>
+
+                                    <!--  <th>
+                                    {{'Date'|i18n}}
+                                </th>
+
+                                <th>
+
+                                    {{'Amount'|i18n}}
+                                </th> -->
+                                </tr>
+                                <tr *ngFor="let courseMark of studMark.coursesMarks; let i=index">
+                                    <td>
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        {{courseMark.courseName }}
+                                    </td>
+                                    <td>
+                                        {{ courseMark.mark }}
+                                    </td>
+
+                                    <td>
+                                        {{ courseMark.maxMark }}
+                                    </td>
+                                    <td>
+                                        {{ courseMark.minMark }}
+                                    </td>
+
+                                    <!-- <td *ngIf="courseMark.coursesExams"> -->
+
+
+
+                                    <td style=" width: 15%;" *ngFor="let exam of courseMark.coursesExams; let i=index">
+                                        {{exam.mark}}
+                                    </td>
+
+
+                                    <!-- </td> -->
+
+
+
+
+                                    <!--  <td>
+                                    {{ x.voucherDate | date: ' dd / MM / yyyy' }} .م
+
+                                </td>
+
+                                <td style=" width: 15%; ">
+                                    {{ x.credit }}
+                                </td> -->
+                                    <!-- <table>
+
+
+                                        <tr *ngFor="let examMark of courseMark.coursesExams; let i=index ">
+                                            <td>
+                                                {{examMark.examName}}
+                                            </td>
+
+                                        </tr>
+                                    </table> -->
+
+
+                                </tr>
+
+                                <!-- <tr>
+                                <td colspan=6>
+                                    <strong>
+                                        المجموع:
+                                    </strong>
+                                </td>
+                                <td colspan=1>
+                                    <strong>
+                                        {{totalCashValue}}
+                                    </strong>
+                                </td>
+                            </tr> -->
+
+                            </table>
+                        </div>
+
+
+
+
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot style="min-height: 10%; ">
+                <tr>
+                    <td>
+                        <div class="page-footer-space "></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

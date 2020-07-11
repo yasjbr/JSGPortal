@@ -1,0 +1,99 @@
+<app-content-header  title="{{'Stock'|i18n}}" [hideBreadcrumb]="false"
+  [hasBgImage]="true" [class]="'pb-1'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+  <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+  </div>
+</div>
+
+<!-- <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate"> -->
+  <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+
+    <mat-form-field fxFlex appearance="outline" class="input-full-width">
+      <mat-label>{{'Employee name'|i18n}}</mat-label>
+      <!-- formControlName="employeeId" -->
+      <mat-select matInput  #employeeId placeholder="{{'Employee name'|i18n}}"
+        (selectionChange)="GetEmployee()">
+        <mat-option [value]=0>{{'All'|i18n}}</mat-option>
+        <mat-option *ngFor="let op of employeeList" [value]="op.id">
+          {{op.id}} | {{op.empName}}
+        </mat-option>
+      </mat-select>
+     
+    </mat-form-field>
+ 
+    <mat-form-field fxFlex appearance="outline" class="input-full-width">
+      <mat-label>{{'Item name'|i18n}}</mat-label>
+      <!-- formControlName="itemId" -->
+      <mat-select matInput #itemId placeholder="{{'Item name'|i18n}}"
+        (selectionChange)="GetEmployee()">
+        <mat-option [value]=0>{{'All'|i18n}}</mat-option>
+        <mat-option *ngFor="let op of itemList" [value]="op.id">
+          {{op.id}} | {{op.itemName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex appearance="outline" class="input-full-width">
+      <mat-label>{{'status'|i18n}}</mat-label>
+      <!-- formControlName="statusId" -->
+      <mat-select matInput #statusId  placeholder="{{'status'|i18n}}" (selectionChange)="GetEmployee()">
+        <mat-option [value]=0>{{'All'|i18n}}</mat-option>
+        <mat-option *ngFor="let op of statusList" [value]="op.id">
+          {{op.id}} | {{op.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+  </div>
+<!-- </form> -->
+<table class="table subTable" align="center">
+  <tr class="hedar-table">
+    <th style="width: 10%">
+      {{'#'|i18n}}
+    </th>
+
+    <th style="width: 20%">
+      {{'Employee name'|i18n}}
+    </th>
+    <th style="width: 15%">
+      {{'Item name'|i18n}}
+    </th>
+    <th style="width: 15%">
+      {{'status'|i18n}}
+    </th>
+
+    <th style="width: 10%">
+      {{'Actions'|i18n}}
+    </th>
+
+  </tr>
+
+  <tr *ngFor="let x of dataList; let i=index">
+    <td align="center">
+      {{i+1}}
+    </td>
+    <td align="center">
+      {{x.empName}}
+    </td>
+    <td align="center">
+      {{x.itemName}}
+    </td>
+    <td align="center">
+      {{x.name}}
+    </td>
+    <td align="center">
+      <a *ngIf="x.statusId!='4360'" mat-icon-button matTooltip="{{'Returns'|i18n}}" (click)="returnBook(x.id)">
+        <mat-icon aria-hidden="true" aria-label="Files">
+          keyboard_return
+        </mat-icon>
+      </a>
+    </td>
+
+
+
+  </tr>
+</table>
+<mat-error align="center" *ngIf="exist">  لايوجد بيانات .</mat-error>

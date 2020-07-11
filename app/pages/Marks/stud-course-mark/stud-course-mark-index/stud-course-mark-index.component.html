@@ -1,0 +1,138 @@
+<app-content-header title="{{'StudCourseMark'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'"></app-content-header>>
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+    <!-- <a mat-raised-button color="warn" [routerLink]="['../add']">
+        <mat-icon> add_circle_outline</mat-icon>
+        {{'Add'|i18n}}
+    </a> -->
+</mat-toolbar>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+        <!-- <div class="spinner-container">
+            <mat-spinner></mat-spinner>
+        </div> -->
+        <form [formGroup]="searchForm">
+
+            <div fxLayout fxLayoutAlign="left">
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'Year'|i18n}}</mat-label>
+                    <mat-select matInput #yearId formControlName="yearId" placeholder="{{'Year'|i18n}}" (selectionChange)="onSearch()">
+                        <mat-option *ngFor="let op of yearsList" [value]="op.id">
+                            {{op.id}}|{{op.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'School'|i18n}}</mat-label>
+                    <mat-select matInput formControlName="schoolId" placeholder="{{'School'|i18n}}" (selectionChange)="onSchoolChanges($event.value)">
+                        <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                            {{op.id}} | {{op.name}}
+                        </mat-option>
+                    </mat-select>
+            
+                </mat-form-field>
+
+
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'Section'|i18n}}</mat-label>
+                    <mat-select matInput  formControlName="sectionId" placeholder="{{'Section'|i18n}}" (selectionChange)="onChangeSection($event.value)">
+                        <mat-option *ngFor="let op of sectionsList" [value]="op.id">
+                            {{op.id}}|{{op.sectionName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label> {{'Class'|i18n}}</mat-label>
+                    <mat-select matInput #classId formControlName="classId" placeholder="{{'Class'|i18n}}" (selectionChange)="onSearch()">
+                        <mat-option *ngFor="let op of classList" [value]="op.id">
+                            {{op.id}}|{{op.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+
+            <div fxLayout fxLayoutAlign="left">
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'Course'|i18n}}</mat-label>
+                    <mat-select matInput formControlName="courseId" #courseId placeholder="{{'Course'|i18n}}" (selectionChange)="onSearchyearlyCourse()">
+                        <mat-option *ngFor="let op of yearlyCourseList" [value]="op.id">
+                            {{op.id}}|{{op.className}} / {{op.courseName}}|
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'Term'|i18n}}</mat-label>
+                    <mat-select matInput formControlName="termId" #termId placeholder="{{'Term'|i18n}}" (selectionChange)="onSearch()">
+                        <mat-option *ngFor="let op of termsList" [value]="op.id">
+                            {{op.id}}|{{op.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+                <div fxLayout fxLayoutAlign="left">
+                    <mat-form-field fxFlex="40%">
+                        <input matInput type="text" #filter (keyup)="dataFilter($event.target.value)" placeholder="{{'Search'|i18n}}">
+                        <button mat-icon-button matSuffix aria-label="clear" *ngIf="filter.value" (click)="filter.value=''; "> 
+                    <mat-icon> close </mat-icon>
+                </button>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+
+
+        <mat-table #table [dataSource]="datasource" class="mat-elevation-z8" matSort matSortStart="Desc">
+            <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{col.header|i18n}}
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let item">
+                    {{item[col.header]|i18n}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef='actions'>
+                <mat-header-cell *matHeaderCellDef>
+                    {{'Actions'|i18n}}
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let element">
+                    <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/financial/finItem/edit/' + element.id ]">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            edit
+                        </mat-icon>
+                    </a>
+
+                    <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}">
+                <mat-icon aria-hidden="true" aria-label="Delete">
+                delete
+                </mat-icon>
+            </button>
+
+                    <button mat-icon-button color="info" matTooltip="{{'Details'|i18n}}" >
+                <mat-icon aria-hidden="false" aria-label="info">
+                info
+                </mat-icon>
+             </button>
+                </mat-cell>
+            </ng-container>
+
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns : displayedColumns"> </mat-row>
+        </mat-table>
+    </div>
+</div>

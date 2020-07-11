@@ -1,0 +1,64 @@
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+
+      <div class="p-2">
+        <mat-card>
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'Supplier name'|i18n}}</mat-label>
+                <input matInput formControlName="supplierName" type="text" placeholder="{{'Supplier name'|i18n}}">
+                <mat-error *ngIf="validator.hasErrors(errName)">
+                  {{'This field is required'|i18n}}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'Address'|i18n}}</mat-label>
+                <input matInput formControlName="address" type="text" placeholder="{{'Address'|i18n}}">
+              </mat-form-field>
+            </div>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'responsible Person'|i18n}}</mat-label>
+                <input matInput formControlName="contactPerson" type="text" placeholder="{{'responsible Person'|i18n}}">
+              </mat-form-field>
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'Land phone'|i18n}}</mat-label>
+                <input matInput formControlName="tel" type="text" placeholder="{{'Land phone'|i18n}}">
+              </mat-form-field>
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'Phone'|i18n}}</mat-label>
+                <input matInput formControlName="mobile" type="text" placeholder="{{'Phone'|i18n}}">
+              </mat-form-field>
+
+            </div>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                    <mat-label>{{'Notes'|i18n}}</mat-label>
+                    <input matInput formControlName="note" type="text" placeholder="{{'Notes'|i18n}}">
+                  </mat-form-field>
+                 
+                 
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <mat-dialog-actions>
+          <button mat-raised-button tabindex="-1" color="white" (click)="closeDialog()">
+            {{'Back'|i18n}}
+          </button>
+          <button [type]="submit" mat-raised-button color="primary" (click)="submit2()">
+            {{'Save'|i18n}}
+          </button>
+        </mat-dialog-actions>
+    </form>
+  </div>
+</div>

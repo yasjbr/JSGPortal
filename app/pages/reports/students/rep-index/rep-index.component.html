@@ -1,0 +1,61 @@
+<app-content-header  title="  {{'StudCardReport'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+
+    <mat-card>
+        <mat-card-content>
+            <mat-form-field fxFlex="25%" class="mat-select" appearance="outline">
+                <mat-label>{{'Select guardian'|i18n}}</mat-label>
+
+                <mat-select placeholder=" {{'Select guardian'|i18n}}" [(value)]="selected" (selectionChange)="onParentChanged($event.value)" (selectionChange)="getStudentList($event.value)">
+                    <app-mat-select-search [list]="parentList" placeholderLabel="{{ 'Search' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="filterParents = $event">
+                    </app-mat-select-search>
+                    <mat-option *ngFor="let op of filterParents" [value]="op.id">
+                        {{op.id}} | {{ op.fatherName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
+</div>
+<mat-divider></mat-divider>
+
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" >
+            <ng-container *ngFor="let col of cols, let i = index" [matColumnDef]="col.field">
+                <!-- {{i}} -->
+                <mat-header-cell *matHeaderCellDef  style="background-color: #c5c8ce;">
+                    {{ col.header |i18n }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    {{ item[col.field] }}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions" >
+                <mat-header-cell *matHeaderCellDef style="background-color: #c5c8ce;">
+                    {{'Reports'|i18n}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button mat-icon-button color="info" matTooltip="{{'StudCardReport'|i18n}}" [routerLink]="['/reports/cardRep/' + element.id  ]">
+                        <mat-icon aria-hidden="false" aria-label="info">
+                            info
+                        </mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+        <!-- <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[100, 300, 600,900,1200,1500,2000,3000]"></mat-paginator> -->
+
+    </div>
+</div>

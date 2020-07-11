@@ -1,0 +1,38 @@
+<button mat-icon-button [matMenuTriggerFor]="userMenu" #userMenuTrigger="matMenuTrigger">
+    <mat-icon>account_circle</mat-icon>
+</button>
+
+<mat-menu #userMenu="matMenu" [overlapTrigger]="false" class="toolbar-dropdown-menu user-menu">
+    <!--<span (mouseleave)="userMenuTrigger.closeMenu()">-->
+    <mat-card fxLayout="row" fxLayoutAlign="space-around center" class="user-info p-0">
+        <img [src]="userImage" alt="user-image">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <h2>Obada Hourani</h2>
+            <h3 class="secondary-text-color">Project Coordinator</h3>
+            <p class="secondary-text-color">obadahh@yahoo.com</p>
+        </div>
+    </mat-card>
+    <mat-divider></mat-divider>
+    <a mat-menu-item [disabled]="true">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+    </a>
+    <a mat-menu-item [disabled]=true>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+    </a>
+    <a mat-menu-item [disabled]=true>
+        <mat-icon>lock</mat-icon>
+        <span>Lock screen</span>
+    </a>
+    <a mat-menu-item [disabled]=true>
+        <mat-icon>help</mat-icon>
+        <span>Help</span>
+    </a>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()"> 
+            <mat-icon>power_settings_new</mat-icon>
+            <span>{{ 'Log out' | i18n }}</span> 
+        </button>
+    <!--</span>-->
+</mat-menu>

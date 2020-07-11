@@ -1,0 +1,91 @@
+<app-content-header [icon]="'store_mall_directory'" title="{{'Add/Edit Buses'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+
+<div fxLayout="column" class="p-2">
+
+    <div class="p-2">
+
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+
+            <mat-card>
+                <mat-card-header fxLayoutAlign="center">
+                    <mat-card-subtitle>
+                        <h2></h2>
+                    </mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Side number'|i18n}}</mat-label>
+                            <input matInput formControlName="sidNo" type="number" placeholder="{{'Side number'|i18n}}">
+                        </mat-form-field>
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Driver'|i18n}}</mat-label>
+                            <input matInput formControlName="driverName" type="text" placeholder="{{'Driver'|i18n}}">
+                            <mat-error *ngIf="validator.hasErrors(name)">
+                                {{'Required'|i18n}}
+                            </mat-error>
+
+                        </mat-form-field>
+                    </div>
+
+                    <!-- <mat-divider></mat-divider>-->
+
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Phone'|i18n}}</mat-label>
+                            <input matInput formControlName="mobile" type="text" placeholder="{{'Phone'|i18n}}">
+                        </mat-form-field>
+                        <!-- <mat-form-field fxFlex appearance="outline">
+              <mat-label>{{'School'|i18n}}</mat-label>
+              <input matInput formControlName="schoolId" type="text" placeholder="{{'School'|i18n}}">
+            </mat-form-field> -->
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'School'|i18n}}</mat-label>
+                            <mat-select formControlName="schoolId" placeholder="{{'School'|i18n}}" (selectionChange)="getSchoolEmployeeList($event)">
+                                <mat-option *ngFor="let op of schoolsList" [value]="op.id">
+                                    {{op.id}} | {{ op.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Morning supervisor'|i18n}}</mat-label>
+                            <mat-select formControlName="morningSuper" placeholder="{{'morningSuper'|i18n}}" (selectionChange)="getbusList($event)">
+                                <mat-option *ngFor="let op of busList2" [value]="op.morningSuper">
+                                    {{op.id}} | {{ op.morningSuper }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex appearance="outline">
+                            <mat-label>{{'Evening Supervisor'|i18n}}</mat-label>
+                            <mat-select formControlName="evningSuper" placeholder="{{'morningSuper'|i18n}}" (selectionChange)="getbusList($event)">
+                                <mat-option *ngFor="let op of busList2" [value]="op.evningSuper">
+                                    {{op.id}} | {{ op.evningSuper }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions>
+                    <a [routerLink]="returnUrl" mat-button>
+            {{'Back'|i18n}}
+          </a>
+          <button mat-raised-button color="primary" type="submit">
+            {{'Save'|i18n}}
+          </button>
+          </mat-card-actions>
+            </mat-card>
+        </form>
+    </div>
+</div>

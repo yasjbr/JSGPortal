@@ -1,0 +1,109 @@
+<app-content-header  title="{{'العناصر المستلمة والغير مستلمة'|i18n}}" [hideBreadcrumb]="false"
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-start center" class="px-2 user-toolbar" style="font-size: unset;">
+    <mat-form-field appearance="outline" fxFlex="20%" style="margin-left: 5px;">
+        <mat-label>القسم</mat-label>
+        <mat-select matInput placeholder="القسم" (selectionChange)="getClassList($event.value)">
+            <mat-option [value]='0'>الجميع</mat-option>
+          <mat-option *ngFor="let op of sectionList" [value]="op.id">
+            {{op.id}} | {{op.sectionName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="spinner-container" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+      </div>
+  
+      <mat-form-field appearance="outline" fxFlex="20%" style="margin-left: 5px;">
+        <mat-label>الصف</mat-label>
+        <mat-select matInput placeholder="الصف" (selectionChange)="getBookList($event.value)" >
+            <mat-option [value]='0'>الجميع</mat-option>
+          <mat-option *ngFor="let op of ClassList" [value]="op.id">
+            {{op.id}} | {{op.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+
+
+</mat-toolbar>
+<div class="print-container" #page>
+<div fxLayout="column" class="p-2">
+    
+    <table class="table subTable" align="center">
+        <tr class="hedar-table">
+            <th style="width: 5%">
+                {{'#'|i18n}}
+            </th>
+            <th style="width: 15%">
+                {{'المادة الدراسية'|i18n}}
+            </th>
+            <th style="width: 15%">
+                {{'الصف'|i18n}}
+            </th>
+            <th style="width: 15%">
+                {{'الفصل'|i18n}}
+            </th>
+            <th style="width: 20%">
+                {{'تصنيف الكتاب'|i18n}}
+            </th>
+            <th style="width: 10%">
+                {{'الحالة'|i18n}}
+            </th>
+            <th style="width: 15%">
+                {{'تاريخ الحركة'|i18n}}
+            </th>
+            <th style="width: 5%">
+                {{'الحركات'|i18n}}
+            </th>
+        </tr>
+        <tr *ngFor="let x of data; let i=index">
+            <td align="center">
+                {{i+1}}
+            </td>
+            <td align="center">
+                {{x.itemName}}
+            </td>
+
+            <td align="center">
+                {{x.className}}
+            </td>
+            <td align="center">
+                {{x.termName}}
+            </td>
+            <td align="center">
+                {{x.itemTypeName}}
+            </td>
+            <td align="center">
+           <p *ngIf="x.statusId==2340"> {{'غير مستلم'|i18n}}</p>  
+           <p *ngIf="x.statusId!=2340"> {{'مستلم'|i18n}}</p>     
+
+            </td>
+
+            <td align="center">
+                {{x.receivedDate | date: ' yyyy / dd / MM  '}}
+            </td>
+
+            <td align="center">
+                <a *ngIf="x.statusId!=2340" mat-icon-button matTooltip="{{'غير مستلم'|i18n}}"
+                    (click)="addItemToAnotherTabel(x)">
+                    <mat-icon aria-hidden="true" aria-label="Files">
+                        exit_to_app
+                    </mat-icon>
+                </a>
+                <!-- <button mat-raised-button color="warn" *ngIf="x.statusId!=1142"  (click)="openDialog(x.id)">{{'Withdrawal'|i18n}}</button> -->
+            </td>
+        </tr>
+
+    </table>
+    <mat-error align="center" *ngIf="exist"> لايوجد طلاب .</mat-error>
+
+</div>
+</div>

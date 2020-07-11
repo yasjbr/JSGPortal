@@ -1,0 +1,179 @@
+<app-content-header  title="{{'Store receipt bill'|i18n}}" [hideBreadcrumb]="false"
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+
+<mat-divider></mat-divider>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+
+<form [formGroup]="form" (ngSubmit)="getvoucherbyid()">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="10px" style="width: 65%; margin: 10px auto;">
+        <mat-form-field fxFlex appearance="outline" class="input-full-width">
+            <mat-label>{{'Please enter the voucher number'|i18n}}</mat-label>
+            <input matInput formControlName="voucherid" type="text" placeholder="{{'Bill number'|i18n}}"
+                (keyup.enter)="changeUrl()" autocomplete="off" required>
+            <mat-error *ngIf="errName.errors?.required">
+                {{'This field is required'|i18n}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>
+<div class="print-container" #page>
+    <div class="page-header">
+        <div class="report-page">
+            <div class="form41-header">
+
+                <div>
+                    <h3>
+                        مـجـمــــوعة مـدارس الـجـامعـــــة
+                    </h3>
+                    <h6>
+                        <!-- {{schoolName}} -->
+                    </h6>
+                </div>
+                <div>
+                    <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                </div>
+                <div class="text-end">
+                    <h3>
+                        ALJAMI'A SCHOOLES GROUP
+                    </h3>
+                    <h6>
+                        <!-- {{schoolLName}} -->
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="page-footer">
+        <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+        <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+    </div>
+    <table class="page">
+        <thead>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position header-->
+                    <div class="page-header-space"></div>
+                </td>
+            </tr>
+        </thead>
+        <tbody style="min-height: 70%;">
+            <tr>
+                <td>
+                    <div fxLayout="column" class="p-1">
+                        <div style="font-weight: bolder; font-size: 20px; margin: 0 auto;">
+                            {{'Store receipt bill'|i18n}}
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        </div>
+                    </div>
+                    <div class="form41-gpa-info" style="grid-template-columns:70% 30%;  grid-gap: 10px;">
+
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                            {{'Bill Date'|i18n}} : &nbsp; &nbsp; &nbsp;{{voucherDate | date:'dd/MM/yyyy'}}
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                            {{'Bill number'|i18n}} : &nbsp; &nbsp; &nbsp; {{voucherNumber}}
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                            {{'Supplier name'|i18n}} : &nbsp; &nbsp; &nbsp; {{supplierName}}
+
+                        </div>
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                            {{'Payment method'|i18n}} : &nbsp; &nbsp; &nbsp; {{paymentMethodN}}
+                        </div>
+                    </div>
+                    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                    </div>
+                    <div fxLayout="column" class="p-2">
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        </div>
+                    </div>
+                    <table align="center">
+                        <tr class="border_bottom">
+                            <th style="width: 10%">
+                                {{'#'|i18n}}
+                            </th>
+                            <th style="width: 15%">
+                                {{'Item No'|i18n}}
+                            </th>
+                            <th style="width: 25%">
+                                {{'Item name'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'Class'|i18n}}
+                            </th>
+                            <th style="width: 10%">
+                                {{'QTY'|i18n}}
+                            </th>
+                            <th style="width: 10%; font-size: inherit;">
+                                {{'CostPrice'|i18n}}
+                            </th>
+                            <th style="width: 10%">
+                                {{'Amount'|i18n}}
+                            </th>
+                        </tr>
+
+                        <tr class="border_bottom" *ngFor="let x of dataList; let i=index" align="center">
+
+                            <td>
+                                {{i+1}}
+                            </td>
+
+                            <td>
+                                {{x.itemId}}
+                            </td>
+                            <td>
+                                {{x.itemName}}
+                            </td>
+                            <td>
+                                {{x.className}}
+                            </td>
+                            <td>
+                                {{x.qty}}
+                            </td>
+                            <td>
+                                {{x.costPrice}}
+                            </td>
+                            <td>
+                                {{x.qty * x.costPrice}}
+                            </td>
+                        </tr>
+                        <tr class="border_bottom" align="center">
+                            <td colspan="6" style="font-weight: bold;">{{'مجموع الفاتورة'|i18n}}</td>
+                            <td colspan="1" style="font-weight: bold;">{{Total}}</td>
+
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+        </tbody>
+        <tfoot style="min-height: 10%;">
+            <tr>
+                <td>
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+
+
+
+</div>

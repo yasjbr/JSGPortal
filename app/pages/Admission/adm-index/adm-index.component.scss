@@ -1,0 +1,29 @@
+.mat-cell{
+    font-size:12px;
+    font-family: Verdana,Sans-Serif;
+    display: table-cell;
+    height: 70px;
+    vertical-align: middle;
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    // border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    // border-right: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 6px;
+    }
+    .mat-form-field-wrapper {
+        padding: 1.34375em;
+    }
+
+    tr {
+        /* justify-content: space-between; */
+        align-items: center;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        
+    }
+    .mar-Lr{
+        margin-left: 150px;
+        margin-right: 150px;
+    }
+  

@@ -1,0 +1,166 @@
+<app-content-header  title="{{'regtransport'|i18n}}" [hideBreadcrumb]="false"
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+        <div style="width:50%; margin:auto">
+            <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+                <mat-label>القسم</mat-label>
+                <mat-select matInput placeholder="القسم" (selectionChange)="getClassList($event.value)">
+                    <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                        {{op.id}} | {{op.sectionName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="spinner-container" *ngIf="loading">
+                <mat-spinner></mat-spinner>
+            </div>
+            <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+                <mat-label>الصف</mat-label>
+                <mat-select matInput placeholder="الصف" (selectionChange)="GetStudByBus($event.value)">
+                    <mat-option *ngFor="let op of ClassList" [value]="op.id">
+                        {{op.id}} | {{op.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+</div>
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+<div class="print-container" #page>
+    <div class="page-header">
+        <div class="report-page">
+            <div class="form41-header">
+                <div>
+                    <h3>
+                        مـجـمــــوعة مـدارس الـجـامعـــــة
+                    </h3>
+                    <h6>
+                        <!-- {{schoolName}} -->
+                    </h6>
+                </div>
+                <div>
+                    <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                </div>
+                <div class="text-end">
+                    <h3>
+                        ALJAMI'A SCHOOLES GROUP
+                    </h3>
+                    <h6>
+                        <!-- {{schoolLName}} -->
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="page-footer">
+        <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+        <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+    </div>
+    <table class="page">
+
+        <thead>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position header-->
+                    <div class="page-header-space"></div>
+                </td>
+            </tr>
+        </thead>
+
+        <tbody style="min-height: 70%;">
+
+            <tr>
+                <td>
+
+                    <div fxLayout="column" class="p-1">
+                        <div style="font-weight: bolder; font-size: 20px; margin: 0 auto;">
+                            {{'regtransport'|i18n}}
+                        </div>
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        </div>
+                    </div>
+
+
+                    <table class="subTable" align="center">
+                        <tr>
+                            <th style="width: 10%">
+                                {{'Division'|i18n}}
+                            </th>
+
+                            <th style="width: 20%">
+                                {{'Student name'|i18n}}
+                            </th>
+                            <th style="width: 15%">
+                                {{'Father mobile'|i18n}}
+                            </th>
+                            <th style="width: 15%">
+                                {{'Mother mobile'|i18n}}
+                            </th>
+                            <th style="width: 15%">
+                                {{'Address'|i18n}}
+                            </th>
+                            <th style="width: 15%">
+                                {{'Region'|i18n}}
+                            </th>
+                            <th style="width: 10%">
+                                {{'Notes'|i18n}}
+                            </th>
+
+                        </tr>
+
+                        <tr *ngFor="let x of studByBusList; let i=index">
+                            <td>
+                                {{x.division}}
+                            </td>
+                            <td>
+                                {{x.studName}}
+                            </td>
+                            <td>
+                                {{x.fatherMobail}}
+                            </td>
+                            <td>
+                                {{x.motherMobail}}
+                            </td>
+                            <td>
+                                {{x.adress}}
+                            </td>
+                            <td>
+                                {{x.tourName}}
+                            </td>
+                            <td>
+                                {{x.busNote}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot style="min-height: 10%;">
+            <tr>
+                <td>
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+
+    </table>
+
+
+</div>

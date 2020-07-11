@@ -1,0 +1,111 @@
+<app-content-header title="{{'Authorization'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="space-between center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+        <mat-label>{{'Job title'|i18n}}</mat-label>
+        <mat-select matInput placeholder="{{'Job title'|i18n}}" (selectionChange)="getForms($event.value)">
+            <mat-option *ngFor="let op of roleList" [value]="op.id">
+                {{op.id}} | {{op.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="warn" (click)="addsysname()">
+        <mat-icon>add_circle_outline</mat-icon> 
+      </button>
+ <button mat-raised-button color="warn" (click)="addNewRole()" style="margin-right: 359px;">
+          <mat-icon>add_circle_outline</mat-icon> {{ 'Add Screen' | i18n}}
+        </button>
+</mat-toolbar>
+<div fxLayout fxLayoutAlign="left">
+
+    <mat-form-field fxFlex="25%">
+        <input matInput type="text" placeholder="{{'Search'|i18n}}" (keyup)="dataFilter($event.target.value)">
+        <button mat-icon-button matSuffix aria-label="clear"> 
+            <mat-icon> backspace</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+                <mat-header-cell *matHeaderCellDef>
+                    {{ col.header |i18n}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+
+                    {{ item[col.field] }}
+
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>
+                    {{'Actions'|i18n}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+
+                   <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}" (click)="openDeleteDialog(element)">
+              <mat-icon aria-hidden="true" aria-label="Delete">
+                delete
+              </mat-icon>
+            </button> 
+
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+    </div>
+</div>
+
+
+
+
+<!-- <table class="table subTable" align="center">
+    <tr class="hedar-table">
+        <th style="width: 20%">
+            {{'#'|i18n}}
+        </th>
+        <th style="width: 40%">
+            {{'اسم الشاشة بالانجليزي'|i18n}}
+        </th>
+
+        <th style="width: 40%">
+            {{'اسم الشاشة بالعربي'|i18n}}
+        </th>
+
+        <th style="width: 30%">
+            {{'Actions'|i18n}}
+        </th>
+    </tr>
+    <tr class="border_bottom" *ngFor="let x of dataList; let i=index">
+        <td align="center">
+            {{i+1}}
+        </td>
+        <td align="center">
+            {{x.title}}  
+        </td>
+        <td align="center">
+       {{x.titleAr}}
+        </td>
+        <td align="center">
+            <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}" (click)="openDeleteDialog(x)">
+        <mat-icon aria-hidden="true" aria-label="Delete" >
+          delete
+        </mat-icon>
+      </button>
+        </td>
+    </tr>
+</table> -->

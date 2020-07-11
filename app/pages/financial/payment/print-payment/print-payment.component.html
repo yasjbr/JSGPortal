@@ -1,0 +1,242 @@
+<div>
+  <button mat-raised-button color="accent" (click)="print(page)">
+    <mat-icon>print</mat-icon> {{ "Print" | i18n }}
+  </button>
+</div>
+
+<div class="print-container">
+  <div class="report-page" #page>
+    <div *ngFor="let r of copyNo; let i = index">
+      <div *ngIf="i == 1" style="border-bottom: 1px solid #000">
+        &nbsp;&nbsp; &nbsp;&nbsp;
+      </div>
+      <div class="form41-header">
+        <div>
+          <h4>
+            <strong>
+              مـجـمــــوعة مـدارس الـجـامعـــــة
+            </strong>
+          </h4>
+          <!-- <h6>
+          {{schoolName}}
+        </h6> -->
+        </div>
+
+        <div>
+          <img
+            id="myimage"
+            [src]="image"
+            style=" text-align:center; width:100px;height:100px;"
+          />
+        </div>
+
+        <div class="text-end">
+          <h4>
+            <strong>
+              ALJAMI'A SCHOOLES GROUP
+            </strong>
+          </h4>
+          <!-- <h6> 
+          {{schoolLName}}
+        </h6> -->
+        </div>
+      </div>
+
+      <div
+        style="border-bottom: 1px solid #000;font-weight: bolder; font-size: 26px; text-align: center"
+      >
+        {{ repName }} {{ orignalCopy }} &nbsp;&nbsp; &nbsp;&nbsp;
+      </div>
+
+      <table align="center" style="width:100%">
+        <tr>
+          <td
+            style="font-weight: bolder; font-size: 18px;width:25%; text-align: right"
+          >
+            <!-- {{repName}} -->
+            [
+            <strong>
+              {{ studentFee.credit }}
+            </strong>
+            {{ "JOD" | i18n }}]
+          </td>
+          <td
+            style="font-weight: bolder; font-size: 16px; text-align: center;width:45%;"
+          >
+            {{ "Bond number" | i18n }}:
+            <strong style="color:darkblue;-webkit-print-color-adjust: exact;">
+              ( {{ studentFee.finItemVoucherSequence }} )
+            </strong>
+          </td>
+          <td
+            style="font-weight: bolder; font-size: 16px; text-align: left;width:30%;"
+          >
+            {{ r }}
+          </td>
+        </tr>
+      </table>
+
+      <mat-divider></mat-divider>
+
+      &nbsp;&nbsp;
+
+      <div class="form41-gpa-info" style=" padding-top: 10px;">
+        <div>
+          <label class="header-label" style="padding-left: 34px">
+            <h4 style="inline-size: max-content;">
+              {{ "I received from the student guardian" | i18n }}:
+            </h4>
+          </label>
+          <div>
+            <strong>
+              {{ selectedStudData ? selectedStudData.studName : "" }}
+            </strong>
+          </div>
+        </div>
+      </div>
+      <div class="form41-gpa-info">
+        <div>
+          <label class="header-label" style=" min-width: 10%;">
+            <strong> {{ "Amount" | i18n }}: </strong>
+          </label>
+          <div class="info-span">
+            <strong>
+              {{ studentFee.toWord }}
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="form41-gpa-info">
+        <div>
+          <label class="header-label" style=" min-width: 10%;">
+            <strong> {{ "payment against" | i18n }}: </strong>
+          </label>
+          <div class="info-span">
+            <strong>
+              {{ studentFee.note }}
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <table class="subTable" align="center">
+        <tr>
+          <td
+            style="font-weight: bolder; font-size: 16px; text-align: center;width:30%;"
+          >
+            <strong>
+              {{ "Total fees" | i18n }} :
+              {{ PaymentList ? PaymentList.sumDepit : 0 }}
+            </strong>
+          </td>
+          <td
+            style="font-weight: bold; font-size: 16px; text-align: center;width:30%;"
+          >
+            {{ "Total payments" | i18n }}:
+            {{ PaymentList ? PaymentList.sumCredit : 0 }}
+          </td>
+          <td
+            style="font-weight: bold; font-size: 16px; text-align: center;width:30%;"
+          >
+            {{ "Remaining amount" | i18n }}:
+            {{ PaymentList ? PaymentList.amtRemainder : 0 }}
+          </td>
+        </tr>
+      </table>
+
+      <div
+        class="form41-gpa-info"
+        style="grid-template-columns:50% 50%;  grid-gap: 10px;"
+      >
+        <div>
+          <label class="header-label" style=" min-width: 10%; padding-left: 34px;">
+            <h4 style="inline-size: max-content;"> {{ "currency type" | i18n }}: </h4>
+          </label>
+          <div class="info-span" style=" min-width: 80%;">
+            <strong>
+              {{ "JOD" | i18n }}
+            </strong>
+          </div>
+        </div>
+        <div>
+          <label class="header-label" style=" min-width: 10%;">
+            <strong> {{ "Payment method" | i18n }}: </strong>
+          </label>
+          <div style=" min-width: 80%;">
+            <mat-checkbox
+              [disabled]="true"
+              style="color: black;-webkit-print-color-adjust: exact;"
+              [(ngModel)]="checked1"
+              >نقدا</mat-checkbox
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-checkbox
+              [disabled]="true"
+              style="color: black"
+              [(ngModel)]="checked2"
+              >شيكات</mat-checkbox
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-checkbox
+              [disabled]="true"
+              class="example-margin"
+              [(ngModel)]="checked3"
+              >حوالة</mat-checkbox
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-checkbox
+              [disabled]="true"
+              class="example-margin"
+              [(ngModel)]="checked4"
+              >فيزا</mat-checkbox
+            >
+            <!-- <strong>
+                    <input type="checkbox" name="vehicle" value="1" [(checked)]="checked1"  > نقدا &nbsp;&nbsp;&nbsp;&nbsp;
+                     <input type="checkbox"  name="vehicle" value="2" [(checked)]="checked2" > شيكات &nbsp;&nbsp;&nbsp;&nbsp;
+                      <input type="checkbox" name="vehicle" value="3" [(checked)]="checked3" > فيزا &nbsp;&nbsp;&nbsp;&nbsp;
+                     <input type="checkbox" name="vehicle" value="4" [(checked)]="checked4" > حوالة
+                </strong>  -->
+          </div>
+        </div>
+      </div>
+
+      <div class="form41-gpa-info">
+        <div>
+          <label class="header-label" style=" min-width: 15%;">
+            <strong> {{ "Notes" | i18n }}: </strong>
+          </label>
+          <div class="info-span">
+            <strong> </strong>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="form41-gpa-info"
+        style="grid-template-columns:50% 50%; grid-gap: 10px;"
+      >
+        <div>
+          <label class="header-label" style=" min-width: 10%;">
+            <strong> {{ "Date" | i18n }}: </strong>
+          </label>
+          <div class="info-span">
+            <strong>
+              {{ studentFee.voucherDate | date: "dd/MM/yyyy" }} م.
+            </strong>
+          </div>
+        </div>
+        <div>
+          <label class="header-label" style=" min-width: 10%;">
+            <strong> {{ "Signature" | i18n }}: </strong>
+          </label>
+          <div class="info-span">
+            <strong>
+              .
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

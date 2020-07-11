@@ -1,0 +1,116 @@
+<app-content-header  title="{{'StockItems'|i18n}}" [hideBreadcrumb]="false"
+  [hasBgImage]="true" [class]="'pb-1'">
+</app-content-header>
+
+
+
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-start center" class="px-2 user-toolbar" style="font-size: unset;">
+    <mat-form-field appearance="outline" fxFlex="26%" >
+        <mat-label>القسم</mat-label>
+        <mat-select matInput placeholder="القسم" (selectionChange)="getClassList($event.value)">
+            <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                {{op.id}} | {{op.sectionName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="spinner-container" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <mat-form-field appearance="outline" fxFlex="26%" >
+        <mat-label>الصف</mat-label>
+        <mat-select matInput placeholder="الصف" (selectionChange)="getGroupList($event.value)"
+            (selectionChange)="getItemList(0)">
+
+            <mat-option *ngFor="let op of ClassList" [value]="op.id">
+                {{op.id}} | {{op.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" fxFlex="26%">
+        <mat-label>المجموعة</mat-label>
+        <mat-select matInput placeholder="المجموعة" (selectionChange)="getItemList($event.value)">
+
+            <mat-option *ngFor="let op of groupList" [value]="op.id">
+                {{op.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+    <mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+        <button mat-raised-button color="warn" (click)="addNewItem()" >
+            <mat-icon>add_circle_outline</mat-icon> {{ 'Add Items' | i18n}}
+        </button>
+        <mat-divider></mat-divider>
+    </mat-toolbar>
+</mat-toolbar>
+
+
+        
+     
+
+
+<table class="table subTable" align="center">
+    <tr class="hedar-table">
+        <th style="width: 10%">
+            {{'#'|i18n}}
+        </th>
+
+        <th style="width: 20%">
+            {{'Item name'|i18n}}
+        </th>
+        <th style="width: 15%">
+            {{'Classification'|i18n}}
+        </th>
+        <th style="width: 15%">
+            {{'status'|i18n}}
+        </th>
+        <th style="width: 15%">
+            {{'Class'|i18n}}
+        </th>
+        <th style="width: 10%">
+            {{'tearm'|i18n}}
+        </th>
+        <th style="width: 10%">
+            {{'Actions'|i18n}}
+        </th>
+
+    </tr>
+
+    <tr *ngFor="let x of data; let i=index">
+        <td align="center">
+            {{x.id}}
+        </td>
+        <td align="center">
+            {{x.itemName}}
+        </td>
+        <td align="center">
+            {{x.type}}
+        </td>
+        <td align="center">
+            {{x.status}}
+        </td>
+        <td align="center">
+            {{x.className}}
+        </td>
+        <td align="center">
+            {{x.term}}
+        </td>
+        <td align="center">
+            <a mat-icon-button matTooltip="{{'Edit'|i18n}}" (click)="updateItem(x.id)"> 
+                <mat-icon aria-hidden="true" aria-label="Files">
+                    edit
+                </mat-icon>
+            </a>
+        </td>
+    </tr>
+</table>
+<mat-error align="center" *ngIf="exist"> لايوجد عناصر .</mat-error>

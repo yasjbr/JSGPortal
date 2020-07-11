@@ -1,0 +1,92 @@
+<app-content-header title="{{'Add/Edit Class'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+<form [formGroup]="formGetCourse" (ngSubmit)="submit()" novalidate="novalidate">
+  <div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+      <mat-card>
+        <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+          <mat-label>{{'Study Year'|i18n}}</mat-label>
+          <mat-select type="number" matInput placeholder="{{'Study Year'|i18n}}" formControlName="yearId" required>
+            <mat-option *ngFor="let op of yearsList" [value]="op.id">
+              {{op.id}} | {{op.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+          <mat-label>{{'School'|i18n}}</mat-label>
+          <mat-select type="number" matInput #School placeholder="{{'School'|i18n}}" formControlName="schoolId" required
+            (selectionChange)="sectionListBySchool()">
+            <mat-option *ngFor="let op of schoolList" [value]="op.id">
+              {{op.id}} | {{op.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" fxFlex="100%" layout-align="center">
+          <mat-label>{{'Section'|i18n}}</mat-label>
+          <mat-select matInput #section placeholder="{{'Section'|i18n}}" formControlName="sectionId"
+            (selectionChange)="getClassListBySection()" required>
+            <mat-option *ngFor="let op of sectionList" [value]="op.id">
+              {{op.id}} | {{op.sectionName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+          <mat-label>{{'Class'|i18n}}</mat-label>
+          <mat-select matInput placeholder="{{'Class'|i18n}}" formControlName="classId" (selectionChange)="getYearlycourse()"  required>
+            <mat-option *ngFor="let op of ClassList" [value]="op.id">
+              {{op.id}} | {{op.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card>
+    </div>
+  </div>
+</form>
+<form [formGroup]="formAddCourseDivisionTeacher" (ngSubmit)="submit()" novalidate>
+  <div fxLayout="column" class="p-2">
+    <div class="p-2">
+      <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+        <mat-label>{{'Course'|i18n}}</mat-label>
+        <mat-select matInput placeholder="{{'Yealy Course'|i18n}}" formControlName="courseId">
+          <mat-option *ngIf="yearlyCourseList==null">لايوجد مواد مطروحه لهذا الصف</mat-option>
+          <mat-option *ngFor="let op of yearlyCourseList" [value]="op.id">
+            {{op.id}} | {{op.courseName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+        <mat-label>{{'ClassDivision'|i18n}}</mat-label>
+        <mat-select matInput placeholder="{{'ClassDivision'|i18n}}" formControlName="classDivisionId">
+          <mat-option *ngIf="divisionList==null">لايوجد شعب مطروحه لهذا الصف</mat-option>
+          <mat-option *ngFor="let op of divisionList" [value]="op.id">
+            {{op.id}} | {{op.divisionName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+        <mat-label>{{'Teacher'|i18n}}</mat-label>
+        <mat-select matInput placeholder="{{'TeacherName'|i18n}}" formControlName="teacherId">
+          <mat-option *ngFor="let op of teachers" [value]="op.id">
+            {{op.id}} | {{op.empName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-card>
+    <mat-card-actions>
+      <a mat-button (click)="resetInitForm()">
+        {{'cancel'|i18n}}
+      </a>
+      <button type="submit" mat-raised-button color="primary">
+        {{'Add'|i18n}}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -1,0 +1,103 @@
+<app-content-header  title="{{'Class Reports'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+        <div>
+            <mat-form-field fxFlex="25%" class="mat-select" appearance="outline">
+                <mat-label> {{'Section'|i18n}} </mat-label>
+                <mat-select placeholder=" {{'Section'|i18n}}  " (selectionChange)="onSectionChange($event.value)" [(value)]="sectionId">
+                    <mat-option *ngFor="let op of sectionList; let i = index" [value]="op.id">
+                        {{op.id}} | {{ op.sectionName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container *ngFor="let col of cols, let i = index" [matColumnDef]="col.field">
+                <!-- {{i}} -->
+                <mat-header-cell *matHeaderCellDef  style="background-color: #c5c8ce;">
+                    {{ col.header | i18n }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    {{ item[col.field] }}
+                </mat-cell>
+            </ng-container>
+            <!-- <button mat-raised-button color="primary" [routerLink]="['/reports/classRep/' + element.id  ]">
+               كشف الهواتف والعناوين
+            </button>
+           
+  <button mat-raised-button color="basic" [routerLink]="['/reports/classRep/' + element.id  ]">
+     كشف بأسماء الطلبة
+  </button>
+  <button mat-raised-button color="warn" (click)="openReport(1,element.id)">
+    كشف بأسماء الطلبة
+ </button> -->
+            <!-- <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">إختر التقرير</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="openReport(1,element.id)"> كشف الهواتف والعناوين</button>
+  <button mat-menu-item color="warn" (click)="openReport(1,element.id)"> كشف بأسماء الطلبة</button>
+  <button mat-raised-button color="basic" (click)="openReport(1,element.id)"> كشف بأسماء الطلبة</button>
+</mat-menu> -->
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef  style="background-color: #c5c8ce;">
+                    {{'Reports'|i18n}}
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let element">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                     <mat-icon>more_vert</mat-icon>
+                </button>
+
+                    <mat-menu #menu="matMenu">
+
+                        <button mat-menu-item (click)="openReport(1,element.id)"> 
+                        <mat-icon>dialpad</mat-icon>
+                        <span>{{'Detect phones and addresses'|i18n}}</span>
+                        </button>
+
+                        <button mat-menu-item (click)="openReport(2,element.id)"> 
+                        <mat-icon>dialpad</mat-icon>
+                        <span> {{'Detect list name of students'|i18n}}</span>
+                        </button>
+
+                        <button mat-menu-item (click)="openReport(3,element.id)"> 
+                        <mat-icon>dialpad</mat-icon>
+                        <span>{{'detection all phones'|i18n}}</span>
+                        </button>
+
+
+                        <button mat-menu-item (click)="openReport(4,element.id)"> 
+                        <mat-icon>dialpad</mat-icon>
+                        <span> {{'Detect student status'|i18n}}</span>
+                        </button>
+
+                        <button mat-menu-item (click)="openReport(5,element.id)"> 
+                        <mat-icon>dialpad</mat-icon>
+                        <span> {{'New Students Report'|i18n}}</span>
+                        </button>
+
+                        <button mat-menu-item (click)="openReport(6,element.id)"> 
+                        <mat-icon>dialpad</mat-icon>
+                        <span> {{'Detected approved and reservation'|i18n}}</span>
+                        </button>
+
+                    </mat-menu>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+
+    </div>
+</div>

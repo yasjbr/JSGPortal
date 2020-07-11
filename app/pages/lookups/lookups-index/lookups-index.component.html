@@ -1,0 +1,94 @@
+<app-content-header  title="{{'Lookups'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="false" [class]="'pb-4'">
+</app-content-header>
+
+
+
+<!-- ccc -->
+
+<mat-card-header fxLayoutAlign="start">
+    <mat-card-subtitle>
+        <h3>{{'Display'|i18n}}</h3>
+    </mat-card-subtitle>
+</mat-card-header>
+
+<div class="spinner-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="space-between center" class="px-2 user-toolbar" style="font-size: unset;">
+    <mat-form-field fxFlex="50%" appearance="outline">
+        <mat-label> {{'Type'|i18n}} </mat-label>
+       
+       
+        <mat-select [(value)]="selected" (selectionChange)="onLookupChanged($event.value)" placeholder="{{'Type'|i18n}}">
+            <app-mat-select-search [list]="filterSearch" placeholderLabel="{{ 'Search' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="typeList = $event">
+            </app-mat-select-search>
+            <mat-option *ngFor="let op of typeList" [value]="op.id">
+                {{op.id}} | {{ op.name }}
+            </mat-option>
+        </mat-select>
+
+    </mat-form-field>
+    <a mat-raised-button color="warn" [routerLink]="['../add']">
+        <mat-icon>add_circle_outline</mat-icon> {{'Add'|i18n}}
+    </a>
+  
+</mat-toolbar>
+
+
+
+
+<!-- ccc -->
+
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+     
+     
+        <div>
+            <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+             
+                <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+                    <mat-header-cell *matHeaderCellDef>
+                        {{ col.header | i18n }}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <ng-container [ngSwitch]="col.type">
+                            <span *ngSwitchCase="'boolean'" class="text-center">
+                                <span *ngIf="item[col.field]"> فعال</span>
+                                <span *ngIf="!item[col.field]"> غير فعال</span>
+                            </span>
+                              <span *ngSwitchDefault>
+                                {{ item[col.field] }}
+                              </span>
+                        </ng-container>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>
+                        {{'Measures'|i18n}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+
+                        <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/lookups/edit/' + element.id  ]">
+                            <mat-icon aria-hidden="true" aria-label="Files">
+                                edit
+                            </mat-icon>
+                        </a>
+
+                        <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}" (click)="openDeleteDialog(element)">
+            <mat-icon aria-hidden="true" aria-label="Delete">
+              delete
+            </mat-icon>
+          </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;">
+                </mat-row>
+            </mat-table>
+            <mat-paginator [pageSize]="this.filter.pageSize" (page)="getNext($event)" showFirstLastButtons></mat-paginator>
+
+        </div>
+    </div>

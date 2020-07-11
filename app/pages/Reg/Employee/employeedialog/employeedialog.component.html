@@ -1,0 +1,89 @@
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+
+      <div class="p-2">
+        <mat-card>
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'employeeName'|i18n}}</mat-label>
+                <input   matInput formControlName="empName" type="text" placeholder="{{'employeeName'|i18n}}">
+                <mat-error *ngIf="validator.hasErrors(errName)">
+                  {{'This field is required'|i18n}}
+                </mat-error> 
+              </mat-form-field>
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                  <mat-label>{{'School'|i18n}}</mat-label>
+                  <mat-select   matInput formControlName="schoolId" placeholder="{{'School'|i18n}}">
+                      <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                          {{op.id}} | {{op.name}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'specification'|i18n}}</mat-label>
+                <mat-select  matInput formControlName="specId"  placeholder="{{'specification'|i18n}}">
+                <mat-option *ngFor="let op of MajorsList" [value]="op.id">
+                  {{op.id}} | {{op.name}}
+              </mat-option>
+            </mat-select>
+              </mat-form-field>
+
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'الوظيفة'|i18n}}</mat-label>
+                <mat-select   matInput formControlName="jobId"  placeholder="{{'الوظيفة'|i18n}}">
+                <mat-option *ngFor="let op of JobList" [value]="op.id">
+                  {{op.id}} | {{op.name}}
+              </mat-option>
+            </mat-select>
+              </mat-form-field>
+
+<!-- 
+              <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                <mat-label>{{'الحالة'|i18n}}</mat-label>
+                <mat-select   matInput formControlName="isActive"  placeholder="{{'الوظيفة'|i18n}}">
+                <mat-option *ngFor="let op of JobList" [value]="op.id">
+                  {{op.id}} | {{op.name}}
+              </mat-option>
+            </mat-select>
+              </mat-form-field> -->
+
+
+              
+                <!-- <mat-card-content class="mar-top"> -->
+                  <!-- <mat-form-field> -->
+                    <!-- <section class="example-section"> -->
+                      <mat-radio-group formControlName="isActive" name="isActive"  >
+                        <mat-radio-button  class="example-margin" [value]="true"> فعال</mat-radio-button>
+                        <mat-radio-button class="example-margin" [value]="false">غير فعال</mat-radio-button>
+                      </mat-radio-group>
+                      
+                    <!-- </section> -->
+
+                  <!-- </mat-form-field> -->
+             
+                <!-- </mat-card-content> -->
+         
+                {{form.isActive}}
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <mat-dialog-actions>
+          <button mat-raised-button tabindex="-1" color="white" (click)="closeDialog()">
+            {{'Back'|i18n}}
+          </button>
+          <button [type]="submit" mat-raised-button color="primary" (click)="submit2()">
+            
+            {{'Save'|i18n}}
+          </button>
+        </mat-dialog-actions>
+    </form>
+  </div>
+</div>

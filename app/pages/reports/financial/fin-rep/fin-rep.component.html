@@ -1,0 +1,284 @@
+<!-- <app-content-header [icon]="'store_mall_directory'" title="{{'Bill of sale'|i18n}}" [hideBreadcrumb]="false"
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header> -->
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+<div class="print-container" #page>
+    <div class="page-header">
+        <div class="report-page">
+            <div class="form41-header">
+                <div>
+                    <h4>
+                        <strong>
+                            مـجـمــــوعة مـدارس الـجـامعـــــة
+                        </strong>
+                    </h4>
+                    <h6>
+                        <!-- {{schoolName}} -->
+                    </h6>
+                </div>
+
+
+                <div>
+                    <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                </div>
+
+                <div class="text-end">
+                    <h4>
+                        <strong>
+                            ALJAMI'A SCHOOLES GROUP
+                        </strong>
+                    </h4>
+                    <h6>
+                        <!-- {{schoolLName}} -->
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div style="font-weight: bolder; font-size: 20px;">
+        {{repName}}
+    </div> -->
+    <div class="page-footer">
+        <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+        <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+    </div>
+    <table class="page">
+        <thead>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position header-->
+                    <div class="page-header-space"></div>
+                </td>
+            </tr>
+        </thead>
+        <tbody style="min-height: 70%;">
+
+            <tr>
+                <td>
+
+
+
+                    <div class="form41-gpa-info">
+
+
+                        <div *ngIf="parametersForm.finItemName">
+                            <label class="header-label">
+                                <strong>
+                                    {{'Financial item'|i18n}}:
+                                </strong>
+                            </label>
+                            <div>
+                                {{parametersForm.finItemName}}
+                            </div>
+                        </div>
+
+                        <div *ngIf="parametersForm.parentName">
+                            <label class="header-label">
+                                <strong>
+                                    {{'Guardian'|i18n}}:
+                                </strong>
+                            </label>
+                            <div class="info-span">
+                                {{parametersForm.parentName}}
+                            </div>
+                        </div>
+
+                        <div *ngIf="parametersForm.voucherDateFrom">
+                            <label class="header-label">
+                                <strong>
+                                    }
+                                    {{'Date From'|i18n}}
+                                </strong>
+                            </label>
+                            <div class="info-span">
+                                {{ parametersForm.voucherDateFrom | date: ' dd / MM / yyyy' }}
+                            </div>
+                        </div>
+
+                        <div *ngIf="parametersForm.voucherDateTo">
+                            <label class="header-label">
+                                <strong>
+                                    {{'Date To'|i18n}}
+                                </strong>
+                            </label>
+                            <div class="info-span">
+                                {{ parametersForm.voucherDateTo | date: ' dd / MM / yyyy' }}
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- <mat-form-field fxFlex appearance="outline" *ngIf='parametersForm.voucherDateFrom'>
+                      <mat-label> تاريخ الوصل -- من: </mat-label>
+                      <input     value="{{parametersForm.value.voucherDateFrom}}">
+                    </mat-form-field> -->
+
+
+                    <!-- Report (1) -->
+                    <div *ngIf="parametersForm.reportType==1">
+                        <table class="subTable" align="center">
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    {{'Student name'|i18n}}
+                                </th>
+                                <th>
+                                    النوع
+                                </th>
+                                <th>
+                                    {{'Bill number'|i18n}}
+                                </th>
+                                <th>
+                                    {{'Financial item'|i18n}}
+                                </th>
+
+
+                                <th>
+                                    {{'Date'|i18n}}
+                                </th>
+
+                                <th>
+
+                                    {{'Amount'|i18n}}
+                                </th>
+                            </tr>
+                            <tr *ngFor="let x of studentFeesDataSource; let i=index">
+                                <td>
+                                    {{i+1}}
+                                </td>
+                                <td>
+                                    {{ x.studName }}
+                                </td>
+                                <td>
+                                    {{ x.voucherTypeName }}
+                                </td>
+
+                                <td>
+                                    {{ x.finItemVoucherSequence }}
+                                </td>
+                                <td>
+                                    {{ x.finName }}
+                                </td>
+
+                                <td>
+                                    {{ x.voucherDate | date: ' dd / MM / yyyy' }} .م
+
+                                </td>
+
+                                <td style="width: 15%;">
+                                    {{ x.credit }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan=6>
+                                    <strong>
+                                        المجموع:
+                                    </strong>
+                                </td>
+                                <td colspan=1>
+                                    <strong>
+                                        {{totalCashValue}}
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+
+                    <!-- Report (2) -->
+                    <div *ngIf="parametersForm.reportType==4">
+                        <table class="subTable" align="center">
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    {{'Student name'|i18n}}
+                                </th>
+                                <th>
+                                    النوع
+                                </th>
+                                <th>
+                                    {{'Bill number'|i18n}}
+                                </th>
+                                <th>
+                                    طريقة القبض
+                                </th>
+
+
+                                <th>
+                                    {{'Date'|i18n}}
+                                </th>
+
+                                <th>
+
+                                    {{'Amount'|i18n}}
+                                </th>
+                            </tr>
+                            <tr *ngFor="let x of RepStudentFeesByPaymentMethodList; let i=index">
+                                <td>
+                                    {{i+1}}
+                                </td>
+                                <td>
+                                    {{ x.studName }}
+                                </td>
+                                <td>
+                                    {{ x.voucherTypeName }}
+                                </td>
+
+                                <td>
+                                    {{ x.finItemVoucherSequence }}
+                                </td>
+                                <td>
+                                    {{ x.paymentMethod }}
+                                </td>
+
+                                <td>
+                                    {{ x.voucherDate | date: ' dd / MM / yyyy' }} .م
+
+                                </td>
+
+                                <td>
+                                    {{ x.credit }}
+                                </td>
+                            </tr>
+                        </table>
+
+                        <strong>
+                                        المجموع:
+                                    </strong>
+
+
+                        <strong>
+                                        {{totalPaymentMethod}}
+                                    </strong>
+
+
+
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+        <tfoot style="min-height: 10%;">
+            <tr>
+                <td>
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

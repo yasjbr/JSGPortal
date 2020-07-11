@@ -1,0 +1,90 @@
+
+<app-content-header [icon]="'store_mall_directory'" title="{{'Voucher Cancel'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-1'">
+</app-content-header>
+
+<div class="parent">
+    <form #V="ngForm">
+        <label for="voucher">{{'voucherNo'|i18n}} </label>
+        <mat-form-field fxFlex="76%" appearance="outline">
+            <input matInput type="number" #input #voucher='ngModel' name="voucher" [(ngModel)]="voucherNo" id="voucher" placeholder="رقم الوصل" (keyup.enter)="viewData(input.value ,'يرجى التحقق من الرقم المدخل اما انه غير موجود او تم الغاؤة','X','red-snackbar')"
+                required>
+            <mat-error *ngIf="voucher.touched || voucher.errors?.required">{{'Please for display voucher enter voucher number'|i18n}}</mat-error>
+        </mat-form-field>
+    </form>
+    <div class="button">
+        <button mat-flat-button color="warn" (click)="openCancelDialog(element,'يرجى ادخال رقم الوصل المراد الغاؤه','X','red-snackbar')" [disabled]="V.invalid">{{'Cancel'|i18n}}</button>
+    </div>
+</div>
+<!-- <div class="parent hint">{{'Please for display voucher enter voucher number'|i18n}}</div> -->
+<div fxLayout="column" class="p-1">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+        <mat-form-field fxFlex appearance="standard">
+            <mat-label> {{'Student name'| i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="studName" type="text" placeholder="{{'Student name'| i18n}}">
+        </mat-form-field>
+        <mat-form-field fxFlex appearance="standard">
+            <mat-label> {{'Section'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="sectionName" type="text" placeholder="{{'Section'|i18n}}">
+        </mat-form-field>
+        <mat-form-field fxFlex appearance="standard">
+            <mat-label> {{'Class'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="className" type="text" placeholder="{{'Class'|i18n}}">
+        </mat-form-field>
+        <mat-form-field fxFlex appearance="standard">
+            <mat-label> {{'Division'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="division" type="text" placeholder=" {{'Division'|i18n}}">
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="data">
+    <div class="dataT">
+        <div class="one">{{'Financial statements'|i18n}}</div>
+        <mat-form-field fxFlex="45%" appearance="standard">
+            <mat-label> {{'Receipt type'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="vouchertype" type="text" placeholder="{{'Class'|i18n}}">
+        </mat-form-field>
+        <mat-form-field fxFlex="25%" appearance="standard">
+            <mat-label> {{'Bill number'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="voucherNo" type="text" placeholder="{{'Class'|i18n}}">
+        </mat-form-field>
+        <mat-form-field fxFlex="20%" appearance="standard">
+            <mat-label> {{'Amount'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="amt" type="text" placeholder="{{'Class'|i18n}}">
+        </mat-form-field>
+        <mat-form-field fxFlex="80%" appearance="standard">
+            <mat-label> {{'Payment method'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="paymentsMethod" type="text" placeholder="{{ 'Payment method'|i18n}} ">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50% " appearance="standard">
+            <mat-label> {{'Date'|i18n}} </mat-label>
+            <input matInput readonly type="text" placeholder="{{ 'Payment method'|i18n}} "> {{date | date:'dd/MM/yyyy h:mm a '}}
+        </mat-form-field>
+    </div>
+
+    <div class="dataT ">
+        <div class="three ">{{'Cheque Information'|i18n}} </div>
+
+        <mat-form-field fxFlex="60% " appearance="standard">
+            <mat-label> {{'Cheque No'|i18n}} </mat-label>
+            <input matInput readonly type="text " [(ngModel)]="chequNo" placeholder="{{ 'Class'|i18n}} ">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="75% " appearance="standard">
+            <mat-label> {{'The name of the drawer'|i18n}} </mat-label>
+            <input matInput readonly [(ngModel)]="parentName" type="text " placeholder="{{ 'Class'|i18n}} ">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="80% " appearance="standard">
+            <mat-label> {{'Drawn Bank'|i18n}} </mat-label>
+            <input matInput readonly type="text" [(ngModel)]="bankName" placeholder="{{ 'Class'|i18n}} ">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="45% " appearance="standard">
+            <mat-label> {{'due date'|i18n}} </mat-label>
+            <input matInput readonly type="text" placeholder="{{ 'Class'|i18n}} ">{{chequeDate | date: 'dd/MM/yyyy h:mm a '}}
+        </mat-form-field>
+    </div>
+
+</div>

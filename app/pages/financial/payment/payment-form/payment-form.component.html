@@ -1,0 +1,56 @@
+<mat-card>
+    <mat-card-content>
+
+    </mat-card-content>
+</mat-card>
+
+<form [formGroup]="formGroup" (ngSubmit)="submit()" novalidate="novalidate">
+    <div fxLayout="column" class="p-2">
+        <mat-card>
+            <mat-dialog-content>
+
+
+
+
+                <mat-form-field fxFlex color="accent" appearance="outline">
+                    <mat-label> {{'The value of the check'|i18n}} </mat-label>
+                    <input matInput formControlName="chequeValue" type="text" placeholder="  {{'The value of the check'|i18n}}   ">
+                </mat-form-field>
+                <mat-form-field fxFlex color="accent" appearance="outline">
+                    <mat-label> {{'Cheque No'|i18n}} </mat-label>
+                    <input matInput formControlName="chequeNo" type="text" placeholder=" {{'Cheque No'|i18n}}    ">
+                </mat-form-field>
+                <mat-form-field fxFlex color="accent" appearance="outline">
+                    <mat-label> {{'Cheque Date'|i18n}} </mat-label>
+                    <input matInput formControlName="chequeDate" type="text" placeholder=" {{'Cheque Date'|i18n}}   ">
+                </mat-form-field>
+                <mat-form-field fxFlex color="accent" appearance="outline">
+                    <mat-label> {{'Drawn Bank'|i18n}} </mat-label>
+                    <input matInput formControlName="bankId" type="text" placeholder="  {'Drawn Bank'|i18n}}   ">
+                </mat-form-field>
+
+
+
+
+
+            </mat-dialog-content>
+
+            <button mat-raised-button tabindex="-1" color="warn" (click)="addCheque()">
+         {{'Save'|i18n}}
+      </button>
+
+            <mat-dialog-actions>
+                <button mat-raised-button tabindex="-1" color="warn">
+          {{'Back'|i18n}}
+       </button>
+                <!-- <button [type]="submit" mat-raised-button color="primary">
+          تخزين
+       </button> -->
+
+            </mat-dialog-actions>
+
+
+        </mat-card>
+    </div>
+
+</form>

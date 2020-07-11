@@ -1,0 +1,49 @@
+<h2>{{'يجب تعديل كل من مكان الجوله  ونوعها !'|i18n}}</h2>
+<div fxLayout="column" class="p-2">
+
+    <div class="p-2">
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                    <mat-label>{{'Tour Place'|i18n}}</mat-label>
+                    <mat-select #tourIndex matInput type="text" formControlName="tourId"
+                        (selectionChange)="onTourChange()">
+                        <mat-option *ngFor="let op of studTourList" [value]="op.id">
+                            {{op.id}} | {{op.tourName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                    <mat-label>{{'Tour Type'|i18n}}</mat-label>
+                    <mat-select #tourTypeIndex  matInput type="text" formControlName="tourTypeId"
+                        (selectionChange)="onTourChange()">
+                        <mat-option *ngFor="let op of tourTypeList" [value]="op.tourTypeId">
+                            {{op.tourType}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+            <div fxLayout fxLayout.xs="column" fxLayoutGap="10px">
+                <mat-form-field fxFlex appearance="outline" class="input-full-width">
+                    <mat-label>{{'CostPrice'|i18n}}</mat-label>
+                    <input type="number" readonly  matInput type="text" formControlName="tourPrice">
+                </mat-form-field>
+            </div>
+
+
+
+            <mat-dialog-actions>
+                <a mat-raised-button tabindex="-1" color="white" (click)="closeDialog()">
+                    {{'Back'|i18n}}
+                </a>
+                <button [type]="submit" mat-raised-button color="primary">
+                    {{'Save'|i18n}}
+                </button>
+            </mat-dialog-actions>
+
+        </form>
+    </div>
+</div>

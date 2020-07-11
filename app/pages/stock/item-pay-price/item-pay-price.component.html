@@ -1,0 +1,99 @@
+<app-content-header  title="{{'ItemPayPrice'|i18n}}" [hideBreadcrumb]="false"
+  [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+  <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+  </div>
+</div>
+
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <table class=" subTable" align="center">
+    <tr class="hedar-table">
+      <th style="width: 25%">
+        {{'Item name'|i18n}}
+      </th>
+      <th style="width: 20%">
+        {{'CostPrice'|i18n}}
+      </th>
+      <th style="width: 20%">
+        {{'ProfitPercent'|i18n}}
+      </th>
+      <th style="width: 25%">
+        {{'PayPrice'|i18n}}
+      </th>
+      <th  style="width: 10%">
+        {{'Actions'|i18n}}
+      </th>
+    </tr>
+
+    <!-- <tr class="border_bottom" align="center"> -->
+
+    <tr class="border_bottom" align="center" formArrayName="itemPayPricesVw"
+      *ngFor="let Form of FormArr.controls; let i = index;">
+      <ng-container [formGroupName]="i">
+
+        <td  >
+          <mat-form-field appearance="outline" class="input-full-width">
+            <mat-label>{{'Item name'|i18n}}</mat-label>
+            <mat-select matInput formControlName="itemId" placeholder="{{'Select Item name'|i18n}}"
+              (selectionChange)="getItemPayPrice($event.value,i)" class="mat-select-trigger">
+              <mat-option *ngFor="let op of itemList" [value]="op.id">
+                {{op.id}} | {{op.itemName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field appearance="outline" class="input-full-width">
+            <mat-label>{{'CostPrice'|i18n}}</mat-label>
+            <input matInput formControlName="costPrice" type="text" placeholder="{{'CostPrice'|i18n}}" readonly>
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field appearance="outline" class="input-full-width">
+            <mat-label>{{'ProfitPercent'|i18n}}</mat-label>
+            <input matInput formControlName="profitPercent" #input type="text"
+              placeholder="{{'Value / percentage'|i18n}}" (keyup)="getTotalPrice(input.value,i)"
+              (keyup.enter)="addForm()" required>
+
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field appearance="outline" class="input-full-width">
+            <mat-label>{{'PayPrice'|i18n}}</mat-label>
+            <input matInput formControlName="payPrice" type="text" placeholder="{{'PayPrice'|i18n}}" readonly required>
+          </mat-form-field>
+        </td>
+        <td align="center">
+          <a mat-icon-button color="warn" *ngIf=" FormArr.controls.length > 1" matTooltip="حذف"
+            (click)="removeForm(i)">
+            <mat-icon aria-hidden="true" aria-label="Delete">
+              delete
+            </mat-icon>
+          </a>
+        </td>
+
+
+
+      </ng-container>
+    </tr>
+    <mat-dialog-actions>
+      <a [type]="submit" mat-raised-button color="primary" (click)="submit2()">
+        {{'Save'|i18n}}
+      </a>
+      <a  mat-raised-button color="Tertiary" (click)="addForm()">
+        {{'Another Product'|i18n}}
+      </a>
+     
+      <mat-error *ngIf="!err">
+        يرجى تعبئة المنتج الاول قبل الانتقال الى الاخر
+      </mat-error>
+    </mat-dialog-actions>
+  </table>
+</form>

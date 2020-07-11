@@ -1,0 +1,134 @@
+<app-content-header title="{{'Edit Student Status'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true"
+  [class]="'pb-1'">
+</app-content-header>
+<div fxLayout="column" class="p-2">
+  <div class="p-2">
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{'School'|i18n}}</mat-label>
+      <mat-select matInput placeholder="{{'School'|i18n}}" [(ngModel)]="defaultSchoolId" (selectionChange)="onSchoolChanges($event.value)">
+          <!-- <mat-option [value]='0'>{{'All'|i18n}}</mat-option> -->
+          <mat-option *ngFor="let op of schoolList" [value]="op.id">
+              {{op.id}} | {{op.name}}
+          </mat-option>
+      </mat-select>
+
+  </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="100%" style="margin-left: 5px;">
+      <mat-label>القسم</mat-label>
+      <mat-select matInput placeholder="القسم" #_sectionId (selectionChange)="getClassList();getStudStatus()"
+       >
+        <mat-option [value]='0'>الجميع</mat-option>
+        <mat-option *ngFor="let op of sectionList" [value]="op.id">
+          {{op.id}} | {{op.sectionName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> 
+
+    <div class="spinner-container" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-form-field appearance="outline" fxFlex="60%" style="margin-left: 5px;">
+      <mat-label>الصف</mat-label>
+      <mat-select matInput #_ClassId placeholder="الصف" (selectionChange)="getParentList();getStudStatus()"
+       >
+        <mat-option [value]='0'>الجميع</mat-option>
+        <mat-option *ngFor="let op of ClassList" [value]="op.id">
+          {{op.id}} | {{op.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="spinner-container" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+    
+    <div class="p-2">
+    <mat-form-field appearance="outline" fxFlex="30%" style="margin-left: 5px;">
+      <mat-label>ولي الأمر</mat-label>
+      <mat-select matInput id="parent" #_ParentId placeholder="ولي الأمر" (selectionChange)="getStatusList();getStudStatus()"
+        >
+        <mat-option [value]='0'>الجميع</mat-option>
+        <mat-option *ngFor="let op of parentList" [value]="op.parentId">
+          {{op.parentName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <div class="spinner-container" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <mat-form-field appearance="outline" fxFlex="50%" layout-align="center">
+      <mat-label>حالة الطالب</mat-label>
+      <mat-select matInput placeholder="حالة الطالب"  #_statusId (selectionChange)="getStudStatus()">
+        <mat-option [value]='0'>الجميع </mat-option>
+        <mat-option *ngFor="let op of statusList" [value]="op.id">
+          {{op.status}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+</div>
+<table class="table subTable" align="center">
+  <tr class="hedar-table">
+    <th style="width: 5%">
+      {{'#'|i18n}}
+    </th>
+    <th style="width: 20%">
+      {{'Student name'|i18n}}
+    </th>
+
+    <th style="width: 20%">
+      {{'Section'|i18n}}
+    </th>
+    <th style="width: 20%">
+      {{'Class'|i18n}}
+    </th>
+    <th style="width: 15%">
+      {{'Division'|i18n}}
+    </th>
+    <th style="width: 10%">
+      {{'Student Status'|i18n}}
+    </th>
+    <th style="width: 10%">
+      {{'Actions'|i18n}}
+    </th>
+  </tr>
+  <tr *ngFor="let x of StudStatusList; let i=index" style="border-bottom: 1px solid black;">
+    <td align="center">
+      {{i+1}}
+    </td>
+    <td align="center">
+      {{x.studFullName}}
+    </td>
+    <td align="center">
+      {{x.section}}
+    </td>
+    <td align="center">
+      {{x.class}}
+    </td>
+    <td align="center">
+      {{x.classSeq}}
+    </td>
+    <td align="center">
+      {{x.status}}
+
+    </td>
+    <td align="center">
+      <a *ngIf="x.statusId!=1142" mat-icon-button matTooltip="{{'Withdrawal'|i18n}}" (click)="openDialog(x.id)">
+        <mat-icon aria-hidden="true" aria-label="Files">
+          exit_to_app
+        </mat-icon>
+      </a>
+      <!-- <button mat-raised-button color="warn" *ngIf="x.statusId!=1142"  (click)="openDialog(x.id)">{{'Withdrawal'|i18n}}</button> -->
+    </td>
+  </tr>
+
+</table>
+<mat-error align="center" *ngIf="exist"> لايوجد طلاب .</mat-error>

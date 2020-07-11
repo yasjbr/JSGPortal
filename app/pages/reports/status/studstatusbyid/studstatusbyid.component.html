@@ -1,0 +1,149 @@
+<app-content-header [icon]="'store_mall_directory'" title="{{'Student Status'|i18n}}" [hideBreadcrumb]="false"
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+
+        <mat-form-field appearance="outline" fxFlex="50%" align="center">
+            <mat-label>حالة الطالب</mat-label>
+            <mat-select matInput placeholder="حالة الطالب" (selectionChange)="getStatusList($event.value)"
+                (selectionChange)="getStudent()">
+                <mat-option [value]='0'>الجميع </mat-option>
+                <mat-option *ngFor="let op of statusList" [value]="op.id">
+                    {{op.status}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar" style="font-size: unset;">
+
+    <button mat-raised-button color="accent" (click)="print(page)">
+        <mat-icon>print</mat-icon> {{'Print'|i18n}}
+    </button>
+</mat-toolbar>
+
+<div class="print-container" #page>
+    <div class="page-header">
+        <div class="report-page">
+            <div class="form41-header">
+
+                <div>
+                    <h3>
+                        مـجـمــــوعة مـدارس الـجـامعـــــة
+                    </h3>
+                    <h6>
+                        <!-- {{schoolName}} -->
+                    </h6>
+                </div>
+                <div>
+                    <img id="myimage" [src]="image" style=" text-align:center; width:100px;height:100px;" />
+                </div>
+                <div class="text-end">
+                    <h3>
+                        ALJAMI'A SCHOOLES GROUP
+                    </h3>
+                    <h6>
+                        <!-- {{schoolLName}} -->
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-footer">
+        <div class="footer-name">{{'UeserName'|i18n}} {{name}}</div>
+        <div class="footer-date">{{'TimeAndDate'|i18n}} {{DateAndTime | date:'dd/MM/yyyy h:mm a '}}</div>
+    </div>
+    <table class="page">
+        <thead>
+            <tr>
+                <td>
+                    <!--place holder for the fixed-position header-->
+                    <div class="page-header-space"></div>
+                </td>
+            </tr>
+        </thead>
+
+        <tbody style="min-height: 70%;">
+
+            <tr>
+                <td>
+                    <div fxLayout="column" class="p-1">
+                        <div style="font-weight: bolder; font-size: 20px; margin: 0 auto;">
+                            {{'Student Status'|i18n}}
+                        </div>
+
+                        <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                        </div>
+                    </div>
+
+                    <p class="count">عدد الطالب:- {{count}}</p>
+
+                    <table class="subTable" align="center">
+                        <tr>
+                            <th style="width: 5%">
+                                {{'#'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'Student name'|i18n}}
+                            </th>
+
+                            <th style="width: 20%">
+                                {{'Section'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'Class'|i18n}}
+                            </th>
+                            <th style="width: 20%">
+                                {{'Division'|i18n}}
+                            </th>
+                            <th style="width: 15%">
+                                {{'Student Status'|i18n}}
+                            </th>
+
+                        </tr>
+                        <tr *ngFor="let x of studList; let i=index">
+                            <td align="center">
+                                {{i+1}}
+                            </td>
+                            <td align="center">
+                                {{x.name}}
+                            </td>
+                            <td align="center">
+                                {{x.section}}
+                            </td>
+                            <td align="center">
+                                {{x.class}}
+                            </td>
+                            <td align="center">
+                                {{x.classSeq}}
+                            </td>
+                            <td align="center">
+                                {{x.status}}
+                            </td>
+
+                        </tr>
+
+                    </table>
+                    <mat-error align="center" *ngIf="exist"> لايوجد طلاب .</mat-error>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot style="min-height: 10%;">
+            <tr>
+                <td>
+                    <div class="page-footer-space"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

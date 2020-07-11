@@ -1,0 +1,272 @@
+<app-content-header  title="{{'Add/edit student'|i18n}}" [hideBreadcrumb]="false"
+    [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+
+        <div fxLayout="column" class="p-2">
+            <div class="p-2">
+
+
+                <form [formGroup]="form" (ngSubmit)="submit()" novalidate="novalidate">
+
+
+                    <mat-card-header fxLayoutAlign="center">
+                        <mat-card-subtitle>
+                            <h2></h2>
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <!--Card 1-->
+                    <div class="p-2">
+                        <mat-card>
+                            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <mat-card-header fxLayoutAlign="start">
+                                    <mat-card-subtitle>
+                                        <h2 style="text-decoration:underline">{{'Main Student Information'|i18n}}</h2>
+                                    </mat-card-subtitle>
+                                </mat-card-header>
+                                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label>{{'First name'|i18n}}</mat-label>
+                                        <input matInput formControlName="firstName" name="firstName" type="text"
+                                            placeholder="{{'First name'|i18n}}">
+                                        <mat-error *ngIf="validator.hasErrors(name)">
+                                            {{'Required'|i18n}}
+                                        </mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Father name'|i18n}}</mat-label>
+                                        <mat-select matInput #parentId formControlName="parentId"
+                                            placeholder="{{'Father name'|i18n}}">
+                                            <app-mat-select-search [list]="parentList"
+                                                placeholderLabel="{{ 'Search' | i18n }}"
+                                                noEntriesFoundLabel="{{ 'No data found' | i18n}}"
+                                                (filterChanged)="filterParents = $event">
+                                            </app-mat-select-search>
+                                            <mat-option *ngFor="let op of filterParents" [value]="op.id">
+                                                {{op.id}} | {{op.fatherName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                            </mat-card-content>
+
+                            <!--Card 1 Part2-->
+
+
+                            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label>{{'National No'|i18n}}</mat-label>
+                                        <input matInput formControlName="idNum" name="idNum" type="text"
+                                            placeholder="{{'National No'|i18n}}">
+                                    </mat-form-field>
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Birthdate'|i18n}}</mat-label>
+                                        <input matInput [matDatepicker]="birthDate" formControlName="birthDate"
+                                            type="text" placeholder="{{'Birthdate'|i18n}}" (focus)="birthDate.open()">
+                                        <mat-datepicker-toggle matSuffix [for]="birthDate"></mat-datepicker-toggle>
+                                        <mat-datepicker #birthDate></mat-datepicker>
+
+
+                                    </mat-form-field>
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Birth place'|i18n}}</mat-label>
+                                        <input matInput formControlName="birthPlace" type="text"
+                                            placeholder=" {{'Birth place'|i18n}}">
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label>{{'Gender'|i18n}}</mat-label>
+                                        <mat-select matInput formControlName="genderId" placeholder="{{'Gender'|i18n}}">
+                                            <mat-option *ngFor="let op of genderList" [value]="op.id">
+                                                {{op.id}} | {{op.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <!--Card 2-->
+                    <div class="p-2">
+                        <mat-card>
+                            <mat-card-header fxLayoutAlign="start">
+                                <mat-card-subtitle>
+                                    <h2 style="text-decoration:underline ">{{'Student school data'|i18n}}
+                                    </h2>
+                                </mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'previous school'|i18n}}</mat-label>
+                                        <input matInput formControlName="previousSchool" type="text"
+                                            placeholder="  {{'previous school'|i18n}}">
+                                    </mat-form-field>
+
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Registration year'|i18n}} </mat-label>
+                                        <mat-select matInput formControlName="joinYearId"
+                                            placeholder="{ { 'Registration year'|i18n}}">
+                                            <mat-option *ngFor="let op of YearsList" [value]="op.id">
+                                                {{op.id}} | {{op.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label>{{'Registration Season'|i18n}} </mat-label>
+                                        <mat-select matInput formControlName="joinTermId"
+                                            placeholder="{{'Registration Season'|i18n}}">
+                                            <mat-option *ngFor="let op of TermsList" [value]="op.id">
+                                                {{op.id}} | {{op.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'School'|i18n}} </mat-label>
+                                        <input matInput formControlName="schoolId" type="text"
+                                            placeholder="{{'School'|i18n}} ">
+                                    </mat-form-field>
+
+                                </div>
+                            </mat-card-content>
+
+                            <!--Card 2 Part2-->
+                            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Sections'|i18n}}</mat-label>
+                                        <mat-select matInput formControlName="sectionId"
+                                            placeholder=" {{'Sections'|i18n}}">
+                                            <mat-option *ngFor="let op of sectionList" [value]="op.id">
+                                                {{op.id}} | {{op.sectionName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Class'|i18n}}</mat-label>
+                                        <input matInput formControlName="classId" type="text"
+                                            placeholder="  {{'Class'|i18n}}">
+                                    </mat-form-field>
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Section'|i18n}}</mat-label>
+                                        <mat-select matInput formControlName="classSeqId"
+                                            placeholder=" {{'Section'|i18n}}">
+                                            <mat-option *ngFor="let op of classSeqList" [value]="op.id">
+                                                {{op.id}} | {{op.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+
+
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <!--Card 3-->
+                    <div class="p-2">
+                        <mat-card>
+                            <mat-card-header fxLayoutAlign="start">
+                                <mat-card-subtitle>
+                                    <h2 style="text-decoration:underline ">
+                                        {{'Contact information and health status'|i18n}}
+                                    </h2>
+                                </mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label>{{'Mobile Student'|i18n}}</mat-label>
+                                        <input matInput formControlName="studMobile" type="text"
+                                            placeholder="{{'Mobile Student'|i18n}} ">
+                                    </mat-form-field>
+
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label>{{'Facebook'|i18n}}</mat-label>
+                                        <input matInput formControlName="studFace" type="text"
+                                            placeholder=" {{'Facebook'|i18n}}">
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Health status'|i18n}}</mat-label>
+                                        <input matInput formControlName="studHealthId" type="text"
+                                            placeholder="{{'Health status'|i18n}}">
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Name of disease'|i18n}} </mat-label>
+                                        <input matInput formControlName="diseaseName" type="text"
+                                            placeholder="{{'Name of disease'|i18n}} ">
+                                    </mat-form-field>
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'medicament name'|i18n}} </mat-label>
+                                        <input matInput formControlName="medicamentName" type="text"
+                                            placeholder="{{'medicament name'|i18n}} ">
+                                    </mat-form-field>
+                                </div>
+                            </mat-card-content>
+
+                            <!--Card 3 Part 2-->
+                            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+                                    <mat-form-field fxFlex appearance="outline">
+                                        <mat-label> {{'Notes'|i18n}}</mat-label>
+                                        <input matInput formControlName="note" type="text"
+                                            placeholder="{{'Notes'|i18n}} ">
+                                    </mat-form-field>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <!--Action Card (Final Card)-->
+                    <mat-card>
+                        <mat-card-actions>
+                            <a [routerLink]="returnUrl" mat-button>
+                                {{'Back'|i18n}}
+                            </a>
+                            <button mat-raised-button color="primary" type="submit">
+                                {{'Save' | i18n}}
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

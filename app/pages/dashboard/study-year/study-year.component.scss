@@ -1,0 +1,51 @@
+.mat-icon-button .mat-icon.mat-icon-xlg,
+.mat-icon.mat-icon-xlg {
+    font-size: 48px;
+    line-height: 48px;
+    height: 50px;
+    width: 120px;
+    vertical-align: middle;
+}
+.mat-form-field {
+    margin-right: 8px;
+  }
+
+  .mat-snack-bar-container .ng-tns-c33-14 .ng-trigger .ng-trigger-state .mat-snack-bar-center .ng-star-inserted{
+    transform: scale(1.0);
+    opacity: 1;
+    background: #ececec;
+    margin-left: -31%;
+    margin-bottom: 16%;
+  }
+  snack-bar-container{
+      color:  #ff00ff;
+      
+  }
+  .mycsssnackbartest {
+    background-color: blue;
+  }
+//   .cdk-overlay-pane{
+//     pointer-events: auto;
+//     position: static;
+//     margin-bottom: 36px;
+//   }
+.blue-snackbar {
+    background: #2196F3;
+  }
+  .cdk-overlay-pane{
+    flex: inherit;
+    pointer-events: auto;
+    position: static;
+    margin-bottom: 34px !important;
+    margin-right: 18.6% !important;
+  }
+  
+
+  .app.indigo-light .mat-snack-bar-container{
+    color: rgba(255, 255, 255, 0.7);
+      background: #323232;
+      margin-left: -33% !important;
+      margin-bottom: 16% !important;
+  }
+
+  

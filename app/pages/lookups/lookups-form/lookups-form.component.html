@@ -1,0 +1,88 @@
+<app-content-header [icon]="" title="{{'Lookups'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="false" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <form [formGroup]="lookupForm" (ngSubmit)="submit()" novalidate="novalidate">
+            <mat-card>
+                <mat-card-header fxLayoutAlign="center">
+                    <!-- <mat-card-subtitle>
+                        <h2>{{'Lookups Add'|i18n}}</h2>
+                    </mat-card-subtitle> -->
+                </mat-card-header>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+
+
+
+
+
+                    <mat-form-field>
+                        <mat-label> {{'Name'|i18n}} </mat-label>
+                        <input matInput formControlName="name" name="name" type="text" placeholder="{{'Name'|i18n}}">
+                        <mat-error *ngIf="validator.hasErrors(name)">
+                            {{'This field is required'|i18n}}
+                        </mat-error>
+                    </mat-form-field>
+                 
+                    <mat-form-field>
+                        <mat-label> {{'Value'|i18n}} </mat-label>
+                        <input matInput formControlName="value" name="value" type="text" placeholder="{{'Value'|i18n}} ">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label> {{'Type'|i18n}} </mat-label>
+                        <mat-select formControlName="typeId" name="typeId" placeholder="{{'Type'|i18n}} " [(ngModel)]="typeId">
+
+                            <mat-option *ngFor="let op of typeList" [value]="op.id">
+                                {{op.id}} | {{ op.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="validator.hasErrors(name)">
+                            {{'This field is required'|i18n}}
+                        </mat-error>
+                    </mat-form-field>
+
+
+
+
+                    <!-- <mat-form-field>
+                        <mat-label> {{'الحالة'|i18n}} </mat-label>
+                        <mat-select formControlName="isActive" name="isActive" placeholder="{{'Type'|i18n}} " [(ngModel)]="isActive">
+                            <mat-option *ngFor="let op of ConstantsStatus" [value]="op.id">
+                                {{op.id}} | {{ op.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="validator.hasErrors(name)">
+                            {{'This field is required'|i18n}}
+                        </mat-error>
+                    </mat-form-field>   -->
+
+         
+                     
+                        <mat-card-content >
+                          <section class="example-section">
+                            <mat-radio-group formControlName="isActive" name="isActive" >
+                              <mat-radio-button  class="example-margin" value="true">فعال</mat-radio-button>
+                              <mat-radio-button class="example-margin" value="false">غير فعال</mat-radio-button>
+                            </mat-radio-group>
+                          </section>
+                        </mat-card-content>
+                      
+                </mat-card-content>
+                <mat-card-actions>
+                   
+                      
+                    <a [routerLink]="returnUrl" mat-button>
+            {{'Back'|i18n}}
+          </a>
+                    <button mat-raised-button color="primary" type="submit">
+            
+              {{'Save'|i18n}}
+           
+            <!-- <loader *ngIf="loading"></loader> -->
+          </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </div>
+</div>

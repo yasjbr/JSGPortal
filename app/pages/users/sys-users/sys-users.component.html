@@ -1,0 +1,264 @@
+<app-content-header title="{{'Users'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+
+
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="flex-end center" class="px-2 user-toolbar">
+
+    <a mat-raised-button color="warn" [routerLink]="['../add']">
+        <mat-icon>add_circle_outline</mat-icon>{{'AddNewUser'|i18n}}
+    </a>
+
+
+</mat-toolbar>
+ <mat-form-field appearance="outline" style="position: relative;
+ width: 51%;" >
+    <mat-label>{{'School'|i18n}}</mat-label>
+    <mat-select  matInput placeholder="{{'School'|i18n}}" (selectionChange)="getUserList($event.value)" >
+        <mat-option [value]='0'>{{'All'|i18n}}</mat-option>
+        <mat-option *ngFor="let op of schoolList" [value]="op.id">
+            {{op.id}} | {{op.name}}
+        </mat-option>
+    </mat-select>
+
+</mat-form-field> 
+
+<div fxLayout fxLayoutAlign="left">
+
+    <mat-form-field fxFlex="25%">
+        <input matInput type="text" placeholder="{{'Search'|i18n}}" (keyup)="dataFilter($event.target.value)">
+        <button mat-icon-button matSuffix aria-label="clear"> 
+            <mat-icon> backspace</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+
+<mat-table #table [dataSource]="datasource" class="mat-elevation-z8" matSort matsortStart="desc">
+    <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{col.header | i18n}}
+        </mat-header-cell>
+
+        <mat-cell *matCellDef="let item">
+            {{item[col.field]}}
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+
+        <mat-header-cell *matHeaderCellDef>
+            {{'Actions'|i18n}}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item appHideIfUnauthorized="UpdateUserRoles"
+                    [routerLink]="['/users/edit/'+ element.id ]">
+                    <mat-icon aria-hidden="true" aria-label="Roles">
+                        edit
+                    </mat-icon>
+                    <span>
+                        {{'Edit'|i18n}}
+                    </span>
+                </a>
+
+                <button mat-menu-item appHideIfUnauthorized="DeleteUser" color="warn"
+                    (click)="openDeleteDialog(element)">
+                    <mat-icon aria-hidden="true" aria-label="Delete">
+                        delete
+                    </mat-icon>
+                    <span color="warn">
+                        {{'Delete User'|i18n}}
+                    </span>
+                </button>
+                <a mat-menu-item appHideIfUnauthorized="UpdateUserRoles"
+                    [routerLink]="['/users/editSchool/'+ element.id ]">
+                    <mat-icon aria-hidden="true" aria-label="Roles">
+                        edit
+                    </mat-icon>
+                    <span>
+                        {{'Change School'|i18n}}
+                    </span>
+                </a>
+                <a mat-menu-item appHideIfUnauthorized="UpdateUserRoles"
+                    [routerLink]="['/users/editRole/'+ element.id ]">
+                    <mat-icon aria-hidden="true" aria-label="Roles">
+                        menu
+                    </mat-icon>
+                    <span>
+                        {{'Permissions'|i18n}}
+                    </span>
+                </a>
+            </mat-menu>
+
+
+
+
+
+            <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/users/edit/' + element.id  ]">
+                <mat-icon aria-hidden="true" aria-label="Files">
+                    edit
+                </mat-icon>
+            </a>
+            <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}"
+                (click)="openDeleteDialog(element)">
+                <mat-icon aria-hidden="true" aria-label="Delete">
+                    delete
+                </mat-icon>
+            </button>
+
+        </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"> </mat-row>
+</mat-table>
+
+
+
+
+<!-- <mat-card>
+    <mat-card-content>
+
+        <div class="example-container mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+
+
+   
+
+
+                
+
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> # </th>
+                    <td mat-cell *matCellDef="let transaction" style="width: 10%;"> {{transaction.id}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="username">
+                    <th mat-header-cell *matHeaderCellDef> {{'User name'|i18n}} </th>
+                    <td mat-cell *matCellDef="let transaction" style="width: 15%;"> {{transaction.username}} </td>
+                   
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="password">
+                    <th mat-header-cell *matHeaderCellDef> {{'Password'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction" style="width: 15%;"> 
+                       
+                        <input matInput  value=" {{transaction.password}}" type="password">    
+                    </td>
+                  
+                     
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="usersSchool.schoolId">
+                    <th mat-header-cell *matHeaderCellDef> {{'School'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction" style="width: 28%;"> {{transaction.schoolName}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="roleName">
+                    <th mat-header-cell *matHeaderCellDef> {{'Permissions'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction" style="width: 19%;"> {{transaction.roleName}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef> {{'IsActive'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction" style="width: 19%;"> {{transaction.isActive}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="isSuperAdmin">
+                    <th mat-header-cell *matHeaderCellDef> {{'IsSuperAdmin'|i18n}}</th>
+                    <td mat-cell *matCellDef="let transaction" style="width: 19%;"> {{transaction.isSuperAdmin}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="actions">
+
+                    <mat-header-cell *matHeaderCellDef>
+                        {{'Actions'|i18n}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+
+
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <a mat-menu-item appHideIfUnauthorized="UpdateUserRoles"
+                                [routerLink]="['/users/edit/'+ element.id ]">
+                                <mat-icon aria-hidden="true" aria-label="Roles">
+                                    edit
+                                </mat-icon>
+                                <span>
+                                    {{'Edit'|i18n}}
+                                </span>
+                            </a>
+
+                            <button mat-menu-item appHideIfUnauthorized="DeleteUser" color="warn"
+                                (click)="openDeleteDialog(element)">
+                                <mat-icon aria-hidden="true" aria-label="Delete">
+                                    delete
+                                </mat-icon>
+                                <span color="warn">
+                                    {{'Delete User'|i18n}}
+                                </span>
+                            </button>
+                            <a mat-menu-item appHideIfUnauthorized="UpdateUserRoles"
+                                [routerLink]="['/users/editSchool/'+ element.id ]">
+                                <mat-icon aria-hidden="true" aria-label="Roles">
+                                    edit
+                                </mat-icon>
+                                <span>
+                                    {{'Change School'|i18n}}
+                                </span>
+                            </a>
+                            <a mat-menu-item appHideIfUnauthorized="UpdateUserRoles"
+                                [routerLink]="['/users/editRole/'+ element.id ]">
+                                <mat-icon aria-hidden="true" aria-label="Roles">
+                                    menu
+                                </mat-icon>
+                                <span>
+                                    {{'Permissions'|i18n}}
+                                </span>
+                            </a>
+                        </mat-menu>
+
+
+
+
+
+                        <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/users/edit/' + element.id  ]">
+                            <mat-icon aria-hidden="true" aria-label="Files">
+                                edit
+                            </mat-icon>
+                        </a>
+                        <button mat-icon-button color="warn" matTooltip="{{'Delete'|i18n}}"
+                            (click)="openDeleteDialog(element)">
+                            <mat-icon aria-hidden="true" aria-label="Delete">
+                                delete
+                            </mat-icon>
+                        </button>
+
+                    </mat-cell>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card> -->

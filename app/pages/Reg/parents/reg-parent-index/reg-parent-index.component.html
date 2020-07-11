@@ -1,0 +1,86 @@
+<app-content-header  title="{{ 'Parents list' | i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="50px">
+    </div>
+</div>
+<mat-divider></mat-divider>
+<mat-toolbar color="basic" fxLayout="row" fxLayoutAlign="space-between center" class="px-2 user-toolbar">
+    <div fxLayout="row">
+        <!-- <a mat-raised-button color="accent" [routerLink]="['../add']">
+      <mat-icon>add_circle_outline</mat-icon>
+      {{ 'Add' | i18n }}
+    </a> -->
+        <div class='search-div'>
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{ 'Search' | i18n }}">
+                <!-- <mat-icon matSuffix>
+                    search
+                </mat-icon> -->
+            </mat-form-field>
+        </div>
+    </div>
+</mat-toolbar>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container *ngFor="let col of cols" [matColumnDef]="col.field">
+                <mat-header-cell *matHeaderCellDef>
+                    {{ col.header | i18n }}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let item">
+
+                    {{ item[col.field] }}
+
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" >
+                <mat-header-cell *matHeaderCellDef>
+                    <a mat-icon color="accent" [routerLink]="['../add']">
+                        <mat-icon style="margin-right: 26px;">add_circle_outline</mat-icon>
+                    </a>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+
+                    <a mat-icon-button matTooltip="{{'Edit'|i18n}}" [routerLink]="['/parents/edit/' + element.id  ]">
+                        <mat-icon aria-hidden="true" aria-label="Files">
+                            edit
+                        </mat-icon>
+                    </a>
+                    <!-- <button mat-icon-button color="warn" matTooltip="حذف" (click)="openDeleteDialog(element)">
+            <mat-icon aria-hidden="true" aria-label="Delete">
+              delete
+            </mat-icon>
+          </button> -->
+                    <button mat-icon-button color="info" matTooltip="{{'Details'|i18n}}" [routerLink]="['/parents/view/' + element.id  ]">
+            <mat-icon aria-hidden="false" aria-label="info">
+              info
+            </mat-icon>
+          </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+        </mat-table>
+
+        <div class="no-records-found" *ngIf="dataSource && (dataSource.filteredData.length === 0 || dataSource.data.length === 0)">
+            <h3 class="text-align-center text-danger">
+                {{ 'There is no data' | i18n }}
+            </h3>
+        </div>
+
+        <mat-paginator [length]="totalSize" [pageSize]="pageSizeDefault" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+<app-content-header title="{{'ChangeDivision'|i18n}}" [hideBreadcrumb]="false" [hasBgImage]="true" [class]="'pb-4'">
+</app-content-header>
+<mat-card-header fxLayoutAlign="start">
+    <!-- <mat-card-subtitle>
+        <h3>{{'Select guardian'|i18n}}
+        </h3>
+    </mat-card-subtitle> -->
+</mat-card-header>
+<div fxLayout="column" class="p-2">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="20%">
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>{{'School'|i18n}}</mat-label>
+            <mat-select matInput placeholder="{{'School'|i18n}}" (selectionChange)="onSchoolChanges($event.value)">
+                <mat-option [value]='0'>{{'All'|i18n}}</mat-option>
+                <mat-option *ngFor="let op of schoolList" [value]="op.id">
+                    {{op.id}} | {{op.name}}
+                </mat-option>
+            </mat-select>
+
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" appearance="outline">
+
+            <mat-label>{{'Guardian'|i18n}}</mat-label>
+            <mat-select matInput placeholder="{{'Guardian'|i18n}}" [(value)]="selected" (selectionChange)="onParentChanged($event.value)">
+                <app-mat-select-search [list]="parentList" placeholderLabel="{{ 'Search' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="filterParents = $event">
+                </app-mat-select-search>
+                <mat-option *ngFor="let op of filterParents" [value]="op.id">
+                    {{op.id}} | {{ op.fatherName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2">
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+        <mat-card>
+            <mat-card-content>
+                <div class="example-container mat-elevation-z8">
+                    <!--   <table mat-table [dataSource]="dataSource">
+
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> {{'#'|i18n}} </th>
+                            <td mat-cell *matCellDef="let transaction"> {{transaction.id}} </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+                        <ng-container matColumnDef="studName">
+                            <th mat-header-cell *matHeaderCellDef> {{'Student name'|i18n}} </th>
+                            <td mat-cell *matCellDef="let transaction"> {{transaction.studName}} </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+                        <ng-container matColumnDef="sectionName">
+                            <th mat-header-cell *matHeaderCellDef> {{'Section'|i18n}} </th>
+                            <td mat-cell *matCellDef="let transaction"> {{transaction.sectionName}} </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+                        <ng-container matColumnDef="className">
+                            <th mat-header-cell *matHeaderCellDef> {{'Class'|i18n}} </th>
+                            <td mat-cell *matCellDef="let transaction"> {{transaction.className}} </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+                        <ng-container matColumnDef="classSeqName">
+                            <th mat-header-cell *matHeaderCellDef> {{'Division'|i18n}} </th>
+                            <td mat-cell *matCellDef="let transaction">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{transaction.classSeqName}}</mat-label>
+                                    <mat-select matInput (selectionChange)="onDivisionChanged($event.value)">
+                                        <app-mat-select-search [list]="DivisionList" placeholderLabel="{{ 'Select new Division' | i18n }}" noEntriesFoundLabel="{{ 'No data found' | i18n}}" (filterChanged)="filterDivision = $event">
+                                        </app-mat-select-search>
+                                        <mat-option *ngFor="let op of filterDivision" [value]="op.id">
+                                            {{op.id}} | {{op.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <!-- {{transaction.classSeqName}} -->
+                    <!-- </td>
+                            <td mat-footer-cell *matFooterCellDef> </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="DivisionListColm"></tr>
+                        <tr mat-row *matRowDef="let row; columns: DivisionListColm;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="DivisionListColm"></tr>
+                    </table> -->
+                    <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+                        <ng-container *ngFor="let col of cols, let i = index" [matColumnDef]="col.field">
+
+                            <mat-header-cell *matHeaderCellDef>
+                                {{ col.header |i18n }}
+                            </mat-header-cell>
+
+
+                            <mat-cell *matCellDef="let item">
+                                {{ item[col.field] }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Actions">
+                            <mat-header-cell *matHeaderCellDef>
+                                {{'Actions'|i18n}}
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button mat-icon-button color="info">
+                            <mat-icon aria-hidden="false" aria-label="info" matTooltip="{{'Edit'|i18n}}"  (click)="Edite(element.studId)">
+                                    edite
+                            </mat-icon>
+                        </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                        </mat-row>
+                    </mat-table>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
